@@ -4,9 +4,10 @@ extends CharacterBody3D
 @export var mouse_sensitivity := 0.3
 
 @export var drag := 8
-@export var grounded_accel := 50
-@export var airborne_accel := 10
 @export var jump_speed := 8
+
+@export var accel: float = 25
+@export var max_velocity: float = 5
 
 var camera_pitch := 0.0
 
@@ -24,32 +25,32 @@ func _process(delta: float) -> void:
 	# movement
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-		
-	velocity.y -= 25 * delta
-	
-	if Input.is_action_pressed("jump") and is_on_floor():
-		velocity.y = jump_speed
 	
 	if direction:
-		
-		if is_on_floor():
-			velocity.x += direction.x * grounded_accel * delta
-			velocity.z += direction.z * grounded_accel * delta
-		else:
-			velocity.x += direction.x * airborne_accel * delta
-			velocity.z += direction.z * airborne_accel * delta
+		velocity = accelerate(delta, direction, velocity)
 	
+	# gravity
+	velocity.y -= 25 * delta
+	
+	# jumping
 	if is_on_floor():
-		velocity = lerp(velocity, Vector3.ZERO, delta * drag)
-	else:
-		# make planar velocity forward only
-		var forward = -get_global_transform().basis.z
-		var planar = Vector3(forward.x, 0, forward.z) * Vector2(velocity.x, velocity.z).length()
-		velocity.x = planar.x
-		velocity.z = planar.z
+		if Input.is_action_pressed("jump"):
+			velocity.y = jump_speed
+		else:
+			velocity = lerp(velocity, Vector3.ZERO, delta * drag)
 	
 	move_and_slide()
 
+# https://adrianb.io/2015/02/14/bunnyhop.html
+func accelerate(delta: float, inputDirection: Vector3, prevVelocity: Vector3) -> Vector3:
+	
+	var projVel := prevVelocity.dot(inputDirection)
+	var accelVel := accel * delta
+
+	if (projVel + accelVel > max_velocity):
+		accelVel = max_velocity - projVel
+
+	return prevVelocity + inputDirection * accelVel
 
 func _input(event):
 	
