@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=11 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
 [ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="2_v1wow"]
 [ext_resource type="ArrayMesh" uid="uid://1civrybn8gm7" path="res://checkpoint.obj" id="3_v1wow"]
+[ext_resource type="ArrayMesh" uid="uid://dc4oajsqudg75" path="res://arrow.obj" id="4_mixcd"]
+[ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://checkpoint_compass.gd" id="5_mj2jn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 
@@ -10,6 +12,10 @@
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mlf6e"]
 size = Vector2(10, 10)
+
+[sub_resource type="Environment" id="Environment_mixcd"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mixcd"]
 render_priority = 0
@@ -26,6 +32,7 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1048063
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
@@ -38,7 +45,41 @@ mesh = SubResource("PlaneMesh_mlf6e")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0.652654, -0.708731, 0.267849, 0, 0, 0)
 
-[node name="Checkpoint" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8.47155)
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 200.0
+grow_horizontal = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+size = Vector2i(200, 200)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+cull_mask = 512
+environment = SubResource("Environment_mixcd")
+size = 2.5
+far = 5.0
+
+[node name="CheckpointCompass" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" node_paths=PackedStringArray("player_camera", "target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+layers = 512
+mesh = ExtResource("4_mixcd")
+skeleton = NodePath("../..")
+script = ExtResource("5_mj2jn")
+player_camera = NodePath("../../../../Player/Camera3D")
+target = NodePath("../../../../Checkpoint")
+
+[node name="Checkpoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="Checkpoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("ShaderMaterial_mixcd")
 mesh = ExtResource("3_v1wow")
+skeleton = NodePath("../..")
