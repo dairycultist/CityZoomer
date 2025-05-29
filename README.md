@@ -8,6 +8,7 @@
 
 ### Aesthetics
 - Passing a checkpoint does the FOV zoom in then slowly back to normal effect, but subtle (should likely be toggleable).
+  - Also makes the music immediately pitch down before slowly going back to normal (same as FOV effect)
 - Checkpoints look like they did (big cylinders) but kinda fade out to the top, maybe oscillating like a flame.
 
 ### Other
