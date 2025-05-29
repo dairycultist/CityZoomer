@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=12 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
 [ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="2_v1wow"]
@@ -16,6 +16,13 @@ size = Vector2(10, 10)
 [sub_resource type="Environment" id="Environment_mixcd"]
 background_mode = 1
 background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mj2jn"]
+shading_mode = 2
+albedo_color = Color(0.775033, 0.757601, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mixcd"]
 render_priority = 0
@@ -34,15 +41,15 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048063
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_mlf6e")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("PlaneMesh_mlf6e")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0.652654, -0.708731, 0.267849, 0, 0, 0)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -69,11 +76,16 @@ far = 5.0
 [node name="CheckpointCompass" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" node_paths=PackedStringArray("player_camera", "target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 layers = 512
+material_override = SubResource("StandardMaterial3D_mj2jn")
 mesh = ExtResource("4_mixcd")
 skeleton = NodePath("../..")
 script = ExtResource("5_mj2jn")
 player_camera = NodePath("../../../../Player/Camera3D")
 target = NodePath("../../../../Checkpoint")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+transform = Transform3D(0.564107, -0.634939, 0.527859, -0.602696, 0.120347, 0.788843, -0.564394, -0.763131, -0.314787, 0, 0, 0)
+layers = 512
 
 [node name="Checkpoint" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
