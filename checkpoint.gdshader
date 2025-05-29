@@ -7,5 +7,9 @@ void vertex() {
 
 void fragment() {
 	ALBEDO = vec3(1, 1, 0);
-	ALPHA = clamp(UV.y + sin(TIME + UV.x * PI * 4.0) * 0.1 - 0.1, 0, 1);
+	ALPHA = clamp(
+		UV.y - 0.2
+		+ sin(TIME + UV.x * PI * 4.0) * 0.05
+		+ sin(TIME * 3.0 + UV.x * PI * 8.0) * 0.02,
+		0, 1);
 }
