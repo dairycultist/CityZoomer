@@ -1,17 +1,25 @@
-[gd_scene load_steps=17 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=21 format=3 uid="uid://bd1sgkptmj0mo"]
 
+[ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="2_kdryc"]
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
 [ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="2_v1wow"]
 [ext_resource type="ArrayMesh" uid="uid://1civrybn8gm7" path="res://checkpoint.obj" id="3_v1wow"]
 [ext_resource type="ArrayMesh" uid="uid://dc4oajsqudg75" path="res://arrow.obj" id="4_mixcd"]
+[ext_resource type="Script" uid="uid://cx5pf7j1ca2mx" path="res://checkpoint.gd" id="5_6e45b"]
 [ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://checkpoint_compass.gd" id="5_mj2jn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mlf6e"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6e45b"]
+albedo_texture = ExtResource("2_kdryc")
+metallic_specular = 0.0
+uv1_scale = Vector3(10, 10, 10)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_mlf6e"]
-size = Vector2(20, 30)
+material = SubResource("StandardMaterial3D_6e45b")
+size = Vector2(100, 100)
 
 [sub_resource type="Environment" id="Environment_mixcd"]
 background_mode = 1
@@ -60,6 +68,9 @@ albedo_color = Color(1, 1, 0, 0.356863)
 material = SubResource("StandardMaterial3D_e35lh")
 size = Vector3(0.2, 0.2, 0.2)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kdryc"]
+radius = 4.0
+
 [node name="GameScene" type="Node3D"]
 
 [node name="Player" type="CharacterBody3D" parent="."]
@@ -107,22 +118,22 @@ environment = SubResource("Environment_mixcd")
 size = 2.5
 far = 5.0
 
-[node name="CheckpointCompass" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" node_paths=PackedStringArray("player_camera", "target")]
+[node name="CheckpointCompass" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 layers = 512
 material_override = SubResource("StandardMaterial3D_mj2jn")
 mesh = ExtResource("4_mixcd")
 skeleton = NodePath("../..")
 script = ExtResource("5_mj2jn")
-player_camera = NodePath("../../../../Player/Camera3D")
-target = NodePath("../../../../Checkpoint")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(0.564107, -0.634939, 0.527859, -0.602696, 0.120347, 0.788843, -0.564394, -0.763131, -0.314787, 0, 0, 0)
 layers = 512
 
-[node name="Checkpoint" type="Node3D" parent="."]
+[node name="Checkpoint" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+priority = 600
+script = ExtResource("5_6e45b")
 
 [node name="Mesh" type="MeshInstance3D" parent="Checkpoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -134,3 +145,7 @@ skeleton = NodePath("../..")
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_6e45b")
 draw_pass_1 = SubResource("BoxMesh_mj2jn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_kdryc")

@@ -1,17 +1,16 @@
 extends CharacterBody3D
 
-@export_group("Movement")
 @export var mouse_sensitivity := 0.3
 
-@export var drag := 8
-@export var jump_speed := 8
-
+@export_group("Air Control")
 @export var accel: float = 25
 @export var max_velocity: float = 5
 
-var camera_pitch := 0.0
+@export_group("Misc Movement")
+@export var ground_friction := 8
+@export var jump_speed := 8
 
-var walk_mode := true
+var camera_pitch := 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -37,7 +36,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
 		else:
-			velocity = lerp(velocity, Vector3.ZERO, delta * drag)
+			velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
 	
 	move_and_slide()
 
