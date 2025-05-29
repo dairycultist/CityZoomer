@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=17 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
 [ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="2_v1wow"]
@@ -11,7 +11,7 @@
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mlf6e"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mlf6e"]
-size = Vector2(10, 10)
+size = Vector2(20, 30)
 
 [sub_resource type="Environment" id="Environment_mixcd"]
 background_mode = 1
@@ -27,6 +27,38 @@ albedo_color = Color(0.775033, 0.757601, 0, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mixcd"]
 render_priority = 0
 shader = ExtResource("2_v1wow")
+
+[sub_resource type="Curve" id="Curve_mj2jn"]
+_data = [Vector2(0, 1), 0.0, 1.75029, 0, 0, Vector2(1, 0), -1.39228, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kdryc"]
+curve = SubResource("Curve_mj2jn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6e45b"]
+emission_shape_scale = Vector3(4, 0, 4)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 5.0
+initial_velocity_max = 7.0
+gravity = Vector3(0, -5, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_kdryc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e35lh"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 0.356863)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mj2jn"]
+material = SubResource("StandardMaterial3D_e35lh")
+size = Vector3(0.2, 0.2, 0.2)
 
 [node name="GameScene" type="Node3D"]
 
@@ -64,7 +96,9 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 transparent_bg = true
+handle_input_locally = false
 size = Vector2i(200, 200)
+render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
@@ -95,3 +129,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("ShaderMaterial_mixcd")
 mesh = ExtResource("3_v1wow")
 skeleton = NodePath("../..")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Checkpoint"]
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_6e45b")
+draw_pass_1 = SubResource("BoxMesh_mj2jn")
