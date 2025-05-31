@@ -1,6 +1,5 @@
-[gd_scene load_steps=26 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=24 format=3 uid="uid://bd1sgkptmj0mo"]
 
-[ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="2_kdryc"]
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
 [ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="2_v1wow"]
 [ext_resource type="ArrayMesh" uid="uid://1civrybn8gm7" path="res://checkpoint.obj" id="3_v1wow"]
@@ -9,21 +8,11 @@
 [ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://checkpoint_compass.gd" id="5_mj2jn"]
 [ext_resource type="Shader" uid="uid://bq3uh4maovbii" path="res://things/death_barrier/death_barrier.gdshader" id="8_e35lh"]
 [ext_resource type="Texture2D" uid="uid://binc7piiokdb0" path="res://things/death_barrier/death_barrier.png" id="9_udeyl"]
+[ext_resource type="PackedScene" uid="uid://bfxbyc5uhe4jv" path="res://things/road/road_segment_straight.tscn" id="10_j5hk1"]
 [ext_resource type="Script" uid="uid://djay624bpewsi" path="res://things/death_barrier/death_barrier.gd" id="10_miq82"]
+[ext_resource type="PackedScene" uid="uid://bn1tdmbx32ivj" path="res://things/road/road_segment_end.tscn" id="11_j5hk1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_miq82"]
-size = Vector3(100, 2, 100)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6e45b"]
-albedo_texture = ExtResource("2_kdryc")
-metallic_specular = 0.0
-uv1_scale = Vector3(10, 10, 10)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_mlf6e"]
-material = SubResource("StandardMaterial3D_6e45b")
-size = Vector2(100, 100)
 
 [sub_resource type="Environment" id="Environment_mixcd"]
 background_mode = 1
@@ -102,15 +91,6 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048063
 
-[node name="Floor" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-shape = SubResource("BoxShape3D_miq82")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-mesh = SubResource("PlaneMesh_mlf6e")
-
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0.652654, -0.708731, 0.267849, 0, 0, 0)
 
@@ -150,7 +130,7 @@ transform = Transform3D(0.564107, -0.634939, 0.527859, -0.602696, 0.120347, 0.78
 layers = 512
 
 [node name="Checkpoint" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -111)
 priority = 600
 script = ExtResource("5_6e45b")
 
@@ -173,3 +153,34 @@ shape = SubResource("CylinderShape3D_kdryc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 mesh = SubResource("QuadMesh_miq82")
 script = ExtResource("10_miq82")
+
+[node name="RoadPlacer" type="StaticBody3D" parent="."]
+
+[node name="RoadSegmentStraight" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+
+[node name="RoadSegmentStraight2" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
+
+[node name="RoadSegmentStraight3" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32)
+
+[node name="RoadSegmentStraight4" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
+
+[node name="RoadSegmentStraight5" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -64)
+
+[node name="RoadSegmentStraight6" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -80)
+
+[node name="RoadSegmentStraight7" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -96)
+
+[node name="RoadSegmentStraight8" parent="RoadPlacer" instance=ExtResource("10_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -112)
+
+[node name="RoadSegmentEnd" parent="RoadPlacer" instance=ExtResource("11_j5hk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
+
+[node name="RoadSegmentEnd2" parent="RoadPlacer" instance=ExtResource("11_j5hk1")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -128)

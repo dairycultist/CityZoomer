@@ -5,7 +5,8 @@
 - Passing a checkpoint moves the checkpoint to its next location.
 - Toggle for autojump.
 - \[DONE] Arrow pointing to next checkpoint.
-- Level generation.
+- Infinite level generation (for infinite gamemode).
+- Car obstacles (they're hovercars; once reaching the end of a road, they simply follow it down).
 - Shooting.
 - Enemy turret things that pew pew at you.
 - Jump pads.
