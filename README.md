@@ -2,11 +2,12 @@
 
 ### Gameplay
 - \[DONE] Bhopping.
-- Passing a checkpoint moves the checkpoint to its next location.
-- Toggle for autojump.
 - \[DONE] Arrow pointing to next checkpoint.
 - Infinite level generation (for infinite gamemode).
+  - PlacementModules (have an entrance and an exit, and are guaranteed to never intersect with others): City, highway, etc
+- Passing a checkpoint moves the checkpoint to its next location.
 - Car obstacles (they're hovercars; once reaching the end of a road, they simply follow it down).
+- Toggle for autojump.
 - Shooting.
 - Enemy turret things that pew pew at you.
 - Jump pads.
