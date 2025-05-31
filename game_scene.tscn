@@ -79,7 +79,8 @@ shader = ExtResource("8_e35lh")
 shader_parameter/albedo_texture = ExtResource("9_udeyl")
 shader_parameter/uv_scale = 10.0
 shader_parameter/max_player_dist = 5.0
-shader_parameter/player_dist = 0.0
+shader_parameter/player_dist = 0.24
+shader_parameter/glitch_intensity = 0.04
 
 [sub_resource type="QuadMesh" id="QuadMesh_miq82"]
 material = SubResource("ShaderMaterial_udeyl")
