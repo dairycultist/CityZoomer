@@ -1,12 +1,14 @@
 # CityZoomer
 
 ### Gameplay
-- Once out of starting area, there's no standing still - you're always moving forward. As you pass checkpoints, the speed you move forward increases.
-- Either auto-jump (so the only thing you need to worry about is steering, remember air control), or manual jump (if you don't jump on time, you crash into the ground and lose).
-- Arrow pointing to next checkpoint.
+- \[DONE] Bhopping.
+- Passing a checkpoint moves the checkpoint to its next location.
+- Toggle for autojump.
+- \[DONE] Arrow pointing to next checkpoint.
 - Level generation.
 - Shooting.
 - Enemy turret things that pew pew at you.
+- Jump pads.
 
 ### Aesthetics
 - Holding a gun.
@@ -14,6 +16,7 @@
   - Also makes the music immediately pitch down before slowly going back to normal (same as FOV effect)
 - \[DONE] Checkpoints look like they did (big cylinders) but kinda fade out to the top, maybe oscillating like a flame. Also they have particles.
 - \[DONE] GUI arrow pointing to the next checkpoint.
+- \[DONE] Death barrier has cool glitchy shader.
 
 ### Other
 - Pause menu with settings.
