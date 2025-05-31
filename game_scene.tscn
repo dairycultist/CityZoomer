@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=25 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="2_kdryc"]
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
@@ -7,6 +7,8 @@
 [ext_resource type="ArrayMesh" uid="uid://dc4oajsqudg75" path="res://arrow.obj" id="4_mixcd"]
 [ext_resource type="Script" uid="uid://cx5pf7j1ca2mx" path="res://checkpoint.gd" id="5_6e45b"]
 [ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://checkpoint_compass.gd" id="5_mj2jn"]
+[ext_resource type="Shader" uid="uid://bq3uh4maovbii" path="res://things/death_barrier/death_barrier.gdshader" id="8_e35lh"]
+[ext_resource type="Texture2D" uid="uid://binc7piiokdb0" path="res://things/death_barrier/death_barrier.png" id="9_udeyl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 
@@ -70,6 +72,19 @@ size = Vector3(0.2, 0.2, 0.2)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kdryc"]
 radius = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_udeyl"]
+render_priority = 0
+shader = ExtResource("8_e35lh")
+shader_parameter/albedo_texture = ExtResource("9_udeyl")
+shader_parameter/uv_scale = 10.0
+shader_parameter/max_player_dist = 5.0
+shader_parameter/player_dist = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_miq82"]
+material = SubResource("ShaderMaterial_udeyl")
+size = Vector2(10, 10)
+orientation = 1
 
 [node name="GameScene" type="Node3D"]
 
@@ -149,3 +164,7 @@ draw_pass_1 = SubResource("BoxMesh_mj2jn")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_kdryc")
+
+[node name="DeathBarrier" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36035, 0)
+mesh = SubResource("QuadMesh_miq82")
