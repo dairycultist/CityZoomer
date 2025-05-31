@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=26 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="2_kdryc"]
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
@@ -9,10 +9,12 @@
 [ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://checkpoint_compass.gd" id="5_mj2jn"]
 [ext_resource type="Shader" uid="uid://bq3uh4maovbii" path="res://things/death_barrier/death_barrier.gdshader" id="8_e35lh"]
 [ext_resource type="Texture2D" uid="uid://binc7piiokdb0" path="res://things/death_barrier/death_barrier.png" id="9_udeyl"]
+[ext_resource type="Script" uid="uid://djay624bpewsi" path="res://things/death_barrier/death_barrier.gd" id="10_miq82"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mlf6e"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_miq82"]
+size = Vector3(100, 2, 100)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6e45b"]
 albedo_texture = ExtResource("2_kdryc")
@@ -77,9 +79,9 @@ radius = 4.0
 render_priority = 0
 shader = ExtResource("8_e35lh")
 shader_parameter/albedo_texture = ExtResource("9_udeyl")
-shader_parameter/uv_scale = 10.0
-shader_parameter/max_player_dist = 5.0
-shader_parameter/player_dist = 0.24
+shader_parameter/uv_scale = 5.0
+shader_parameter/max_player_dist = 10.0
+shader_parameter/player_dist = 0.0
 shader_parameter/glitch_intensity = 0.04
 
 [sub_resource type="QuadMesh" id="QuadMesh_miq82"]
@@ -103,7 +105,8 @@ cull_mask = 1048063
 [node name="Floor" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-shape = SubResource("WorldBoundaryShape3D_mlf6e")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_miq82")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("PlaneMesh_mlf6e")
@@ -167,5 +170,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_kdryc")
 
 [node name="DeathBarrier" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36035, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 mesh = SubResource("QuadMesh_miq82")
+script = ExtResource("10_miq82")

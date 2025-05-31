@@ -17,10 +17,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	if (position.y < -10):
-		position = Vector3.ZERO
-		velocity = Vector3.ZERO
-	
 	# movement
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
