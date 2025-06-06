@@ -1,5 +1,11 @@
 # CityZoomer
 
+the godot update
+
+boobs - people will love the new update because it has boobs
+
+sky https://godotengine.org/asset-library/asset/579
+
 ### Gameplay
 - \[DONE] Bhopping.
 - \[DONE] Arrow pointing to next checkpoint.
@@ -11,6 +17,8 @@
 - Shooting.
 - Enemy turret things that pew pew at you.
 - Jump pads.
+  - Does subtle camera shake like TF2 Pyro jetpack https://www.youtube.com/watch?v=kRC124bQsGI
+- Rocket jumping (or handheld spring?).
 
 ### Aesthetics
 - Holding a gun.

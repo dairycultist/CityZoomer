@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=28 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="2_po0ka"]
 [ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="2_v1wow"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bfxbyc5uhe4jv" path="res://things/road/road_segment_straight.tscn" id="10_j5hk1"]
 [ext_resource type="Script" uid="uid://djay624bpewsi" path="res://things/death_barrier/death_barrier.gd" id="10_miq82"]
 [ext_resource type="PackedScene" uid="uid://bn1tdmbx32ivj" path="res://things/road/road_segment_end.tscn" id="11_j5hk1"]
+[ext_resource type="Texture2D" uid="uid://bgj7vgicbkqqw" path="res://Cold Night Equirect.png" id="12_ueiaa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 
@@ -77,6 +78,16 @@ shader_parameter/glitch_intensity = 0.04
 material = SubResource("ShaderMaterial_udeyl")
 size = Vector2(10, 10)
 orientation = 1
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_daj04"]
+panorama = ExtResource("12_ueiaa")
+
+[sub_resource type="Sky" id="Sky_mlphb"]
+sky_material = SubResource("PanoramaSkyMaterial_daj04")
+
+[sub_resource type="Environment" id="Environment_opqoc"]
+background_mode = 2
+sky = SubResource("Sky_mlphb")
 
 [node name="GameScene" type="Node3D"]
 
@@ -184,3 +195,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
 
 [node name="RoadSegmentEnd2" parent="RoadPlacer" instance=ExtResource("11_j5hk1")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -128)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_opqoc")
