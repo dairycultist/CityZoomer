@@ -4,21 +4,25 @@ const ROAD_STRAIGHT = preload("res://things/road/road_segment_straight.tscn")
 const ROAD_X = preload("res://things/road/road_segment_x.tscn")
 const ROAD_END = preload("res://things/road/road_segment_end.tscn")
 
+var random = RandomNumberGenerator.new()
+
+var x = 0
+var z = 0
+var direction = 0 # -1, 0, 1
+
 func _ready() -> void:
 	
-	$Checkpoint.body_entered.connect(_checkpoint_touched)
+	$Checkpoint.body_entered.connect(checkpoint_touched)
 	
-	var random = RandomNumberGenerator.new()
+	generate_road(20)
+	
+func generate_road(length: int):
 	
 	var road_length = random.randi_range(3, 5)
 	
-	var x = 0
-	var z = 0
-	var direction = 0 # -1, 0, 1
-	
-	for i in range(0, 32):
+	for i in range(0, length):
 		
-		if i == 10:
+		if i == length / 2:
 			$Checkpoint.position = Vector3(x * 16, 0, z * 16)
 		
 		# build road
@@ -60,7 +64,7 @@ func _ready() -> void:
 			x += sin(direction * PI / 2)
 			z += cos(direction * PI / 2)
 
-func _checkpoint_touched(_area: Node3D):
-		
-	# remember to check that it is the player entering and not something else
-	print("test")
+func checkpoint_touched(area: Node3D):
+	
+	if area.name == "Player":
+		generate_road(20)

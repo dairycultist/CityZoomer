@@ -141,7 +141,7 @@ transform = Transform3D(0.564107, -0.634939, 0.527859, -0.602696, 0.120347, 0.78
 layers = 512
 
 [node name="DeathBarrier" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -10, 0)
 mesh = SubResource("QuadMesh_miq82")
 script = ExtResource("10_miq82")
 
