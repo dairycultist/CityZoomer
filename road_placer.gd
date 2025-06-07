@@ -1,8 +1,8 @@
 extends StaticBody3D
 
-const ROAD_STRAIGHT = preload("res://things/road/road_segment_straight.tscn")
-const ROAD_X = preload("res://things/road/road_segment_x.tscn")
-const ROAD_END = preload("res://things/road/road_segment_end.tscn")
+const ROAD_STRAIGHT = preload("res://gameobjects/road/road_segment_straight.tscn")
+const ROAD_X = preload("res://gameobjects/road/road_segment_x.tscn")
+const ROAD_END = preload("res://gameobjects/road/road_segment_end.tscn")
 
 var random = RandomNumberGenerator.new()
 
@@ -14,9 +14,15 @@ func _ready() -> void:
 	
 	$Checkpoint.body_entered.connect(checkpoint_touched)
 	
-	generate_road(20)
+	place_random(20)
+
+func checkpoint_touched(area: Node3D):
 	
-func generate_road(length: int):
+	if area.name == "Player":
+		place_random(20)
+
+# "PlacementModule" system (have an entrance and an exit, and are guaranteed to never intersect with others; city, highway, etc)
+func place_curvy_road(length: int):
 	
 	var road_length = random.randi_range(3, 5)
 	
@@ -63,8 +69,3 @@ func generate_road(length: int):
 			
 			x += sin(direction * PI / 2)
 			z += cos(direction * PI / 2)
-
-func checkpoint_touched(area: Node3D):
-	
-	if area.name == "Player":
-		generate_road(20)
