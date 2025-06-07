@@ -19,6 +19,7 @@ sky https://godotengine.org/asset-library/asset/579
 - Jump pads.
   - Does subtle camera shake like TF2 Pyro jetpack https://www.youtube.com/watch?v=kRC124bQsGI
 - Rocket jumping (or handheld spring?).
+- If you're in the air for more than a second, an airtime counter will appear like a score counter in a skating game.
 
 ### Aesthetics
 - Holding a gun.

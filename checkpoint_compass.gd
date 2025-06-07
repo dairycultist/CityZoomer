@@ -1,7 +1,7 @@
 extends MeshInstance3D
 
 @onready var player_camera: Node3D = $"/root/GameScene/Player/Camera3D"
-@onready var checkpoint: Node3D = $"/root/GameScene/Checkpoint"
+@onready var checkpoint: Node3D = $"/root/GameScene/RoadPlacer/Checkpoint"
 
 func _process(_delta: float) -> void:
 	
