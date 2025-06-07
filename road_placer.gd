@@ -6,7 +6,6 @@ const ROAD_END = preload("res://things/road/road_segment_end.tscn")
 
 func _ready() -> void:
 	
-	$Checkpoint.position = Vector3(0, 0, 8 * 16)
 	$Checkpoint.body_entered.connect(_checkpoint_touched)
 	
 	var random = RandomNumberGenerator.new()
@@ -18,6 +17,9 @@ func _ready() -> void:
 	var direction = 0 # -1, 0, 1
 	
 	for i in range(0, 32):
+		
+		if i == 10:
+			$Checkpoint.position = Vector3(x * 16, 0, z * 16)
 		
 		# build road
 		var road = ROAD_STRAIGHT.instantiate()
@@ -33,17 +35,27 @@ func _ready() -> void:
 		# change direction
 		if road_length == 0:
 			
+			road_length = random.randi_range(3, 5)
+			
 			# place intersection
 			road = ROAD_X.instantiate()
 			add_child(road)
 			road.position = Vector3(x * 16, 0, z * 16)
 			
-			road_length = random.randi_range(3, 5)
+			road = ROAD_END.instantiate()
+			add_child(road)
+			road.position = Vector3((x + sin(direction * PI / 2)) * 16, 0, (z + cos(direction * PI / 2)) * 16)
+			road.rotation.y = direction * PI / 2
 			
 			if direction == 1 or direction == -1:
 				direction = 0
 			else:
 				direction = random.randi_range(0, 1) * 2 - 1
+			
+			road = ROAD_END.instantiate()
+			add_child(road)
+			road.position = Vector3((x - sin(direction * PI / 2)) * 16, 0, (z - cos(direction * PI / 2)) * 16)
+			road.rotation.y = direction * PI / 2 + PI
 			
 			x += sin(direction * PI / 2)
 			z += cos(direction * PI / 2)
