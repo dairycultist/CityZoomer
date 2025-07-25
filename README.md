@@ -1,10 +1,14 @@
 # CityZoomer
 
-the godot update
-
-boobs - people will love the new update because it has boobs
+should probably rename since this is no longer a port of cz lol
 
 sky https://godotengine.org/asset-library/asset/579
+
+T-inspired wolf furry low poly model with INCORPERATED animations/textures/materials and hand IK. cityzoomer godot -> sandbox with gamemodes (big bento title screen!). they're a fully rigged and animated mercenary with IK hands. also boobs cuz people love those. and a paper doll on the title screen, and customization? todo
+
+[sky](https://github.com/rpgwhitelock/AllSkyFree_Godot)
+
+[mountains in sky](https://www.blenderkit.com/asset-gallery-detail/550191ed-cfe4-450e-9a20-7a4f8b00afcb/)
 
 ### Gameplay
 - \[DONE] Bhopping.
@@ -22,6 +26,8 @@ sky https://godotengine.org/asset-library/asset/579
   - Jump pads (does subtle camera shake like TF2 Pyro jetpack https://www.youtube.com/watch?v=kRC124bQsGI).
   - Rocket jumping? Handheld spring? Contact-grenade launcher?
 - If you're in the air for more than a second, an airtime counter will appear like a score counter in a skating game.
+
+- Inventory with arbitrary items (could spawn on infinite levels to spice up gameplay as you go on, or be cool for multiplayer gamemodes. weapons, movement tech, etc)
 
 ### Aesthetics
 - Holding a gun.
