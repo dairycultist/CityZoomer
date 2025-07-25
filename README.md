@@ -9,9 +9,12 @@ sky https://godotengine.org/asset-library/asset/579
 [mountains in sky](https://www.blenderkit.com/asset-gallery-detail/550191ed-cfe4-450e-9a20-7a4f8b00afcb/)
 
 ## Misc TODO
+- sandbox gamemode
 - Main menu/bento mode select (additionally: can look at character, customize stuff, level editor, whatever)
-- T-inspired wolf furry low poly model with INCORPERATED animations/textures/materials and hand IK. cityzoomer godot -> sandbox with gamemodes (big bento title screen!). they're a fully rigged and animated mercenary with IK hands. also boobs cuz people love those. and a paper doll on the title screen, and customization? todo
-- Holding a gun.
+- T-inspired wolf furry low poly model with INCORPERATED animations/textures/materials and hand IK. they're a fully rigged and animated mercenary with IK hands. also boobs cuz people love those.
+- paper doll on the title screen
+- customization menu next to paper doll
+- Holding a gun/items (see: inventory system plans)
 - Legs.
 - Inventory system with arbitrary items (could spawn on infinite levels to spice up gameplay as you go on, or be cool for multiplayer gamemodes. weapons, movement tech, etc)
 
