@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cxcfwl3c73xfg"]
+[gd_scene load_steps=2 format=3 uid="uid://cxcfwl3c73xfg"]
+
+[ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="1_y7k74"]
 
 [node name="TitleScene" type="Control"]
 layout_mode = 3
@@ -14,4 +16,6 @@ offset_left = 172.0
 offset_top = 69.0
 offset_right = 393.0
 offset_bottom = 174.0
-text = "Play Game"
+text = "Infinite Run"
+script = ExtResource("1_y7k74")
+scene = "res://gamemodes/infinite_run/infinite_run.tscn"

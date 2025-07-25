@@ -14,25 +14,30 @@ var camera_pitch := 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$PauseMenu.visible = false
 
 func _process(delta: float) -> void:
-	
-	# movement
-	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	if direction:
-		velocity = accelerate(delta, direction, velocity)
 	
 	# gravity
 	velocity.y -= 25 * delta
 	
-	# jumping
-	if is_on_floor():
-		if Input.is_action_pressed("jump"):
+	# drag (only when not frame-perfect jumping)
+	if is_on_floor() and (not Input.is_action_pressed("jump") or Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
+		velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
+	
+	# input
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+	
+		# walking
+		var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
+		var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		
+		if direction:
+			velocity = accelerate(delta, direction, velocity)
+		
+		# jumping
+		if is_on_floor() and Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
-		else:
-			velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
 	
 	move_and_slide()
 
@@ -53,10 +58,12 @@ func _input(event):
 		
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			$PauseMenu.visible = true
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			$PauseMenu.visible = false
 	
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		
 		rotation.y += deg_to_rad(-event.relative.x * mouse_sensitivity)
 		
