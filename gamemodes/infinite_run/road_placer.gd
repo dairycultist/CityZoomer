@@ -1,8 +1,8 @@
 extends StaticBody3D
 
-const ROAD_STRAIGHT = preload("res://gameobjects/road/road_segment_straight.tscn")
-const ROAD_X = preload("res://gameobjects/road/road_segment_x.tscn")
-const ROAD_END = preload("res://gameobjects/road/road_segment_end.tscn")
+const ROAD_STRAIGHT = preload("./road/road_segment_straight.tscn")
+const ROAD_X = preload("./road/road_segment_x.tscn")
+const ROAD_END = preload("./road/road_segment_end.tscn")
 
 var random = RandomNumberGenerator.new()
 

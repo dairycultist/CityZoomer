@@ -1,16 +1,16 @@
 [gd_scene load_steps=27 format=3 uid="uid://bd1sgkptmj0mo"]
 
-[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="1_tcjrq"]
-[ext_resource type="ArrayMesh" uid="uid://dc4oajsqudg75" path="res://arrow.obj" id="2_rvs2r"]
-[ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://checkpoint_compass.gd" id="3_tqxxy"]
-[ext_resource type="Shader" uid="uid://bq3uh4maovbii" path="res://gameobjects/death_barrier/death_barrier.gdshader" id="4_5ay1a"]
-[ext_resource type="Texture2D" uid="uid://binc7piiokdb0" path="res://gameobjects/death_barrier/death_barrier.png" id="5_ldkr4"]
-[ext_resource type="Script" uid="uid://djay624bpewsi" path="res://gameobjects/death_barrier/death_barrier.gd" id="6_liy57"]
-[ext_resource type="Script" uid="uid://bf34brm263fl6" path="res://road_placer.gd" id="7_mwyo0"]
-[ext_resource type="PackedScene" uid="uid://bn1tdmbx32ivj" path="res://gameobjects/road/road_segment_end.tscn" id="8_s76x2"]
-[ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://checkpoint.gdshader" id="9_77hjl"]
-[ext_resource type="ArrayMesh" uid="uid://1civrybn8gm7" path="res://checkpoint.obj" id="10_6aqbo"]
-[ext_resource type="Texture2D" uid="uid://bgj7vgicbkqqw" path="res://Cold Night Equirect.png" id="11_ro0ie"]
+[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="1_jc008"]
+[ext_resource type="ArrayMesh" uid="uid://dc4oajsqudg75" path="res://gamemodes/infinite_run/arrow.obj" id="2_h7jgl"]
+[ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://gamemodes/infinite_run/checkpoint_compass.gd" id="3_tjtvu"]
+[ext_resource type="Shader" uid="uid://bq3uh4maovbii" path="res://gamemodes/infinite_run/death_barrier/death_barrier.gdshader" id="4_axhjo"]
+[ext_resource type="Texture2D" uid="uid://binc7piiokdb0" path="res://gamemodes/infinite_run/death_barrier/death_barrier.png" id="5_78vm7"]
+[ext_resource type="Script" uid="uid://djay624bpewsi" path="res://gamemodes/infinite_run/death_barrier/death_barrier.gd" id="6_tt166"]
+[ext_resource type="Script" uid="uid://bf34brm263fl6" path="res://gamemodes/infinite_run/road_placer.gd" id="7_tnb0d"]
+[ext_resource type="PackedScene" uid="uid://bn1tdmbx32ivj" path="res://gamemodes/infinite_run/road/road_segment_end.tscn" id="8_qf8vw"]
+[ext_resource type="Shader" uid="uid://cmr01vxyryoq2" path="res://gamemodes/infinite_run/checkpoint.gdshader" id="9_h1xj1"]
+[ext_resource type="ArrayMesh" uid="uid://1civrybn8gm7" path="res://gamemodes/infinite_run/checkpoint.obj" id="10_0gdcw"]
+[ext_resource type="Texture2D" uid="uid://bgj7vgicbkqqw" path="res://gamemodes/infinite_run/Cold Night Equirect.png" id="11_jc008"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 
@@ -27,8 +27,8 @@ albedo_color = Color(0.775033, 0.757601, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_udeyl"]
 render_priority = 0
-shader = ExtResource("4_5ay1a")
-shader_parameter/albedo_texture = ExtResource("5_ldkr4")
+shader = ExtResource("4_axhjo")
+shader_parameter/albedo_texture = ExtResource("5_78vm7")
 shader_parameter/uv_scale = 5.0
 shader_parameter/max_player_dist = 10.0
 shader_parameter/player_dist = 0.0
@@ -41,7 +41,7 @@ orientation = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mixcd"]
 render_priority = 0
-shader = ExtResource("9_77hjl")
+shader = ExtResource("9_h1xj1")
 
 [sub_resource type="Curve" id="Curve_mj2jn"]
 _data = [Vector2(0, 1), 0.0, 1.75029, 0, 0, Vector2(1, 0), -1.39228, 0.0, 0, 0]
@@ -79,7 +79,7 @@ size = Vector3(0.2, 0.2, 0.2)
 radius = 4.0
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_daj04"]
-panorama = ExtResource("11_ro0ie")
+panorama = ExtResource("11_jc008")
 
 [sub_resource type="Sky" id="Sky_mlphb"]
 sky_material = SubResource("PanoramaSkyMaterial_daj04")
@@ -92,7 +92,7 @@ sky = SubResource("Sky_mlphb")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-script = ExtResource("1_tcjrq")
+script = ExtResource("1_jc008")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -132,9 +132,9 @@ far = 5.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 layers = 512
 material_override = SubResource("StandardMaterial3D_mj2jn")
-mesh = ExtResource("2_rvs2r")
+mesh = ExtResource("2_h7jgl")
 skeleton = NodePath("../..")
-script = ExtResource("3_tqxxy")
+script = ExtResource("3_tjtvu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(0.564107, -0.634939, 0.527859, -0.602696, 0.120347, 0.788843, -0.564394, -0.763131, -0.314787, 0, 0, 0)
@@ -143,12 +143,12 @@ layers = 512
 [node name="DeathBarrier" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -10, 0)
 mesh = SubResource("QuadMesh_miq82")
-script = ExtResource("6_liy57")
+script = ExtResource("6_tt166")
 
 [node name="RoadPlacer" type="StaticBody3D" parent="."]
-script = ExtResource("7_mwyo0")
+script = ExtResource("7_tnb0d")
 
-[node name="RoadSegmentEnd" parent="RoadPlacer" instance=ExtResource("8_s76x2")]
+[node name="RoadSegmentEnd" parent="RoadPlacer" instance=ExtResource("8_qf8vw")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -16)
 
 [node name="Checkpoint" type="Area3D" parent="RoadPlacer"]
@@ -158,7 +158,7 @@ priority = 600
 [node name="Mesh" type="MeshInstance3D" parent="RoadPlacer/Checkpoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("ShaderMaterial_mixcd")
-mesh = ExtResource("10_6aqbo")
+mesh = ExtResource("10_0gdcw")
 skeleton = NodePath("../../..")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="RoadPlacer/Checkpoint"]
