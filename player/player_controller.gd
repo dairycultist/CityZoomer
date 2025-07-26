@@ -19,13 +19,16 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
+	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
 	# animation
 	if not is_on_floor():
-		$Model/AnimationPlayer.play("Armature|Idle", 1.0) # todo jump
-	elif velocity.length() > 0.1:
-		$Model/AnimationPlayer.play("Armature|Walk", 0.2)
+		$Model/AnimationPlayer.play("Armature|Idle", 0.4) # todo jump
+	elif direction:
+		$Model/AnimationPlayer.play("Armature|Walk", 0.8)
 	else:
-		$Model/AnimationPlayer.play("Armature|Idle", 0.2)
+		$Model/AnimationPlayer.play("Armature|Idle", 0.8)
 	
 	# gravity
 	velocity.y -= 25 * delta
@@ -34,13 +37,10 @@ func _process(delta: float) -> void:
 	if is_on_floor() and (not Input.is_action_pressed("jump") or Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
 		velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
 	
-	# input
+	# movement
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-	
-		# walking
-		var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
-		var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		
+		# walking
 		if direction:
 			velocity = accelerate(delta, direction, velocity)
 		
