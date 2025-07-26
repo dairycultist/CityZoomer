@@ -29,8 +29,13 @@ var _tcp_server_connected_clients: Dictionary # int:StreamPeerTCP
 # remoteclient only
 var _tcp_remote: StreamPeerTCP
 
+
+
 func _process(delta: float) -> void:
 	
+	# both the server and client have special messages they may recieve
+	# that are labeled with prepended headers. only if the message does
+	# not contain such headers will they proceed to send a data_recieved signal
 	match _client_type:
 		
 		ClientType.SERVER_CLIENT:
@@ -45,7 +50,6 @@ func _process(delta: float) -> void:
 func start_serverclient(port: int) -> bool:
 	
 	# https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
-	
 	_tcp_server = TCPServer.new()
 	
 	# start server
@@ -65,6 +69,7 @@ func start_serverclient(port: int) -> bool:
 func start_remoteclient(ip: String, port: int) -> bool:
 	
 	# https://docs.godotengine.org/en/stable/classes/class_streampeertcp.html
+	_tcp_remote = StreamPeerTCP.new()
 	
 	# wait for server to respond with your client id
 	
