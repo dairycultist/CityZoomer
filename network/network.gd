@@ -49,6 +49,12 @@ func _process(_delta: float) -> void:
 				
 				var socket := _tcp_server.take_connection()
 				
+				# TODO
+				# clients are only able to join when the server is in the lobby.
+				# this means we don't have to dynamically add puppets, and we
+				# don't have to tell a client how to set up their scene in the
+				# middle of a game
+				
 				# assign an id to the connection
 				var socket_id := RandomNumberGenerator.new().randi_range(0, 1000)
 				while (_tcp_connected_clients.has(socket_id)):
@@ -56,11 +62,10 @@ func _process(_delta: float) -> void:
 				
 				_tcp_connected_clients.set(socket_id, socket)
 				
-				# send client id + what scene to load
+				# send client id
 				send_to(MessageType.SET_ID, socket_id, str(socket_id))
-				#send_to(MessageType.CHANGE_SCENE, id, "")
 				
-				# tell everyone who joined
+				# tell everyone that someone joined
 				client_joined.emit(socket_id)
 	
 		ConnectionType.CLIENT:
@@ -112,6 +117,9 @@ func start_client(ip: String, port: int) -> bool:
 		return false
 	
 	_conn_type = ConnectionType.CLIENT
+	
+	# update game state
+	get_tree().change_scene_to_file("res://network/lobby.tscn")
 	
 	return true
 
