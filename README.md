@@ -2,6 +2,23 @@
 
 should probably rename since this is no longer a port of cz lol
 
+fat based competitive team based shooter
+
+whenever you start a singleplayer game, it's actually a local server, and then
+you can just have other people connect to ur singleplayer game
+
+there are two modes, serverclient and remoteclient. the serverclient keeps track
+of all the remoteclients and sends them data
+
+```
+serverclient_broadcast()
+serverclient_send(remoteclient_id)
+serverclient_recieve(remoteclient_id)
+
+remoteclient_send()
+remoteclient_recieve()
+```
+
 sky https://godotengine.org/asset-library/asset/579
 
 [sky](https://github.com/rpgwhitelock/AllSkyFree_Godot)
