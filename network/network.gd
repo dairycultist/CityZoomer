@@ -1,11 +1,9 @@
 extends Node
 
-# title screen: button for singleplayer/host server (since singleplayer is just
-# a local server) or join server
+# (singleplayer is just a local server)
 
-# serverclient lobby screen: the actual gamemode selection
-
-# remoteclient lobby screen: "waiting for server to select gamemode..."
+# lobby appears different depending on if you're a remote client or
+# a server client
 
 # the serverclient keeps track of all the remoteclients and sends them data
 # Network iterates through every NetworkBehaviour node every network tick, sending

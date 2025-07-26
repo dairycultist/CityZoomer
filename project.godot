@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="CityZoomer"
-run/main_scene="uid://cxcfwl3c73xfg"
+run/main_scene="uid://qjn56k3dx4ch"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Network="*res://network.gd"
+Network="*res://network/network.gd"
 
 [input]
 

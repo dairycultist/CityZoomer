@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cxcfwl3c73xfg"]
 
-[ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="1_y7k74"]
+[ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://network/network_button.gd" id="1_y7k74"]
 [ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="2_3xoar"]
 [ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="2_oyqm6"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="3_kpexm"]
@@ -10,7 +10,7 @@ albedo_texture = ExtResource("2_3xoar")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7lgly"]
 
-[node name="TitleScene" type="Control"]
+[node name="ServerClientLobby" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,9 +24,20 @@ offset_left = 172.0
 offset_top = 69.0
 offset_right = 393.0
 offset_bottom = 174.0
+disabled = true
 text = "Infinite Run"
 script = ExtResource("1_y7k74")
-scene = "res://gamemodes/infinite_run/infinite_run.tscn"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 172.0
+offset_top = 196.0
+offset_right = 393.0
+offset_bottom = 301.0
+text = "Sandbox"
+script = ExtResource("1_y7k74")
+type = 3
+gamemode = "res://gamemodes/sandbox/sandbox.tscn"
 
 [node name="3DScene" type="Node3D" parent="."]
 
