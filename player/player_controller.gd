@@ -24,11 +24,11 @@ func _process(delta: float) -> void:
 	
 	# animation
 	if not is_on_floor():
-		$Model/AnimationPlayer.play("Armature|Idle", 0.4) # todo jump
+		$Model/AnimationPlayer.play("Idle", 0.4) # todo jump
 	elif direction:
-		$Model/AnimationPlayer.play("Armature|Walk", 0.8)
+		$Model/AnimationPlayer.play("Walk", 0.8)
 	else:
-		$Model/AnimationPlayer.play("Armature|Idle", 0.8)
+		$Model/AnimationPlayer.play("Idle", 0.8)
 	
 	# gravity
 	velocity.y -= 25 * delta

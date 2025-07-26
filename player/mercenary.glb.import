@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cry8veinhw8tm"
-path="res://.godot/imported/mercenary.fbx-12c8833a7c2a3390e4d4cd98d47b3b9c.scn"
+uid="uid://dn57dgaxtdv5l"
+path="res://.godot/imported/mercenary.glb-af8148d46e9fb6475f310ffef9218901.scn"
 
 [deps]
 
-source_file="res://player/mercenary.fbx"
-dest_files=["res://.godot/imported/mercenary.fbx-12c8833a7c2a3390e4d4cd98d47b3b9c.scn"]
+source_file="res://player/mercenary.glb"
+dest_files=["res://.godot/imported/mercenary.glb-af8148d46e9fb6475f310ffef9218901.scn"]
 
 [params]
 
@@ -28,13 +28,13 @@ meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
 animation/fps=30
-animation/trimming=true
+animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "animations": {
-"Armature|Walk": {
+"Walk": {
 "save_to_file/enabled": false,
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
@@ -1833,8 +1833,13 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": 0
 }
+},
+"materials": {
+"Material.005": {
+"use_external/enabled": true,
+"use_external/path": "uid://c7morv0ouf260"
 }
 }
-fbx/importer=0
-fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=1
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

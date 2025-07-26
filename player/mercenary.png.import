@@ -2,11 +2,14 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kxsywybtvot2"
+uid="uid://d106e8rn5p0l"
 path.s3tc="res://.godot/imported/mercenary.png-b172c276135f700f418a8aadf6f65bfc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
+}
+generator_parameters={
+"md5": "a180629f52b8a01695f163dc0dbcde5e"
 }
 
 [deps]

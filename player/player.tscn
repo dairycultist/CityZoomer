@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player_controller.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="2_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://cry8veinhw8tm" path="res://player/mercenary.fbx" id="3_g1dw6"]
+[ext_resource type="PackedScene" uid="uid://dn57dgaxtdv5l" path="res://player/mercenary.glb" id="3_g1dw6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
@@ -63,4 +63,4 @@ script = ExtResource("2_i3pqv")
 scene = "res://title.tscn"
 
 [node name="Model" parent="." instance=ExtResource("3_g1dw6")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.3)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0.3)
