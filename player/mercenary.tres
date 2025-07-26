@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dgarnqj31aspd"]
+
+[ext_resource type="Texture2D" uid="uid://kxsywybtvot2" path="res://player/mercenary.png" id="1_8slpt"]
+
+[resource]
+albedo_texture = ExtResource("1_8slpt")
+metallic_specular = 0.0
