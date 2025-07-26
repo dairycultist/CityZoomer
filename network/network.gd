@@ -7,9 +7,6 @@ extends Node
 # I based my naming convention on the fact that the server is also a client
 # this was a bad idea
 
-# lobby appears different depending on if you're a remote client or
-# a server client ("waiting on server to choose gamemode...")
-
 signal remoteclient_joined # (client_id: int)
 signal remoteclient_left # (client_id: int)
 signal serverclient_left # ()
@@ -19,6 +16,14 @@ enum ClientType {
 	NO_CONNECTION,
 	SERVER_CLIENT,
 	REMOTE_CLIENT
+}
+
+enum MessageType {
+	SET_CLIENT_ID,
+	CHANGE_SCENE,
+	REQUEST_BROADCAST, # remoteclient asking server to broadcast to everyone else
+	ARBITRARY, # not handled automatically, just calls data_recieved signal w/ data
+	DONT_ADD_HEADER # in case you're rerouting data that already has headers
 }
 
 var _client_type := ClientType.NO_CONNECTION
@@ -39,11 +44,6 @@ func _process(delta: float) -> void:
 	# both the server and client have special messages they may recieve
 	# that are labeled with prepended headers. only if the message does
 	# not contain such headers will they proceed to send a data_recieved signal
-	
-	# might change it so there's an enum with all the message types, including
-	# an "undefined" one which calls data_recieved signal, and the send_to
-	# and broadcast functions take it and create a header from it, appending
-	# a Variant data
 	match _client_type:
 		
 		ClientType.SERVER_CLIENT:
@@ -116,7 +116,7 @@ func stop() -> void:
 	_client_type = ClientType.NO_CONNECTION
 	get_tree().change_scene_to_file("res://network/main_menu.tscn")
 
-func broadcast(data: String) -> void:
+func broadcast(type: MessageType, data: String) -> void:
 	
 	match _client_type:
 		
@@ -125,7 +125,7 @@ func broadcast(data: String) -> void:
 			var id_to_ignore := -1
 			
 			# parse out the id_to_ignore if this is a remoteclient-requested broadcast
-			if data.begins_with("IGNORE;"):
+			if data.begins_with("REQUEST_BROADCAST;"):
 				
 				var parts := data.split(";", true, 2)
 				id_to_ignore = parts[1].to_int()
@@ -134,13 +134,14 @@ func broadcast(data: String) -> void:
 			# send to all connected remoteclients
 			for id in _tcp_server_connected_clients.keys():
 				if id != id_to_ignore:
-					send_to(id, data)
+					send_to(type, id, data)
 		
 		ClientType.REMOTE_CLIENT:
 			
-			send_to(0, "BROADCAST;IGNORE;" + str(get_client_id()) + ";" + data)
+			send_to(type, 0, "REQUEST_BROADCAST;" + str(get_client_id()) + ";" + data)
 
-func send_to(client_id: int, data: String):
+func send_to(type: MessageType, client_id: int, data: String):
+	# create header from MessageType
 	pass
 
 func serverclient_broadcast_change_scene(scene: String) -> void:

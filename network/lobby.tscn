@@ -39,6 +39,14 @@ text = "Disconnect"
 script = ExtResource("1_y7k74")
 type = 2
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 222.0
+offset_right = 767.0
+offset_bottom = 301.0
+text = "if this box is greyed out it means you're waiting on server to choose the gamemode"
+
 [node name="3DScene" type="Node3D" parent="."]
 
 [node name="Floor" type="MeshInstance3D" parent="3DScene"]
