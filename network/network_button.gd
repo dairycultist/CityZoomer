@@ -12,8 +12,19 @@ enum NetworkAction {
 
 func _ready() -> void:
 	
-	if type == NetworkAction.SERVER_CLIENT_LOAD_SCENE and Network.is_remoteclient():
-		self.disabled = true
+	match type:
+		
+		NetworkAction.SERVER_CLIENT_LOAD_SCENE:
+			
+			if Network.is_remoteclient():
+				self.disabled = true
+	
+		NetworkAction.STOP:
+			
+			if Network.is_remoteclient():
+				text = "Disconnect"
+			else:
+				text = "Stop Server"
 	
 	pressed.connect(on_pressed)
 

@@ -18,17 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 172.0
-offset_top = 69.0
-offset_right = 393.0
-offset_bottom = 174.0
-disabled = true
-text = "Infinite Run"
-script = ExtResource("1_y7k74")
-
-[node name="Button2" type="Button" parent="."]
+[node name="ButtonSandbox" type="Button" parent="."]
 layout_mode = 0
 offset_left = 172.0
 offset_top = 196.0
@@ -37,7 +27,17 @@ offset_bottom = 301.0
 text = "Sandbox"
 script = ExtResource("1_y7k74")
 type = 3
-gamemode = "res://gamemodes/sandbox/sandbox.tscn"
+scene = "res://gamemodes/sandbox/sandbox.tscn"
+
+[node name="ButtonDisconnect" type="Button" parent="."]
+layout_mode = 0
+offset_left = 172.0
+offset_top = 321.0
+offset_right = 393.0
+offset_bottom = 363.0
+text = "Disconnect"
+script = ExtResource("1_y7k74")
+type = 2
 
 [node name="3DScene" type="Node3D" parent="."]
 
