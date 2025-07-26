@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=6 format=3 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player_controller.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="2_i3pqv"]
-[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/rifle.obj" id="2_qjkh3"]
-[ext_resource type="PackedScene" uid="uid://dn57dgaxtdv5l" path="res://player/mercenary.glb" id="3_g1dw6"]
-[ext_resource type="Script" uid="uid://dmqo4dp3p2hje" path="res://player/start_ik.gd" id="4_yw30f"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
+[ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="4_yw30f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
@@ -76,32 +75,7 @@ text = "Back to Main Menu"
 script = ExtResource("2_i3pqv")
 scene = "res://title.tscn"
 
-[node name="Model" parent="." instance=ExtResource("3_g1dw6")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 9.79843e-09, 0, 0.187919)
-
-[node name="Skeleton3D" parent="Model/Armature" index="0"]
-bones/0/position = Vector3(6.42088e-23, -0.0868918, 2.97418e-09)
-bones/9/rotation = Quaternion(0.971058, 0.0257822, 0.123418, -0.202856)
-bones/10/rotation = Quaternion(-0.00778607, -0.0751667, 0.032141, 0.996622)
-bones/11/rotation = Quaternion(-0.851707, -7.34909e-08, 1.84842e-08, 0.524018)
-bones/12/rotation = Quaternion(0.950208, -0.0229632, 0.0721869, 0.302269)
-bones/13/rotation = Quaternion(0.231786, -5.66995e-07, 3.13284e-07, 0.972767)
-bones/14/rotation = Quaternion(-0.656368, 4.68084e-07, 1.2447e-07, 0.754441)
-
-[node name="LeftHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="1"]
-root_bone = &"LArm"
-tip_bone = &"LTipIK"
-use_magnet = true
-magnet = Vector3(1.5, -0.48, 0)
-target_node = NodePath("../../../../Camera3D/Rifle/LeftTargetIK")
-script = ExtResource("4_yw30f")
-
-[node name="RightHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="2"]
-root_bone = &"RArm"
-tip_bone = &"RTipIK"
-use_magnet = true
-magnet = Vector3(-3.38, -5.16, 0)
-target_node = NodePath("../../../../Camera3D/Rifle/RightTargetIK")
-script = ExtResource("4_yw30f")
-
-[editable path="Model"]
+[node name="Model" parent="." node_paths=PackedStringArray("left_target", "right_target") instance=ExtResource("4_yw30f")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.2)
+left_target = NodePath("../Camera3D/Rifle/LeftTargetIK")
+right_target = NodePath("../Camera3D/Rifle/RightTargetIK")

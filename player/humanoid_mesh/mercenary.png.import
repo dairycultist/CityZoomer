@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d106e8rn5p0l"
-path.s3tc="res://.godot/imported/mercenary.png-b172c276135f700f418a8aadf6f65bfc.s3tc.ctex"
+path.s3tc="res://.godot/imported/mercenary.png-187e8779e977d36899d929d99d918532.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://player/mercenary.png"
-dest_files=["res://.godot/imported/mercenary.png-b172c276135f700f418a8aadf6f65bfc.s3tc.ctex"]
+source_file="res://player/humanoid_mesh/mercenary.png"
+dest_files=["res://.godot/imported/mercenary.png-187e8779e977d36899d929d99d918532.s3tc.ctex"]
 
 [params]
 

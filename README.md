@@ -10,12 +10,9 @@ sky https://godotengine.org/asset-library/asset/579
 
 ## Misc TODO
 - sandbox gamemode
+- mercenary has hand bones that are used as the "tip"; their basis matches the target so that they properly hold the rifle
 - Main menu/bento mode select (additionally: can look at character, customize stuff, level editor, whatever)
-- T-inspired wolf furry low poly model with INCORPERATED animations/textures/materials and hand IK. they're a fully rigged and animated mercenary with IK hands. also boobs cuz people love those.
-- paper doll on the title screen
 - customization menu next to paper doll
-- Holding a gun/items (see: inventory system plans)
-- Legs.
 - Inventory system with arbitrary items (could spawn on infinite levels to spice up gameplay as you go on, or be cool for multiplayer gamemodes. weapons, movement tech, etc)
 
 ## Infinite Run TODO
@@ -39,3 +36,7 @@ sky https://godotengine.org/asset-library/asset/579
 - Checkpoints look like they did in CZ (big cylinders) but kinda fade out to the top, maybe oscillating like a flame. Also they have particles.
 - GUI arrow pointing to the next checkpoint.
 - Death barrier has cool glitchy shader.
+- T-inspired wolf furry low poly model with INCORPERATED animations/textures/materials and hand IK. they're a fully rigged and animated mercenary with IK hands. also boobs cuz people love those.
+- Holding a gun/items (see: inventory system plans)
+- Legs.
+- paper doll on the title screen

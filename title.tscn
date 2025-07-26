@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxcfwl3c73xfg"]
+[gd_scene load_steps=7 format=3 uid="uid://cxcfwl3c73xfg"]
 
 [ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="1_y7k74"]
+[ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="2_3xoar"]
+[ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="2_oyqm6"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="3_kpexm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mom7w"]
+albedo_texture = ExtResource("2_3xoar")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7lgly"]
 
 [node name="TitleScene" type="Control"]
 layout_mode = 3
@@ -19,3 +27,31 @@ offset_bottom = 174.0
 text = "Infinite Run"
 script = ExtResource("1_y7k74")
 scene = "res://gamemodes/infinite_run/infinite_run.tscn"
+
+[node name="3DScene" type="Node3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="3DScene"]
+material_override = SubResource("StandardMaterial3D_mom7w")
+mesh = SubResource("PlaneMesh_7lgly")
+
+[node name="Camera3D" type="Camera3D" parent="3DScene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.682662, 1.03172, 1.56566)
+
+[node name="Mercenary" parent="3DScene" node_paths=PackedStringArray("left_target", "right_target") instance=ExtResource("2_oyqm6")]
+transform = Transform3D(0.572747, 0, -0.819732, 0, 1, 0, 0.819732, 0, 0.572747, 0, 0, 0)
+left_target = NodePath("Rifle/LeftTargetIK")
+right_target = NodePath("Rifle/RightTargetIK")
+
+[node name="Rifle" type="MeshInstance3D" parent="3DScene/Mercenary"]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.130999, 1.256, 0.428032)
+mesh = ExtResource("3_kpexm")
+skeleton = NodePath("../..")
+
+[node name="LeftTargetIK" type="Node3D" parent="3DScene/Mercenary/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
+
+[node name="RightTargetIK" type="Node3D" parent="3DScene/Mercenary/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.833789, -0.365323, 0.413926, 2.98023e-08, 0.749753, 0.661718, -0.552083, -0.551733, 0.625136, 0, 0, 0)

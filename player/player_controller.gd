@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 	
 	# animation
 	if not is_on_floor():
-		$Model/AnimationPlayer.play("Idle", 0.4) # todo jump
+		$Model/AnimationPlayer.play("Walk", 0.4) # todo jump
 	elif direction:
 		$Model/AnimationPlayer.play("Walk", 0.8)
 	else:
