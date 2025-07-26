@@ -1,10 +1,10 @@
 extends Button
 
 enum NetworkAction {  
-	START_SERVER_CLIENT, # put into lobby
-	START_REMOTE_CLIENT, # put into lobby
-	STOP,                # put into main menu
-	SERVER_LOAD_GAMEMODE # put into selected gamemode
+	START_SERVER_CLIENT,        # put into lobby
+	START_REMOTE_CLIENT,        # put into lobby
+	STOP,                       # put into main menu
+	SERVER_CLIENT_LOAD_GAMEMODE # put into selected gamemode
 }
 
 @export var type: NetworkAction
@@ -14,6 +14,9 @@ const LOBBY := "res://network/lobby.tscn"
 const MAIN_MENU := "res://network/main_menu.tscn"
 
 func _ready() -> void:
+	
+	if type == NetworkAction.SERVER_CLIENT_LOAD_GAMEMODE and Network.is_remoteclient():
+		self.disabled = true
 	
 	pressed.connect(on_pressed)
 
@@ -33,5 +36,5 @@ func on_pressed() -> void:
 			Network.stop()
 			get_tree().change_scene_to_file(MAIN_MENU)
 		
-		NetworkAction.SERVER_LOAD_GAMEMODE:
-			get_tree().change_scene_to_file(gamemode)
+		NetworkAction.SERVER_CLIENT_LOAD_GAMEMODE:
+			Network.serverclient_broadcast_change_scene(gamemode)

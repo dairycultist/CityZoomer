@@ -13,15 +13,18 @@ extends Node
 
 # https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
 
-func start_serverclient() -> void:
-	pass
+func start_serverclient() -> bool:
+	return false
 
-func start_remoteclient(ip, port) -> void:
-	pass
+func start_remoteclient(ip, port) -> bool:
+	return false
 
 # destroys the TCP server
 func stop() -> void:
 	pass
+
+func serverclient_broadcast_change_scene(scene: String) -> void:
+	get_tree().change_scene_to_file(scene)
 
 func is_serverclient() -> bool:
 	return false
