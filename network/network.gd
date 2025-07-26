@@ -33,7 +33,7 @@ var _tcp_client: StreamPeerTCP
 
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	
 	# both the server and client have special messages they may recieve
 	# that are labeled with prepended headers. only if the message does
@@ -50,27 +50,35 @@ func _process(delta: float) -> void:
 				var socket := _tcp_server.take_connection()
 				
 				# assign an id to the connection
-				var id := RandomNumberGenerator.new().randi_range(0, 1000)
+				var socket_id := RandomNumberGenerator.new().randi_range(0, 1000)
+				while (_tcp_connected_clients.has(socket_id)):
+					socket_id = RandomNumberGenerator.new().randi_range(0, 1000)
 				
-				while (_tcp_connected_clients.has(id)):
-					id = RandomNumberGenerator.new().randi_range(0, 1000)
-				
-				_tcp_connected_clients.set(id, socket)
+				_tcp_connected_clients.set(socket_id, socket)
 				
 				# send client id + what scene to load
-				send_to(MessageType.SET_ID, id, str(id))
+				send_to(MessageType.SET_ID, socket_id, str(socket_id))
 				#send_to(MessageType.CHANGE_SCENE, id, "")
+				
+				# tell everyone who joined
+				client_joined.emit(socket_id)
 	
 		ConnectionType.CLIENT:
 			
 			# update state
 			_tcp_client.poll()
-			# should check if the connection is still open
-			# (or if it is down, indicating the server closed)
 			
-			if _tcp_client.get_available_bytes() > 0:
-				# TODO
-				print(_tcp_client.get_string())
+			# check if the connection is still open
+			# (or if it is down, indicating the server closed)
+			match _tcp_client.get_status():
+				
+				StreamPeerTCP.Status.STATUS_CONNECTED:
+					if _tcp_client.get_available_bytes() > 0:
+						# TODO
+						print(_tcp_client.get_string())
+				
+				StreamPeerTCP.Status.STATUS_NONE or StreamPeerTCP.Status.STATUS_ERROR:
+					stop()
 
 func start_server(port: int) -> bool:
 	
