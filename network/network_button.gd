@@ -42,4 +42,5 @@ func on_pressed() -> void:
 			Network.stop()
 		
 		NetworkAction.SERVER_CLIENT_LOAD_SCENE:
-			Network.serverclient_broadcast_change_scene(scene)
+			# only serverclient will be able to call this
+			Network.broadcast(Network.MessageType.CHANGE_SCENE, scene)

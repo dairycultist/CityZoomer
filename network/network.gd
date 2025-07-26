@@ -20,7 +20,7 @@ enum ClientType {
 
 enum MessageType {
 	SET_CLIENT_ID,
-	CHANGE_SCENE,
+	CHANGE_SCENE, # get_tree().change_scene_to_file(scene)
 	PASS_ON, # remoteclient asking server to not read a message and just send it to another remoteclient
 	REQUEST_BROADCAST, # remoteclient asking server to broadcast to everyone else
 	ARBITRARY, # not handled automatically, just calls data_recieved signal w/ data
@@ -148,6 +148,7 @@ func send_to(type: MessageType, client_id: int, data: String):
 	match _client_type:
 		
 		ClientType.SERVER_CLIENT:
+			
 			var socket = _tcp_server_connected_clients.get(client_id)
 			if socket != null:
 				socket.put_data(data.to_ascii_buffer())
@@ -169,20 +170,11 @@ func add_header(type: MessageType, data: String) -> String:
 	
 	return data
 
-func serverclient_broadcast_change_scene(scene: String) -> void:
-	get_tree().change_scene_to_file(scene)
-
 func get_client_id() -> int:
-	
 	match _client_type:
-	
-		ClientType.NO_CONNECTION:
-			return -1
-		
-		ClientType.SERVER_CLIENT:
-			return 0 # serverclient's client_id is always 0
-	
-	return _client_id
+		ClientType.NO_CONNECTION: return -1
+		ClientType.SERVER_CLIENT: return 0 # serverclient's client_id is always 0
+		_:                        return _client_id
 
 func is_serverclient() -> bool:
 	return _client_type == ClientType.SERVER_CLIENT
