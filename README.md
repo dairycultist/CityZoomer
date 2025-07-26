@@ -10,14 +10,18 @@ you can just have other people connect to ur singleplayer game
 there are two modes, serverclient and remoteclient. the serverclient keeps track
 of all the remoteclients and sends them data
 
+Network iterates through every NetworkBehaviour node every network tick, sending
+data that isn't empty and passing recieved data to the corresponding node. when
+sending, the Network automatically bundles the sender's nodepath so that the
+reciever can pass it to the corresponding node on their end.
+
 ```
 Network.start_serverclient()
 Network.start_remoteclient(ip, port)
 Network.stop()
 
-must be added to group NetworkBehaviour
+must be added to group NetworkBehaviour for these methods to be called by Network:
 
-serverclient_broadcast() -> String
 serverclient_send(remoteclient_id: int) -> String
 serverclient_recieve(remoteclient_id: int, data: String) -> void
 
