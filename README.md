@@ -19,9 +19,13 @@ reciever can pass it to the corresponding node on their end.
 Network.start_serverclient()
 Network.start_remoteclient(ip, port)
 Network.stop()
+Network.is_serverclient() -> bool
+Network.is_remoteclient() -> bool
+```
 
 must be added to group NetworkBehaviour for these methods to be called by Network:
 
+```
 serverclient_send(remoteclient_id: int) -> String
 serverclient_recieve(remoteclient_id: int, data: String) -> void
 
