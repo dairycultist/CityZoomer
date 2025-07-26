@@ -1,20 +1,19 @@
 extends AnimatableBody3D
 
-# NetworkBehaviour-specific methods
-func serverclient_send(remoteclient_id: int) -> String:
-	return ""
+var associated_client_id: int
 
-func serverclient_recieve(remoteclient_id: int, data: String) -> void:
+func _ready() -> void:
 	
-	remoteclient_recieve(data)
+	Network.data_recieved.connect(on_data_recieved)
 
-func remoteclient_send() -> String:
-	return ""
-
-func remoteclient_recieve(data: String) -> void:
+func on_data_recieved(data: String) -> void:
 	
 	var arr := data.split(";")
 	
-	position.x = arr[0].to_int()
-	position.y = arr[1].to_int()
-	position.z = arr[2].to_int()
+	# if the first part is the client ID associated with this puppet,
+	# the next parts will be the position we should sync to
+	if associated_client_id == arr[0].to_int():
+	
+		position.x = arr[1].to_int()
+		position.y = arr[2].to_int()
+		position.z = arr[3].to_int()

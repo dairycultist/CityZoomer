@@ -49,6 +49,9 @@ func _process(delta: float) -> void:
 			velocity.y = jump_speed
 	
 	move_and_slide()
+	
+	# network syncing
+	Network.broadcast(str(Network.get_client_id()) + ";" + str(position.x) + ";" + str(position.y) + ";" + str(position.z))
 
 # https://adrianb.io/2015/02/14/bunnyhop.html
 func accelerate(delta: float, inputDirection: Vector3, prevVelocity: Vector3) -> Vector3:
@@ -79,16 +82,3 @@ func _input(event):
 		camera_pitch = clampf(camera_pitch - event.relative.y * mouse_sensitivity, -90, 90)
 		
 		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
-
-# NetworkBehaviour-specific methods
-func serverclient_send(remoteclient_id: int) -> String:
-	return remoteclient_send()
-
-func serverclient_recieve(remoteclient_id: int, data: String) -> void:
-	pass
-
-func remoteclient_send() -> String:
-	return str(position.x) + ";" + str(position.y) + ";" + str(position.z)
-
-func remoteclient_recieve(data: String) -> void:
-	pass

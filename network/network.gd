@@ -13,9 +13,11 @@ extends Node
 
 # https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
 
-func _process(delta: float) -> void:
-	# perform inter-client communication for all nodes in NetworkBehaviour group
-	pass
+# allows initialization of newly joined players
+# see that a player joined? send them a signal to spawn you!
+signal remoteclient_joined # (client_id: int)
+signal remoteclient_left # (client_id: int)
+signal data_recieved # (data: String)
 
 func start_serverclient() -> bool:
 	return false
@@ -27,8 +29,25 @@ func start_remoteclient(ip, port) -> bool:
 func stop() -> void:
 	pass
 
+func broadcast(data: String) -> void:
+	
+	if is_remoteclient():
+		# send to serverclient, telling them to broadcast
+		# also append an ID header to the data so that they know
+		# not to send it back to whoever sent it
+		pass
+	else:
+		# send to all remote clients
+		pass
+
+func send_to(client_id: int, data: String):
+	pass
+
 func serverclient_broadcast_change_scene(scene: String) -> void:
 	get_tree().change_scene_to_file(scene)
+
+func get_client_id() -> int:
+	return 0
 
 func is_serverclient() -> bool:
 	return false
