@@ -4,6 +4,9 @@ extends Node
 # SHOULD ONLY CARE ABOUT WHAT SIDE THEY'RE ON IF THEY SPECIFICALLY CALL
 # is_serverclient() OR is_remoteclient()
 
+# I based my naming convention on the fact that the server is also a client
+# this was a bad idea
+
 # lobby appears different depending on if you're a remote client or
 # a server client ("waiting on server to choose gamemode...")
 
@@ -36,6 +39,11 @@ func _process(delta: float) -> void:
 	# both the server and client have special messages they may recieve
 	# that are labeled with prepended headers. only if the message does
 	# not contain such headers will they proceed to send a data_recieved signal
+	
+	# might change it so there's an enum with all the message types, including
+	# an "undefined" one which calls data_recieved signal, and the send_to
+	# and broadcast functions take it and create a header from it, appending
+	# a Variant data
 	match _client_type:
 		
 		ClientType.SERVER_CLIENT:
@@ -45,8 +53,8 @@ func _process(delta: float) -> void:
 				# TODO
 				_tcp_server.take_connection()
 				
-				# respond with client id "[SET_CLIENT_ID]1"
-				# respond with what scene to load "[CHANGE_SCENE]blah"
+				# respond with client id "SET_CLIENT_ID;1"
+				# respond with what scene to load "CHANGE_SCENE;blah"
 	
 		ClientType.REMOTE_CLIENT:
 			
@@ -110,15 +118,27 @@ func stop() -> void:
 
 func broadcast(data: String) -> void:
 	
-	if is_remoteclient():
-		# send to serverclient, telling them to broadcast
-		# also append an ID header to the data so that they know
-		# not to send it back to whoever sent it
+	match _client_type:
 		
-		send_to(0, "[BROADCAST][" + str(get_client_id()) + "]" + data)
-	else:
-		# send to all remote clients
-		pass
+		ClientType.SERVER_CLIENT:
+			
+			var id_to_ignore := -1
+			
+			# parse out the id_to_ignore if this is a remoteclient-requested broadcast
+			if data.begins_with("IGNORE;"):
+				
+				var parts := data.split(";", true, 2)
+				id_to_ignore = parts[1].to_int()
+				data = parts[2]
+			
+			# send to all connected remoteclients
+			for id in _tcp_server_connected_clients.keys():
+				if id != id_to_ignore:
+					send_to(id, data)
+		
+		ClientType.REMOTE_CLIENT:
+			
+			send_to(0, "BROADCAST;IGNORE;" + str(get_client_id()) + ";" + data)
 
 func send_to(client_id: int, data: String):
 	pass
