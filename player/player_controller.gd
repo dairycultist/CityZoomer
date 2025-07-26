@@ -15,6 +15,8 @@ var camera_pitch := 0.0
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$PauseMenu.visible = false
+	
+	$Model/AnimationPlayer.current_animation = "Armature|Walk"
 
 func _process(delta: float) -> void:
 	
