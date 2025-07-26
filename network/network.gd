@@ -49,13 +49,24 @@ func _process(delta: float) -> void:
 		
 		ClientType.SERVER_CLIENT:
 			
+			# recieve from active connections
+			
 			# accept any new connections
 			if _tcp_server.is_connection_available():
-				# TODO
-				_tcp_server.take_connection()
 				
-				# respond with client id "SET_CLIENT_ID;1"
-				# respond with what scene to load "CHANGE_SCENE;blah"
+				var socket := _tcp_server.take_connection()
+				
+				# assign an id to the connection
+				var id := RandomNumberGenerator.new().randi_range(0, 1000)
+				
+				while (_tcp_server_connected_clients.has(id)):
+					id = RandomNumberGenerator.new().randi_range(0, 1000)
+				
+				_tcp_server_connected_clients.set(id, socket)
+				
+				# send client id + what scene to load
+				send_to(MessageType.SET_CLIENT_ID, id, str(id))
+				#send_to(MessageType.CHANGE_SCENE, id, "")
 	
 		ClientType.REMOTE_CLIENT:
 			
@@ -164,6 +175,12 @@ func send_to(type: MessageType, client_id: int, data: String):
 func add_header(type: MessageType, data: String) -> String:
 	
 	match type:
+		
+		MessageType.SET_CLIENT_ID:
+			return "SET_CLIENT_ID;" + data
+		
+		MessageType.CHANGE_SCENE:
+			return "CHANGE_SCENE;" + data
 		
 		MessageType.REQUEST_BROADCAST:
 			return "REQUEST_BROADCAST;" + str(get_client_id()) + ";" + data
