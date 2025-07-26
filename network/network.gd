@@ -5,13 +5,12 @@ extends Node
 
 # the serverclient keeps track of all the remoteclients
 
-# https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
-
 # allows initialization of newly joined players
 # see that a player joined? send them a signal to spawn you!
 
 signal remoteclient_joined # (client_id: int)
 signal remoteclient_left # (client_id: int)
+signal serverclient_left # ()
 signal data_recieved # (data: String)
 
 enum ClientType {
@@ -20,26 +19,56 @@ enum ClientType {
 	REMOTE_CLIENT
 }
 
+var _tcp_server: TCPServer
+var _tcp_client: StreamPeerTCP
+
 var _client_type := ClientType.NO_CONNECTION
 var _client_id: int
 
-func start_serverclient() -> bool:
+func start_serverclient(port: int) -> bool:
 	
-	# go to lobby
+	# https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
 	
-	return false
+	_tcp_server = TCPServer.new()
+	
+	var error := _tcp_server.listen(port)
+	
+	if error != Error.OK:
+		
+		print("Error " + str(error) + ": " + error_string(error))
+		return false
+	
+	get_tree().change_scene_to_file("res://network/lobby.tscn")
+	_client_type = ClientType.SERVER_CLIENT
+	
+	return true
 
-func start_remoteclient(ip, port) -> bool:
+func start_remoteclient(ip: String, port: int) -> bool:
+	
+	# https://docs.godotengine.org/en/stable/classes/class_streampeertcp.html
 	
 	# wait for server to respond with your client id
 	
 	# the server will also send you a message telling you what
 	# scene to load
 	
+	_client_type = ClientType.REMOTE_CLIENT
+	
 	return false
 
 # destroys the (connection to) TCP server
 func stop() -> void:
+	
+	match _client_type:
+		
+		ClientType.SERVER_CLIENT:
+			_tcp_server.stop()
+			_tcp_server = null
+		
+		ClientType.REMOTE_CLIENT:
+			pass
+	
+	_client_type = ClientType.NO_CONNECTION
 	get_tree().change_scene_to_file("res://network/main_menu.tscn")
 
 func broadcast(data: String) -> void:

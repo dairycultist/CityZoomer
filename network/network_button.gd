@@ -22,10 +22,10 @@ func on_pressed() -> void:
 	match type:
 		
 		NetworkAction.START_SERVER_CLIENT:
-			Network.start_serverclient()
+			Network.start_serverclient(3000)
 		
 		NetworkAction.START_REMOTE_CLIENT:
-			Network.start_remoteclient(0, 0)
+			Network.start_remoteclient("127.0.0.1", 3000)
 		
 		NetworkAction.STOP:
 			Network.stop()

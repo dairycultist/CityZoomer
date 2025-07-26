@@ -18,6 +18,8 @@ offset_right = 393.0
 offset_bottom = 174.0
 text = "Singleplayer/Host Server"
 script = ExtResource("1_j5dqt")
+type = null
+scene = null
 
 [node name="StartRemoteClient" type="Button" parent="."]
 layout_mode = 0
@@ -29,3 +31,4 @@ disabled = true
 text = "Join Server"
 script = ExtResource("1_j5dqt")
 type = 1
+scene = null
