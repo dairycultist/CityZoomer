@@ -13,12 +13,19 @@ extends CharacterBody3D
 var camera_pitch := 0.0
 
 func _ready() -> void:
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$PauseMenu.visible = false
-	
-	$Model/AnimationPlayer.current_animation = "Armature|Walk"
 
 func _process(delta: float) -> void:
+	
+	# animation
+	if not is_on_floor():
+		$Model/AnimationPlayer.play("Armature|Idle", 1.0) # todo jump
+	elif velocity.length() > 0.1:
+		$Model/AnimationPlayer.play("Armature|Walk", 0.2)
+	else:
+		$Model/AnimationPlayer.play("Armature|Idle", 0.2)
 	
 	# gravity
 	velocity.y -= 25 * delta
