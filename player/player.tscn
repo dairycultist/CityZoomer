@@ -2,15 +2,13 @@
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player_controller.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="2_i3pqv"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/rifle.obj" id="2_qjkh3"]
 [ext_resource type="PackedScene" uid="uid://dn57dgaxtdv5l" path="res://player/mercenary.glb" id="3_g1dw6"]
 [ext_resource type="Script" uid="uid://dmqo4dp3p2hje" path="res://player/start_ik.gd" id="4_yw30f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
 height = 1.7
-
-[sub_resource type="BoxMesh" id="BoxMesh_yw30f"]
-size = Vector3(0.03, 0.1, 0.24)
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -23,16 +21,18 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048063
+fov = 90.0
 
-[node name="TempGunMesh" type="MeshInstance3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.0902954, -0.360063)
-mesh = SubResource("BoxMesh_yw30f")
+[node name="Rifle" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(-0.05, 0, 7.54979e-09, 0, 0.05, 0, -7.54979e-09, 0, -0.05, 0.148416, -0.189603, -0.265146)
+mesh = ExtResource("2_qjkh3")
+skeleton = NodePath("../..")
 
-[node name="LeftTargetIK" type="Node3D" parent="Camera3D/TempGunMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0208984, -0.0729606, 0.0682114)
+[node name="LeftTargetIK" type="Node3D" parent="Camera3D/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
 
-[node name="RightTargetIK" type="Node3D" parent="Camera3D/TempGunMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0208984, -0.0729606, 0.0682114)
+[node name="RightTargetIK" type="Node3D" parent="Camera3D/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
 
 [node name="PauseMenu" type="Control" parent="."]
 layout_mode = 3
@@ -77,7 +77,7 @@ script = ExtResource("2_i3pqv")
 scene = "res://title.tscn"
 
 [node name="Model" parent="." instance=ExtResource("3_g1dw6")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0.3)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 9.79843e-09, 0, 0.187919)
 
 [node name="Skeleton3D" parent="Model/Armature" index="0"]
 bones/0/position = Vector3(6.42088e-23, -0.0868918, 2.97418e-09)
@@ -88,22 +88,20 @@ bones/12/rotation = Quaternion(0.950208, -0.0229632, 0.0721869, 0.302269)
 bones/13/rotation = Quaternion(0.231786, -5.66995e-07, 3.13284e-07, 0.972767)
 bones/14/rotation = Quaternion(-0.656368, 4.68084e-07, 1.2447e-07, 0.754441)
 
-[node name="LeftHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="1" node_paths=PackedStringArray("camera")]
+[node name="LeftHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="1"]
 root_bone = &"LArm"
 tip_bone = &"LTipIK"
 use_magnet = true
 magnet = Vector3(1.5, -0.48, 0)
-target_node = NodePath("../../../../Camera3D/TempGunMesh/LeftTargetIK")
+target_node = NodePath("../../../../Camera3D/Rifle/LeftTargetIK")
 script = ExtResource("4_yw30f")
-rotation_controlled_bone = "LForearm"
-camera = NodePath("../../../../Camera3D")
 
 [node name="RightHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="2"]
 root_bone = &"RArm"
 tip_bone = &"RTipIK"
 use_magnet = true
-magnet = Vector3(-3.38, 0, 0)
-target_node = NodePath("../../../../Camera3D/TempGunMesh/RightTargetIK")
+magnet = Vector3(-3.38, -5.16, 0)
+target_node = NodePath("../../../../Camera3D/Rifle/RightTargetIK")
 script = ExtResource("4_yw30f")
 
 [editable path="Model"]
