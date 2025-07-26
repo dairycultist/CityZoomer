@@ -10,9 +10,6 @@ enum NetworkAction {
 @export var type: NetworkAction
 @export var scene: String = "res://UNUSED"
 
-const LOBBY := "res://network/lobby.tscn"
-const MAIN_MENU := "res://network/main_menu.tscn"
-
 func _ready() -> void:
 	
 	if type == NetworkAction.SERVER_CLIENT_LOAD_SCENE and Network.is_remoteclient():
@@ -26,15 +23,12 @@ func on_pressed() -> void:
 		
 		NetworkAction.START_SERVER_CLIENT:
 			Network.start_serverclient()
-			get_tree().change_scene_to_file(LOBBY)
 		
 		NetworkAction.START_REMOTE_CLIENT:
 			Network.start_remoteclient(0, 0)
-			get_tree().change_scene_to_file(LOBBY)
 		
 		NetworkAction.STOP:
 			Network.stop()
-			get_tree().change_scene_to_file(MAIN_MENU)
 		
 		NetworkAction.SERVER_CLIENT_LOAD_SCENE:
 			Network.serverclient_broadcast_change_scene(scene)

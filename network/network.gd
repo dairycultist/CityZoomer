@@ -1,15 +1,9 @@
 extends Node
 
-# (singleplayer is just a local server)
-
 # lobby appears different depending on if you're a remote client or
-# a server client
+# a server client ("waiting on server to choose gamemode...")
 
-# the serverclient keeps track of all the remoteclients and sends them data
-# Network iterates through every NetworkBehaviour node every network tick, sending
-# data that isn't empty and passing recieved data to the corresponding node. when
-# sending, the Network automatically bundles the sender's nodepath so that the
-# reciever can pass it to the corresponding node on their end.
+# the serverclient keeps track of all the remoteclients
 
 # https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
 
@@ -30,17 +24,23 @@ var _client_type := ClientType.NO_CONNECTION
 var _client_id: int
 
 func start_serverclient() -> bool:
+	
+	# go to lobby
+	
 	return false
 
 func start_remoteclient(ip, port) -> bool:
 	
 	# wait for server to respond with your client id
 	
+	# the server will also send you a message telling you what
+	# scene to load
+	
 	return false
 
 # destroys the (connection to) TCP server
 func stop() -> void:
-	pass
+	get_tree().change_scene_to_file("res://network/main_menu.tscn")
 
 func broadcast(data: String) -> void:
 	
