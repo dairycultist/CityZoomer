@@ -11,12 +11,18 @@ there are two modes, serverclient and remoteclient. the serverclient keeps track
 of all the remoteclients and sends them data
 
 ```
-serverclient_broadcast()
-serverclient_send(remoteclient_id)
-serverclient_recieve(remoteclient_id)
+Network.start_serverclient()
+Network.start_remoteclient(ip, port)
+Network.stop()
 
-remoteclient_send()
-remoteclient_recieve()
+must be added to group NetworkBehaviour
+
+serverclient_broadcast() -> String
+serverclient_send(remoteclient_id: int) -> String
+serverclient_recieve(remoteclient_id: int, data: String) -> void
+
+remoteclient_send() -> String
+remoteclient_recieve(data: String) -> void
 ```
 
 sky https://godotengine.org/asset-library/asset/579
