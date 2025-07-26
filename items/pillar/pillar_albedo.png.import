@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlkrq8dylov5c"
-path.s3tc="res://.godot/imported/pillar_normal.png-149eeb1bf6a4fb971a0e2ef29c485bc7.s3tc.ctex"
+uid="uid://yv2m0mx7j63"
+path.s3tc="res://.godot/imported/pillar_albedo.png-7c5caa1f9d4e024fc1e027c6644c1cea.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://pillar/pillar_normal.png"
-dest_files=["res://.godot/imported/pillar_normal.png-149eeb1bf6a4fb971a0e2ef29c485bc7.s3tc.ctex"]
+source_file="res://items/pillar/pillar_albedo.png"
+dest_files=["res://.godot/imported/pillar_albedo.png-7c5caa1f9d4e024fc1e027c6644c1cea.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +20,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://props/pillar/pillar_normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

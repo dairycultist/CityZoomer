@@ -7,11 +7,6 @@ extends Node
 # lobby appears different depending on if you're a remote client or
 # a server client ("waiting on server to choose gamemode...")
 
-# the serverclient keeps track of all the remoteclients
-
-# allows initialization of newly joined players
-# see that a player joined? send them a signal to spawn you!
-
 signal remoteclient_joined # (client_id: int)
 signal remoteclient_left # (client_id: int)
 signal serverclient_left # ()
@@ -27,6 +22,7 @@ var _client_type := ClientType.NO_CONNECTION
 var _client_id: int # technically not used by serverclient since will always be 0
 
 # serverclient only
+# the serverclient keeps track of all the connected remoteclients
 var _tcp_server: TCPServer
 var _tcp_server_connected_clients: Dictionary # int:StreamPeerTCP
 

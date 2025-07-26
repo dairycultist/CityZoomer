@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ng6xdry7dssv"]
 
-[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player_controller.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://network/network_button.gd" id="2_i3pqv"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
 [ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="4_yw30f"]
