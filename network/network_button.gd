@@ -44,3 +44,11 @@ func on_pressed() -> void:
 		NetworkAction.SERVER_CLIENT_LOAD_SCENE:
 			# only serverclient will be able to call this
 			Network.broadcast(Network.MessageType.CHANGE_SCENE, scene)
+			get_tree().change_scene_to_file(scene)
+			
+			# stop allowing clients to join after the server leaves the lobby.
+			# this means we don't have to dynamically add puppets, and we
+			# don't have to tell a client how to set up their scene in the
+			# middle of a game
+			# this is a kinda hacky implementation we can streamline it later
+			Network._accepting_connections = false

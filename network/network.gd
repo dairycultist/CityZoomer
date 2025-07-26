@@ -27,6 +27,7 @@ var _id: int # technically not used by server since it will always be 0
 # the server keeps track of all the connected clients
 var _tcp_server: TCPServer
 var _tcp_connected_clients: Dictionary # int:StreamPeerTCP
+var _accepting_connections: bool
 
 # CLIENT ONLY
 var _tcp_client: StreamPeerTCP
@@ -43,17 +44,13 @@ func _process(_delta: float) -> void:
 		ConnectionType.SERVER:
 			
 			# recieve from active connections
+			for id in _tcp_connected_clients.keys():
+				pass
 			
 			# accept any new connections
-			if _tcp_server.is_connection_available():
+			if _accepting_connections and _tcp_server.is_connection_available():
 				
 				var socket := _tcp_server.take_connection()
-				
-				# TODO
-				# clients are only able to join when the server is in the lobby.
-				# this means we don't have to dynamically add puppets, and we
-				# don't have to tell a client how to set up their scene in the
-				# middle of a game
 				
 				# assign an id to the connection
 				var socket_id := RandomNumberGenerator.new().randi_range(0, 1000)
@@ -98,6 +95,7 @@ func start_server(port: int) -> bool:
 		return false
 	
 	_conn_type = ConnectionType.SERVER
+	_accepting_connections = true
 	
 	# update game state
 	get_tree().change_scene_to_file("res://network/lobby.tscn")
