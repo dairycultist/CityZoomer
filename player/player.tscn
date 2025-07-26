@@ -1,16 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=5 format=3 uid="uid://ng6xdry7dssv"]
 
-[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player_controller.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player_controller.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://button_change_scene.gd" id="2_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://cry8veinhw8tm" path="res://player/mercenary.fbx" id="3_g1dw6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
+radius = 0.294356
+height = 1.7
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_mlf6e")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -58,3 +61,6 @@ grow_vertical = 2
 text = "Back to Main Menu"
 script = ExtResource("2_i3pqv")
 scene = "res://title.tscn"
+
+[node name="mercenary" parent="." instance=ExtResource("3_g1dw6")]
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 0, 0)

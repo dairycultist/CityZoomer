@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://bd1sgkptmj0mo"]
 
-[ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player.tscn" id="1_jc008"]
+[ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_jc008"]
 [ext_resource type="ArrayMesh" uid="uid://dc4oajsqudg75" path="res://gamemodes/infinite_run/arrow.obj" id="2_h7jgl"]
 [ext_resource type="Script" uid="uid://d0x1o3jgcm7k0" path="res://gamemodes/infinite_run/checkpoint_compass.gd" id="3_tjtvu"]
 [ext_resource type="Shader" uid="uid://bq3uh4maovbii" path="res://gamemodes/infinite_run/death_barrier/death_barrier.gdshader" id="4_axhjo"]
