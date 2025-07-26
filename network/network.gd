@@ -1,5 +1,9 @@
 extends Node
 
+# ALL METHODS ON THIS GLOBAL SHOULD BE SERVER/REMOTE AGNOSTIC. THE PROGRAMMER
+# SHOULD ONLY CARE ABOUT WHAT SIDE THEY'RE ON IF THEY SPECIFICALLY CALL
+# is_serverclient() OR is_remoteclient()
+
 # lobby appears different depending on if you're a remote client or
 # a server client ("waiting on server to choose gamemode...")
 
@@ -40,12 +44,22 @@ func _process(delta: float) -> void:
 		
 		ClientType.SERVER_CLIENT:
 			
+			# accept any new connections
 			if _tcp_server.is_connection_available():
 				# TODO
 				_tcp_server.take_connection()
+				
+				# respond with client id "[SET_CLIENT_ID]1"
+				# respond with what scene to load "[CHANGE_SCENE]blah"
 	
 		ClientType.REMOTE_CLIENT:
-			pass
+			
+			# update state
+			_tcp_remote.poll()
+			
+			if _tcp_remote.get_available_bytes() > 0:
+				# TODO
+				print(_tcp_remote.get_string())
 
 func start_serverclient(port: int) -> bool:
 	
@@ -56,7 +70,7 @@ func start_serverclient(port: int) -> bool:
 	var error := _tcp_server.listen(port)
 	
 	if error != Error.OK:
-		push_error("Error " + str(error) + ": " + error_string(error))
+		push_error("start_serverclient error " + str(error) + ": " + error_string(error))
 		return false
 	
 	_client_type = ClientType.SERVER_CLIENT
@@ -71,14 +85,16 @@ func start_remoteclient(ip: String, port: int) -> bool:
 	# https://docs.godotengine.org/en/stable/classes/class_streampeertcp.html
 	_tcp_remote = StreamPeerTCP.new()
 	
-	# wait for server to respond with your client id
+	# start remote connection
+	var error := _tcp_remote.connect_to_host(ip, port)
 	
-	# the server will also send you a message telling you what
-	# scene to load
+	if error != Error.OK:
+		push_error("start_remoteclient error " + str(error) + ": " + error_string(error))
+		return false
 	
 	_client_type = ClientType.REMOTE_CLIENT
 	
-	return false
+	return true
 
 # destroys the (connection to) TCP server
 func stop() -> void:
@@ -90,7 +106,8 @@ func stop() -> void:
 			_tcp_server = null
 		
 		ClientType.REMOTE_CLIENT:
-			pass
+			_tcp_remote.disconnect_from_host()
+			_tcp_remote = null
 	
 	_client_type = ClientType.NO_CONNECTION
 	get_tree().change_scene_to_file("res://network/main_menu.tscn")
@@ -102,7 +119,7 @@ func broadcast(data: String) -> void:
 		# also append an ID header to the data so that they know
 		# not to send it back to whoever sent it
 		
-		send_to(0, "[broadcastfrom|" + str(get_client_id()) + "]" + data)
+		send_to(0, "[BROADCAST][" + str(get_client_id()) + "]" + data)
 	else:
 		# send to all remote clients
 		pass
