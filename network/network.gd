@@ -21,6 +21,7 @@ enum ClientType {
 enum MessageType {
 	SET_CLIENT_ID,
 	CHANGE_SCENE,
+	PASS_ON, # remoteclient asking server to not read a message and just send it to another remoteclient
 	REQUEST_BROADCAST, # remoteclient asking server to broadcast to everyone else
 	ARBITRARY, # not handled automatically, just calls data_recieved signal w/ data
 	DONT_ADD_HEADER # in case you're rerouting data that already has headers
@@ -138,11 +139,35 @@ func broadcast(type: MessageType, data: String) -> void:
 		
 		ClientType.REMOTE_CLIENT:
 			
-			send_to(type, 0, "REQUEST_BROADCAST;" + str(get_client_id()) + ";" + data)
+			send_to(MessageType.REQUEST_BROADCAST, 0, add_header(type, data))
 
 func send_to(type: MessageType, client_id: int, data: String):
-	# create header from MessageType
-	pass
+	
+	data = add_header(type, data)
+	
+	match _client_type:
+		
+		ClientType.SERVER_CLIENT:
+			var socket = _tcp_server_connected_clients.get(client_id)
+			if socket != null:
+				socket.put_data(data.to_ascii_buffer())
+		
+		ClientType.REMOTE_CLIENT:
+			
+			if client_id == 0:
+				_tcp_remote.put_data(data.to_ascii_buffer())
+			else:
+				pass
+				# need to use PASS_ON, which doesn't exist yet
+
+func add_header(type: MessageType, data: String) -> String:
+	
+	match type:
+		
+		MessageType.REQUEST_BROADCAST:
+			return "REQUEST_BROADCAST;" + str(get_client_id()) + ";" + data
+	
+	return data
 
 func serverclient_broadcast_change_scene(scene: String) -> void:
 	get_tree().change_scene_to_file(scene)
