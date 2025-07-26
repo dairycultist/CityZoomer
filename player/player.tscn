@@ -10,7 +10,7 @@ radius = 0.294356
 height = 1.7
 
 [sub_resource type="BoxMesh" id="BoxMesh_yw30f"]
-size = Vector3(0.1, 0.1, 0.1)
+size = Vector3(0.03, 0.1, 0.24)
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -24,11 +24,15 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048063
 
-[node name="IKTarget" type="Node3D" parent="Camera3D"]
-transform = Transform3D(0.89556, 0.297316, 0.33102, 0.276194, -0.954751, 0.110308, 0.348838, -0.0073619, -0.937154, 0.255, -0.144, -0.409)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D/IKTarget"]
+[node name="TempGunMesh" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.0902954, -0.360063)
 mesh = SubResource("BoxMesh_yw30f")
+
+[node name="LeftTargetIK" type="Node3D" parent="Camera3D/TempGunMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0208984, -0.0729606, 0.0682114)
+
+[node name="RightTargetIK" type="Node3D" parent="Camera3D/TempGunMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0208984, -0.0729606, 0.0682114)
 
 [node name="PauseMenu" type="Control" parent="."]
 layout_mode = 3
@@ -84,12 +88,22 @@ bones/12/rotation = Quaternion(0.950208, -0.0229632, 0.0721869, 0.302269)
 bones/13/rotation = Quaternion(0.231786, -5.66995e-07, 3.13284e-07, 0.972767)
 bones/14/rotation = Quaternion(-0.656368, 4.68084e-07, 1.2447e-07, 0.754441)
 
-[node name="SkeletonIK3D" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="1"]
+[node name="LeftHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="1" node_paths=PackedStringArray("camera")]
+root_bone = &"LArm"
+tip_bone = &"LTipIK"
+use_magnet = true
+magnet = Vector3(1.5, -0.48, 0)
+target_node = NodePath("../../../../Camera3D/TempGunMesh/LeftTargetIK")
+script = ExtResource("4_yw30f")
+rotation_controlled_bone = "LForearm"
+camera = NodePath("../../../../Camera3D")
+
+[node name="RightHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D" index="2"]
 root_bone = &"RArm"
 tip_bone = &"RTipIK"
 use_magnet = true
 magnet = Vector3(-3.38, 0, 0)
-target_node = NodePath("../../../../Camera3D/IKTarget")
+target_node = NodePath("../../../../Camera3D/TempGunMesh/RightTargetIK")
 script = ExtResource("4_yw30f")
 
 [editable path="Model"]
