@@ -16,12 +16,12 @@ func _ready() -> void:
 		
 		NetworkAction.SERVER_CLIENT_LOAD_SCENE:
 			
-			if Network.is_remoteclient():
+			if Network.is_client():
 				self.disabled = true
 	
 		NetworkAction.STOP:
 			
-			if Network.is_remoteclient():
+			if Network.is_client():
 				text = "Disconnect"
 			else:
 				text = "Stop Server"
@@ -33,10 +33,10 @@ func on_pressed() -> void:
 	match type:
 		
 		NetworkAction.START_SERVER_CLIENT:
-			Network.start_serverclient(3000)
+			Network.start_server(3000)
 		
 		NetworkAction.START_REMOTE_CLIENT:
-			Network.start_remoteclient("127.0.0.1", 3000)
+			Network.start_client("127.0.0.1", 3000)
 		
 		NetworkAction.STOP:
 			Network.stop()

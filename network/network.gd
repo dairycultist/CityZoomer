@@ -4,19 +4,12 @@ extends Node
 # SHOULD ONLY CARE ABOUT WHAT SIDE THEY'RE ON IF THEY SPECIFICALLY CALL
 # is_serverclient() OR is_remoteclient()
 
-# I based my naming convention on the fact that the server is also a client
-# this was a bad idea
-
-signal remoteclient_joined # (client_id: int)
-signal remoteclient_left # (client_id: int)
-signal serverclient_left # ()
+signal client_joined # (id: int)
+signal client_left # (id: int)
 signal data_recieved # (data: String)
 
-enum ClientType {
-	NO_CONNECTION,
-	SERVER_CLIENT,
-	REMOTE_CLIENT
-}
+# remember, the server itself has its own player
+enum ConnectionType { NONE, SERVER, CLIENT }
 
 enum MessageType {
 	SET_CLIENT_ID,
@@ -27,16 +20,16 @@ enum MessageType {
 	DONT_ADD_HEADER # in case you're rerouting data that already has headers
 }
 
-var _client_type := ClientType.NO_CONNECTION
-var _client_id: int # technically not used by serverclient since will always be 0
+var _conn_type := ConnectionType.NONE
+var _id: int # technically not used by server since it will always be 0
 
-# serverclient only
-# the serverclient keeps track of all the connected remoteclients
+# server only
+# the server keeps track of all the connected clients
 var _tcp_server: TCPServer
 var _tcp_server_connected_clients: Dictionary # int:StreamPeerTCP
 
-# remoteclient only
-var _tcp_remote: StreamPeerTCP
+# client only
+var _tcp_client: StreamPeerTCP
 
 
 
@@ -45,9 +38,9 @@ func _process(delta: float) -> void:
 	# both the server and client have special messages they may recieve
 	# that are labeled with prepended headers. only if the message does
 	# not contain such headers will they proceed to send a data_recieved signal
-	match _client_type:
+	match _conn_type:
 		
-		ClientType.SERVER_CLIENT:
+		ConnectionType.SERVER:
 			
 			# recieve from active connections
 			
@@ -68,16 +61,18 @@ func _process(delta: float) -> void:
 				send_to(MessageType.SET_CLIENT_ID, id, str(id))
 				#send_to(MessageType.CHANGE_SCENE, id, "")
 	
-		ClientType.REMOTE_CLIENT:
+		ConnectionType.CLIENT:
 			
 			# update state
-			_tcp_remote.poll()
+			_tcp_client.poll()
+			# should check if the connection is still open
+			# (or if it is down, indicating the server closed)
 			
-			if _tcp_remote.get_available_bytes() > 0:
+			if _tcp_client.get_available_bytes() > 0:
 				# TODO
-				print(_tcp_remote.get_string())
+				print(_tcp_client.get_string())
 
-func start_serverclient(port: int) -> bool:
+func start_server(port: int) -> bool:
 	
 	# https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
 	_tcp_server = TCPServer.new()
@@ -89,50 +84,34 @@ func start_serverclient(port: int) -> bool:
 		push_error("start_serverclient error " + str(error) + ": " + error_string(error))
 		return false
 	
-	_client_type = ClientType.SERVER_CLIENT
+	_conn_type = ConnectionType.SERVER
 	
 	# update game state
 	get_tree().change_scene_to_file("res://network/lobby.tscn")
 	
 	return true
 
-func start_remoteclient(ip: String, port: int) -> bool:
+func start_client(ip: String, port: int) -> bool:
 	
 	# https://docs.godotengine.org/en/stable/classes/class_streampeertcp.html
-	_tcp_remote = StreamPeerTCP.new()
+	_tcp_client = StreamPeerTCP.new()
 	
 	# start remote connection
-	var error := _tcp_remote.connect_to_host(ip, port)
+	var error := _tcp_client.connect_to_host(ip, port)
 	
 	if error != Error.OK:
 		push_error("start_remoteclient error " + str(error) + ": " + error_string(error))
 		return false
 	
-	_client_type = ClientType.REMOTE_CLIENT
+	_conn_type = ConnectionType.CLIENT
 	
 	return true
 
-# destroys the (connection to) TCP server
-func stop() -> void:
-	
-	match _client_type:
-		
-		ClientType.SERVER_CLIENT:
-			_tcp_server.stop()
-			_tcp_server = null
-		
-		ClientType.REMOTE_CLIENT:
-			_tcp_remote.disconnect_from_host()
-			_tcp_remote = null
-	
-	_client_type = ClientType.NO_CONNECTION
-	get_tree().change_scene_to_file("res://network/main_menu.tscn")
-
 func broadcast(type: MessageType, data: String) -> void:
 	
-	match _client_type:
+	match _conn_type:
 		
-		ClientType.SERVER_CLIENT:
+		ConnectionType.SERVER:
 			
 			var id_to_ignore := -1
 			
@@ -148,7 +127,7 @@ func broadcast(type: MessageType, data: String) -> void:
 				if id != id_to_ignore:
 					send_to(type, id, data)
 		
-		ClientType.REMOTE_CLIENT:
+		ConnectionType.CLIENT:
 			
 			send_to(MessageType.REQUEST_BROADCAST, 0, add_header(type, data))
 
@@ -156,18 +135,18 @@ func send_to(type: MessageType, client_id: int, data: String):
 	
 	data = add_header(type, data)
 	
-	match _client_type:
+	match _conn_type:
 		
-		ClientType.SERVER_CLIENT:
+		ConnectionType.SERVER:
 			
 			var socket = _tcp_server_connected_clients.get(client_id)
 			if socket != null:
 				socket.put_data(data.to_ascii_buffer())
 		
-		ClientType.REMOTE_CLIENT:
+		ConnectionType.CLIENT:
 			
 			if client_id == 0:
-				_tcp_remote.put_data(data.to_ascii_buffer())
+				_tcp_client.put_data(data.to_ascii_buffer())
 			else:
 				pass
 				# need to use PASS_ON, which doesn't exist yet
@@ -183,18 +162,35 @@ func add_header(type: MessageType, data: String) -> String:
 			return "CHANGE_SCENE;" + data
 		
 		MessageType.REQUEST_BROADCAST:
-			return "REQUEST_BROADCAST;" + str(get_client_id()) + ";" + data
+			return "REQUEST_BROADCAST;" + str(get_id()) + ";" + data
 	
 	return data
 
-func get_client_id() -> int:
-	match _client_type:
-		ClientType.NO_CONNECTION: return -1
-		ClientType.SERVER_CLIENT: return 0 # serverclient's client_id is always 0
-		_:                        return _client_id
 
-func is_serverclient() -> bool:
-	return _client_type == ClientType.SERVER_CLIENT
 
-func is_remoteclient() -> bool:
-	return _client_type == ClientType.REMOTE_CLIENT
+func stop() -> void:
+	
+	match _conn_type:
+		
+		ConnectionType.SERVER:
+			_tcp_server.stop()
+			_tcp_server = null
+		
+		ConnectionType.CLIENT:
+			_tcp_client.disconnect_from_host()
+			_tcp_client = null
+	
+	_conn_type = ConnectionType.NONE
+	get_tree().change_scene_to_file("res://network/main_menu.tscn")
+
+func get_id() -> int:
+	match _conn_type:
+		ConnectionType.NONE:   return -1
+		ConnectionType.SERVER: return 0 # serverclient's _id is always 0
+		_:                     return _id
+
+func is_server() -> bool:
+	return _conn_type == ConnectionType.SERVER
+
+func is_client() -> bool:
+	return _conn_type == ConnectionType.CLIENT
