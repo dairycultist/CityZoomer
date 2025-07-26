@@ -19,11 +19,28 @@ enum ClientType {
 	REMOTE_CLIENT
 }
 
-var _tcp_server: TCPServer
-var _tcp_client: StreamPeerTCP
-
 var _client_type := ClientType.NO_CONNECTION
-var _client_id: int
+var _client_id: int # technically not used by serverclient since will always be 0
+
+# serverclient only
+var _tcp_server: TCPServer
+var _tcp_server_connected_clients: Dictionary # int:StreamPeerTCP
+
+# remoteclient only
+var _tcp_remote: StreamPeerTCP
+
+func _process(delta: float) -> void:
+	
+	match _client_type:
+		
+		ClientType.SERVER_CLIENT:
+			
+			if _tcp_server.is_connection_available():
+				# TODO
+				_tcp_server.take_connection()
+	
+		ClientType.REMOTE_CLIENT:
+			pass
 
 func start_serverclient(port: int) -> bool:
 	
@@ -31,15 +48,17 @@ func start_serverclient(port: int) -> bool:
 	
 	_tcp_server = TCPServer.new()
 	
+	# start server
 	var error := _tcp_server.listen(port)
 	
 	if error != Error.OK:
-		
-		print("Error " + str(error) + ": " + error_string(error))
+		push_error("Error " + str(error) + ": " + error_string(error))
 		return false
 	
-	get_tree().change_scene_to_file("res://network/lobby.tscn")
 	_client_type = ClientType.SERVER_CLIENT
+	
+	# update game state
+	get_tree().change_scene_to_file("res://network/lobby.tscn")
 	
 	return true
 
