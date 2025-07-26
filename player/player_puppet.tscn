@@ -1,30 +1,28 @@
-[gd_scene load_steps=6 format=3 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=6 format=3 uid="uid://keoul50vb231"]
 
-[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player_controller.gd" id="1_4flbx"]
-[ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://network/network_button.gd" id="2_i3pqv"]
-[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
-[ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://2pcbp007ahae" path="res://player/player_puppet.gd" id="1_dq4ei"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_7w16l"]
+[ext_resource type="Script" uid="uid://c27tby00a66ku" path="res://network/network_button.gd" id="3_gdfqq"]
+[ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="4_f3b6t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
 height = 1.7
 
-[node name="Player" type="CharacterBody3D" groups=["NetworkBehaviour"]]
+[node name="Player" type="AnimatableBody3D" groups=["NetworkBehaviour"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-script = ExtResource("1_4flbx")
+script = ExtResource("1_dq4ei")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_mlf6e")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-cull_mask = 1048063
-fov = 90.0
 
 [node name="Rifle" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(-0.05, 0, 7.54979e-09, 0, 0.05, 0, -7.54979e-09, 0, -0.05, 0.148416, -0.189603, -0.265146)
-mesh = ExtResource("2_qjkh3")
+mesh = ExtResource("2_7w16l")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="Camera3D/Rifle"]
@@ -72,10 +70,10 @@ offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Disconnect"
-script = ExtResource("2_i3pqv")
+script = ExtResource("3_gdfqq")
 type = 2
 
-[node name="Model" parent="." node_paths=PackedStringArray("left_target", "right_target") instance=ExtResource("4_yw30f")]
+[node name="Model" parent="." node_paths=PackedStringArray("left_target", "right_target") instance=ExtResource("4_f3b6t")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.2)
 left_target = NodePath("../Camera3D/Rifle/LeftTargetIK")
 right_target = NodePath("../Camera3D/Rifle/RightTargetIK")

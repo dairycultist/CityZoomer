@@ -13,13 +13,17 @@ extends Node
 
 # https://docs.godotengine.org/en/stable/classes/class_tcpserver.html
 
+func _process(delta: float) -> void:
+	# perform inter-client communication for all nodes in NetworkBehaviour group
+	pass
+
 func start_serverclient() -> bool:
 	return false
 
 func start_remoteclient(ip, port) -> bool:
 	return false
 
-# destroys the TCP server
+# destroys the (connection to) TCP server
 func stop() -> void:
 	pass
 
@@ -31,13 +35,3 @@ func is_serverclient() -> bool:
 
 func is_remoteclient() -> bool:
 	return false
-
-#must be added to group NetworkBehaviour for these methods to be called by Network:
-#
-#```
-#serverclient_send(remoteclient_id: int) -> String
-#serverclient_recieve(remoteclient_id: int, data: String) -> void
-#
-#remoteclient_send() -> String
-#remoteclient_recieve(data: String) -> void
-#```

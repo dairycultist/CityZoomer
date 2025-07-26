@@ -3,26 +3,27 @@
 [ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="1_ngc2t"]
 [ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="2_xrwcm"]
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ub41s"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xrwcm"]
 albedo_texture = ExtResource("1_ngc2t")
-uv1_scale = Vector3(10, 10, 10)
+uv1_scale = Vector3(100, 100, 100)
 uv1_offset = Vector3(0.5, 0.5, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_md8xe"]
-size = Vector2(10, 10)
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ub41s"]
+size = Vector2(100, 100)
 
 [node name="Sandbox" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_ub41s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 material_override = SubResource("StandardMaterial3D_xrwcm")
 mesh = SubResource("PlaneMesh_md8xe")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("WorldBoundaryShape3D_ub41s")
+skeleton = NodePath("../..")
 
 [node name="Player" parent="." instance=ExtResource("2_xrwcm")]
 

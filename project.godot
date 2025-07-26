@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Network="*res://network/network.gd"
 
+[global_group]
+
+NetworkBehaviour="Must implement 4 methods that Network will use to communicate between clients."
+
 [input]
 
 pause={
