@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=10 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
-[ext_resource type="Script" uid="uid://dmqo4dp3p2hje" path="res://player/model/player_hand_ik.gd" id="3_yw30f"]
 [ext_resource type="Material" uid="uid://c7morv0ouf260" path="res://player/model/player.tres" id="4_qjkh3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
@@ -191,9 +190,11 @@ _data = {
 &"Walk": SubResource("Animation_fujjk")
 }
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_target", "right_target")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
+left_target = NodePath("Camera3D/Rifle/LeftTargetIK")
+right_target = NodePath("Camera3D/Rifle/RightTargetIK")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
@@ -240,11 +241,8 @@ text = "MENU"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Model" type="Node3D" parent="." node_paths=PackedStringArray("left_target", "right_target")]
+[node name="Model" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.2)
-script = ExtResource("3_yw30f")
-left_target = NodePath("../Camera3D/Rifle/LeftTargetIK")
-right_target = NodePath("../Camera3D/Rifle/RightTargetIK")
 
 [node name="Armature" type="Node3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.839765, 0)

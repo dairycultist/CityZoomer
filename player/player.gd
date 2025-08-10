@@ -10,9 +10,23 @@ extends CharacterBody3D
 @export var ground_friction := 8
 @export var jump_speed := 8
 
+@export_group("IK")
+@export var left_target: Node3D
+@export var right_target: Node3D
+
 var camera_pitch := 0.0
 
 func _ready() -> void:
+	
+	if left_target:
+		$Model/Armature/Skeleton3D/LeftHandIK.target_node = left_target.get_path()
+		$Model/Armature/Skeleton3D/LeftHandIK.start()
+	
+	if right_target:
+		$Model/Armature/Skeleton3D/RightHandIK.target_node = right_target.get_path()
+		$Model/Armature/Skeleton3D/RightHandIK.start()
+	
+	$Model/AnimationPlayer.play("Walk") # temp, mostly just for the title screen
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$PauseMenu.visible = false
