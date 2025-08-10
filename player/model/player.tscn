@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ysp22r73e5qa"]
 
-[ext_resource type="PackedScene" uid="uid://dn57dgaxtdv5l" path="res://player/humanoid_mesh/mercenary.glb" id="1_4tvo4"]
-[ext_resource type="Script" uid="uid://dmqo4dp3p2hje" path="res://player/humanoid_mesh/humanoid_mesh_controller.gd" id="2_dh6lc"]
+[ext_resource type="PackedScene" uid="uid://dn57dgaxtdv5l" path="res://player/model/player.glb" id="1_4tvo4"]
+[ext_resource type="Script" uid="uid://dmqo4dp3p2hje" path="res://player/model/humanoid_mesh_controller.gd" id="2_dh6lc"]
 
 [node name="Mercenary" instance=ExtResource("1_4tvo4")]
 script = ExtResource("2_dh6lc")

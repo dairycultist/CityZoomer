@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
-[ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/humanoid_mesh/mercenary.tscn" id="4_yw30f"]
+[ext_resource type="PackedScene" uid="uid://ysp22r73e5qa" path="res://player/model/player.tscn" id="4_yw30f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356

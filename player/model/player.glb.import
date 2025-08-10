@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dn57dgaxtdv5l"
-path="res://.godot/imported/mercenary.glb-b8d6c811665dab39f2fdad13ffdeed9c.scn"
+path="res://.godot/imported/player.glb-4fab3988dc7fd5b74f5ba5057da16803.scn"
 
 [deps]
 
-source_file="res://player/humanoid_mesh/mercenary.glb"
-dest_files=["res://.godot/imported/mercenary.glb-b8d6c811665dab39f2fdad13ffdeed9c.scn"]
+source_file="res://player/model/player.glb"
+dest_files=["res://.godot/imported/player.glb-4fab3988dc7fd5b74f5ba5057da16803.scn"]
 
 [params]
 
