@@ -12,14 +12,7 @@ var direction = 0 # -1, 0, 1
 
 func _ready() -> void:
 	
-	$Checkpoint.body_entered.connect(checkpoint_touched)
-	
 	place_random()
-
-func checkpoint_touched(area: Node3D):
-	
-	if area.name == "Player":
-		place_random()
 
 # "PlacementModule" system (have an entrance and an exit, and are guaranteed to never intersect with others; city, highway, etc)
 func place_random():

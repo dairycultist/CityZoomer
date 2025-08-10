@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://buev07avjpupp"
+path="res://.godot/imported/road_segment_straight.obj-6b380ae83d73e1d7d1cf7097b29ee892.mesh"
+
+[deps]
+
+files=["res://.godot/imported/road_segment_straight.obj-6b380ae83d73e1d7d1cf7097b29ee892.mesh"]
+
+source_file="res://level/road/road_segment_straight.obj"
+dest_files=["res://.godot/imported/road_segment_straight.obj-6b380ae83d73e1d7d1cf7097b29ee892.mesh", "res://.godot/imported/road_segment_straight.obj-6b380ae83d73e1d7d1cf7097b29ee892.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

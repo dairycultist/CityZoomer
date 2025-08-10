@@ -4,6 +4,8 @@ should probably rename since this is no longer a port of cz lol
 
 boob based rougelike first person shooter with tight movement and bhop
 
+on scene load, a full level is randomly generated. it's mostly linear with a few short off-shoots
+
 like this game lol https://ln404.itch.io/force-reboot
 
 sky https://godotengine.org/asset-library/asset/579
