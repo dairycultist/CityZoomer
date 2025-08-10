@@ -2,7 +2,7 @@ extends MeshInstance3D
 
 @onready var player: Node3D = $"/root/GameScene/Player"
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	
 	if (player.global_position.y < global_position.y):
 		player.global_position = Vector3.ZERO

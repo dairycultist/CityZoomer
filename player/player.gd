@@ -49,9 +49,6 @@ func _process(delta: float) -> void:
 			velocity.y = jump_speed
 	
 	move_and_slide()
-	
-	# network syncing
-	Network.broadcast(Network.MessageType.ARBITRARY, str(Network.get_id()) + ";" + str(position.x) + ";" + str(position.y) + ";" + str(position.z))
 
 # https://adrianb.io/2015/02/14/bunnyhop.html
 func accelerate(delta: float, inputDirection: Vector3, prevVelocity: Vector3) -> Vector3:

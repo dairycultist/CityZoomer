@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ckpwec1eca87w"
-path="res://.godot/imported/caution_damaged_road_ahead.png-cbe4be24ce2329ba72f61143c6a4efc9.ctex"
+path="res://.godot/imported/caution_damaged_road_ahead.png-6d02fc8c4f4d756d6e013493715c0309.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gamemodes/infinite_run/caution_damaged_road_ahead.png"
-dest_files=["res://.godot/imported/caution_damaged_road_ahead.png-cbe4be24ce2329ba72f61143c6a4efc9.ctex"]
+source_file="res://infinite_run/caution_damaged_road_ahead.png"
+dest_files=["res://.godot/imported/caution_damaged_road_ahead.png-6d02fc8c4f4d756d6e013493715c0309.ctex"]
 
 [params]
 

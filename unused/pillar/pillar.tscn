@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://boqhaag373a75"]
 
-[ext_resource type="ArrayMesh" uid="uid://gcdaver6yx3j" path="res://items/pillar/pillar.obj" id="1_rjv88"]
-[ext_resource type="Texture2D" uid="uid://yv2m0mx7j63" path="res://items/pillar/pillar_albedo.png" id="2_kpko3"]
-[ext_resource type="Texture2D" uid="uid://dlkrq8dylov5c" path="res://items/pillar/pillar_normal.png" id="3_chomt"]
+[ext_resource type="ArrayMesh" uid="uid://gcdaver6yx3j" path="res://unused/pillar/pillar.obj" id="1_rjv88"]
+[ext_resource type="Texture2D" uid="uid://yv2m0mx7j63" path="res://unused/pillar/pillar_albedo.png" id="2_kpko3"]
+[ext_resource type="Texture2D" uid="uid://dlkrq8dylov5c" path="res://unused/pillar/pillar_normal.png" id="3_chomt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bk385"]
 albedo_texture = ExtResource("2_kpko3")

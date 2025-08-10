@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf5pag6iucs0o"
-path.s3tc="res://.godot/imported/sky_mountains.png-4b92bbdad949a5645aebfd4d159d69be.s3tc.ctex"
+uid="uid://dlkrq8dylov5c"
+path.s3tc="res://.godot/imported/pillar_normal.png-788cb5f9b8bed499d9918fc7e88eea07.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://sky_mountains.png"
-dest_files=["res://.godot/imported/sky_mountains.png-4b92bbdad949a5645aebfd4d159d69be.s3tc.ctex"]
+source_file="res://unused/pillar/pillar_normal.png"
+dest_files=["res://.godot/imported/pillar_normal.png-788cb5f9b8bed499d9918fc7e88eea07.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +20,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://props/pillar/pillar_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
