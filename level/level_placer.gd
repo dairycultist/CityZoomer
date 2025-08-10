@@ -14,7 +14,8 @@ func _ready() -> void:
 	
 	place_random()
 
-# "PlacementModule" system (have an entrance and an exit, and are guaranteed to never intersect with others; city, highway, etc)
+# "PlacementModule" system (have an entrance and an exit, and are guaranteed to
+# never intersect with others. maybe check AABB before instantiating?)
 func place_random():
 	place_curvy_road(20)
 
@@ -23,9 +24,6 @@ func place_curvy_road(length: int):
 	var road_length = random.randi_range(3, 5)
 	
 	for i in range(0, length):
-		
-		if i == length / 2:
-			$Checkpoint.position = Vector3(x * 16, 0, z * 16)
 		
 		# build road
 		var road = ROAD_STRAIGHT.instantiate()
