@@ -1,22 +1,21 @@
 # CityZoomer
 
-should probably rename since this is no longer a port of cz lol
-
-boob based rougelike first person shooter with tight movement and bhop
+Rougelike FPS with tight movement, and bhopping, gunplay, and boobs. the end goal to be a "save the princess" type deal, but the princess is stacked, so the goal is really to touch the maiden's boobs
 
 on scene load, a full level is randomly generated. it's mostly linear with a few short off-shoots
 
-like this game lol https://ln404.itch.io/force-reboot
+[music](https://www.beepbox.co/#9n31sbk0l04e03t2ma7g0fj07r1i0o232T7v1u07f50p61770q72d42g3q0F21590h962d06HT-SRJJJJIAAAAAh0I7E1c11T1v1uacf0q011d03AbF6B0Q2580PfffaE501602612622636T1v1uadf0q0z10o531d03A1F0B2Q31bdPb525E2b263bT4v1uf0f0q011z6666ji8k8k3jSBKSJJAArriiiiii07JCABrzrrrrrrr00YrkqHrsrrrrjr005zrAqzrjzrrqr1jRjrqGGrrzsrsA099ijrABJJJIAzrrtirqrqjqixzsrAjrqjiqaqqysttAJqjikikrizrHtBJJAzArzrIsRCITKSS099ijrAJS____Qg99habbCAYrDzh00E0b4h4z8M00000h4g000000014h000000004h4h4g00000p216FE-1HMkzknOxvgnWiq_zaFHGOIDbM2BfvxpS6Vjjr0VKtAVdeZM000FHPxvinFIkAFOiY0)
 
-I should reference Dusk since I liked that game, the movement and gunplay and enemies were very solid
+should probably rename since this is no longer a port of cz lol
 
-player model has boobs and animations built into the file (textures and IK aren't :\<)
+[similar game idea but I won't steal dwdw](https://ln404.itch.io/force-reboot), I should also reference Dusk since I liked that game, the movement and gunplay and enemies were very solid
 
 think about cool graphics later I want GAMEPLAY
 
 ## TODO
 - model floating arm and boob models (the latter you only see when looking down)
 	- ensure arm has hand bones (they should be used as the "tip" for IK; their basis matches the target so that they properly hold the rifle)
+ 	- player model has boobs and animations built into the file (textures and IK aren't :\<)
 - I want a super smash bros brawl style menu with a paper doll of the player
 - Inventory system with arbitrary items (including using those items, e.g. shooting)
 	- Rocket jumping? Handheld spring? Contact-grenade launcher?
