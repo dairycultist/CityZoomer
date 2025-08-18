@@ -10,3 +10,9 @@ shape = SubResource("ConcavePolygonShape3D_ueiaa")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_4a6q1")
+
+[node name="Door0" type="Node3D" parent="." groups=["Door"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="Door1" type="Node3D" parent="." groups=["Door"]]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -8)

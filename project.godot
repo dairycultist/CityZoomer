@@ -15,6 +15,10 @@ run/main_scene="uid://bd1sgkptmj0mo"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+Door="Rooms have empty Node3Ds in this group for connecting together. Z+ arrow (BLUE) should point OUTWARDS."
+
 [input]
 
 pause={
