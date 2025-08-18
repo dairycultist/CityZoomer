@@ -1,19 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=3 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_jc008"]
 [ext_resource type="Script" uid="uid://bf34brm263fl6" path="res://level/level_placer.gd" id="7_tnb0d"]
-[ext_resource type="PackedScene" uid="uid://bn1tdmbx32ivj" path="res://level/road/road_segment_end.tscn" id="8_qf8vw"]
 
 [node name="GameScene" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_jc008")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
+ground_accel = 75.0
+air_accel = 15.0
+max_velocity = 10.0
+ground_friction = 10
+jump_speed = 6
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0.652654, -0.708731, 0.267849, 0, 0, 0)
 
 [node name="LevelPlacer" type="StaticBody3D" parent="."]
 script = ExtResource("7_tnb0d")
-
-[node name="RoadSegmentEnd" parent="LevelPlacer" instance=ExtResource("8_qf8vw")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -16)

@@ -2,11 +2,10 @@ extends CharacterBody3D
 
 @export var mouse_sensitivity := 0.3
 
-@export_group("Air Control")
-@export var accel: float = 25
+@export_group("Movement")
+@export var ground_accel: float = 25
+@export var air_accel: float = 25
 @export var max_velocity: float = 5
-
-@export_group("Misc Movement")
 @export var ground_friction := 8
 @export var jump_speed := 8
 
@@ -61,7 +60,7 @@ func _process(delta: float) -> void:
 		
 		# walking
 		if direction:
-			velocity = accelerate(delta, direction, velocity)
+			velocity = accelerate(delta, ground_accel if is_on_floor() else air_accel, direction, velocity)
 		
 		# jumping
 		if is_on_floor() and Input.is_action_pressed("jump"):
@@ -70,7 +69,7 @@ func _process(delta: float) -> void:
 	move_and_slide()
 
 # https://adrianb.io/2015/02/14/bunnyhop.html
-func accelerate(delta: float, inputDirection: Vector3, prevVelocity: Vector3) -> Vector3:
+func accelerate(delta: float, accel: float, inputDirection: Vector3, prevVelocity: Vector3) -> Vector3:
 	
 	var projVel := prevVelocity.dot(inputDirection)
 	var accelVel := accel * delta

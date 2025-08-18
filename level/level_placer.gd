@@ -4,6 +4,8 @@ const ROAD_STRAIGHT = preload("./road/road_segment_straight.tscn")
 const ROAD_X = preload("./road/road_segment_x.tscn")
 const ROAD_END = preload("./road/road_segment_end.tscn")
 
+const T_CORRIDOR = preload("./t_corridor.tscn")
+
 var random = RandomNumberGenerator.new()
 
 var x = 0
@@ -17,7 +19,16 @@ func _ready() -> void:
 # "PlacementModule" system (have an entrance and an exit, and are guaranteed to
 # never intersect with others. maybe check AABB before instantiating?)
 func place_random():
-	place_curvy_road(20)
+	
+	for xb in range(0, 20):
+		for zb in range(0, 20):
+			
+			var t = T_CORRIDOR.instantiate()
+			
+			add_child(t)
+			t.position = Vector3(xb * 12, 0, zb * 12)
+	
+	#place_curvy_road(20)
 
 func place_curvy_road(length: int):
 	
