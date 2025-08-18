@@ -23,6 +23,7 @@ func get_doors(room: Node3D) -> Array[Node3D]:
 
 func place_door_stopper(door: Node3D) -> void:
 	
+	# place door stopper on top of door (doesn't check AABB)
 	var stopper = door_stopper.instantiate()
 	add_child(stopper)
 	stopper.global_position = door.global_position
@@ -30,15 +31,14 @@ func place_door_stopper(door: Node3D) -> void:
 
 func place_random_room(from_door: Node3D, max_depth: int) -> void:
 	
-	# TODO select a random door, then use my_collider.get_aabb()
-	# to ensure no intersections
-	
 	if (max_depth <= 0):
-		# place door stopper on top of door (doesn't check AABB)
 		place_door_stopper(from_door)
 		return
 	
-	# place the room such that it is connected with the door
+	# TODO attempt to place a random door, then check my_collider.get_aabb()
+	# to ensure no intersections (if fails, delete and place a door stopper)
+	
+	# place the room such that it is connected with from_door
 	var room = rooms[random.randi() % rooms.size()].instantiate()
 	add_child(room)
 	
