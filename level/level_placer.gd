@@ -25,11 +25,11 @@ func place_room(room_prefab: PackedScene, from_door: Node3D, max_depth: int) -> 
 	# TODO my_collider.get_aabb() to ensure they don't intersect
 	
 	if (max_depth <= 0):
-		## place door stopper on top of door (doesn't check AABB)
-		#var stopper = door_stopper.instantiate()
-		#add_child(stopper)
-		#stopper.global_position = from_door.global_position
-		#stopper.global_position = from_door.global_rotation
+		# place door stopper on top of door (doesn't check AABB)
+		var stopper = door_stopper.instantiate()
+		add_child(stopper)
+		stopper.global_position = from_door.global_position
+		stopper.global_rotation = from_door.global_rotation
 		return true
 	
 	# place the room such that it is connected with the door
@@ -47,7 +47,7 @@ func place_room(room_prefab: PackedScene, from_door: Node3D, max_depth: int) -> 
 	# 	cannot specify which rooms are allowed to be placed next to it)
 	while not doors.is_empty():
 		place_room(
-			rooms[1], # random.randi() % rooms.size()
+			rooms[random.randi() % rooms.size()],
 			doors.pop_back(),
 			max_depth - 1
 		)
