@@ -6,7 +6,9 @@ extends StaticBody3D
 var random = RandomNumberGenerator.new()
 
 func _ready() -> void:
-	place_room(rooms[0], Node3D.new(), 3)
+	
+	# TODO handle spawn room differently since it isn't placed off of a door
+	place_random_room(Node3D.new(), 2)
 
 # rooms have children in group "Door" for connecting together (Z+ is outwards)
 func get_doors(room: Node3D) -> Array[Node3D]:
@@ -19,21 +21,25 @@ func get_doors(room: Node3D) -> Array[Node3D]:
 	
 	return doors
 
-# returns true if succeeded in placing a room, false otherwise
-func place_room(room_prefab: PackedScene, from_door: Node3D, max_depth: int) -> bool:
+func place_door_stopper(door: Node3D) -> void:
 	
-	# TODO my_collider.get_aabb() to ensure they don't intersect
+	var stopper = door_stopper.instantiate()
+	add_child(stopper)
+	stopper.global_position = door.global_position
+	stopper.global_rotation = door.global_rotation
+
+func place_random_room(from_door: Node3D, max_depth: int) -> void:
+	
+	# TODO select a random door, then use my_collider.get_aabb()
+	# to ensure no intersections
 	
 	if (max_depth <= 0):
 		# place door stopper on top of door (doesn't check AABB)
-		var stopper = door_stopper.instantiate()
-		add_child(stopper)
-		stopper.global_position = from_door.global_position
-		stopper.global_rotation = from_door.global_rotation
-		return true
+		place_door_stopper(from_door)
+		return
 	
 	# place the room such that it is connected with the door
-	var room = room_prefab.instantiate()
+	var room = rooms[random.randi() % rooms.size()].instantiate()
 	add_child(room)
 	
 	var doors := get_doors(room)
@@ -46,10 +52,7 @@ func place_room(room_prefab: PackedScene, from_door: Node3D, max_depth: int) -> 
 	# 	right now just connects a random possible room to a room (a room
 	# 	cannot specify which rooms are allowed to be placed next to it)
 	while not doors.is_empty():
-		place_room(
-			rooms[random.randi() % rooms.size()],
+		place_random_room(
 			doors.pop_back(),
 			max_depth - 1
 		)
-	
-	return true
