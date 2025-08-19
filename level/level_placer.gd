@@ -31,12 +31,12 @@ func get_doors(room: Node3D) -> Array[Node3D]:
 	
 	return doors
 
+# place door stopper on top of door (doesn't check AABB)
 func place_door_stopper(door: Node3D) -> void:
 	
 	if not door_stopper:
 		return
 	
-	# place door stopper on top of door (doesn't check AABB)
 	var stopper = door_stopper.instantiate()
 	add_child(stopper)
 	stopper.global_position = door.global_position
@@ -88,6 +88,7 @@ func place_random_room(from_door: Node3D, max_depth: int) -> void:
 		add_child(room)
 		
 		var doors := get_doors(room)
+		doors.shuffle()
 		var to_door: Node3D = doors.pop_back()
 		
 		room.global_rotation.y = from_door.global_rotation.y - to_door.global_rotation.y + PI
