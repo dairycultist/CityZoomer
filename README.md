@@ -20,3 +20,14 @@ think about cool graphics later I want GAMEPLAY
 - Inventory system with arbitrary items (including using those items, e.g. shooting)
 	- Rocket jumping? Handheld spring? Contact-grenade launcher?
 - Toggle for bhop autojump in pause settings
+
+tentative order
+- greybox level rooms
+- implement looting system
+- implement hand UI (hand model, IK, gun animation)
+- implement gunplay
+- implement pathfinding generation for rooms
+- implement enemies
+- main menu
+- finalize gameloop (loot, shop, repeat)
+- make more final assets like the level rooms, enemies, items, weapons
