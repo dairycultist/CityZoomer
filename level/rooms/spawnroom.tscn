@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdo6wr33ukb0g"]
+[gd_scene load_steps=8 format=3 uid="uid://bdo6wr33ukb0g"]
 
 [ext_resource type="ArrayMesh" uid="uid://dcukkvth6rj4w" path="res://level/room_meshes/spawnroom.obj" id="1_ig2vo"]
+[ext_resource type="Material" uid="uid://dblx7mwwvqrom" path="res://level/debug.tres" id="2_3qchc"]
 [ext_resource type="ArrayMesh" uid="uid://cryhffower07l" path="res://level/decor_meshes/ladder.obj" id="2_ujxia"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ig2vo"]
@@ -21,6 +22,7 @@ shape = SubResource("ConcavePolygonShape3D_ig2vo")
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_ig2vo")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_3qchc")
 
 [node name="Door0" type="Node3D" parent="." groups=["Door"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 12)

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf5pag6iucs0o"
-path.s3tc="res://.godot/imported/sky_mountains.png-ede95ad589e219071200029db877acf3.s3tc.ctex"
+uid="uid://bpc3ff6kuxm3m"
+path.s3tc="res://.godot/imported/debug.png-567d49da9784de73b3fb44ab6ff37363.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://unused/sky_mountains.png"
-dest_files=["res://.godot/imported/sky_mountains.png-ede95ad589e219071200029db877acf3.s3tc.ctex"]
+source_file="res://level/debug.png"
+dest_files=["res://.godot/imported/debug.png-567d49da9784de73b3fb44ab6ff37363.s3tc.ctex"]
 
 [params]
 
