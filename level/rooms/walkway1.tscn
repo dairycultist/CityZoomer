@@ -39,3 +39,11 @@ mesh = SubResource("BoxMesh_arkv8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ramp"]
 transform = Transform3D(1, 0, 0, 0, 0.912091, 0.409987, 0, -0.409987, 0.912091, -3.14572, 5.4815, -3.41851)
 shape = SubResource("ConcavePolygonShape3D_arkv8")
+
+[node name="Light0" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+omni_range = 15.0
+
+[node name="Light1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -4)
+omni_range = 15.0

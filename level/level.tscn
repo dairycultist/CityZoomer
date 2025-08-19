@@ -22,9 +22,6 @@ max_velocity = 10.0
 ground_friction = 10
 jump_speed = 6
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0.652654, -0.708731, 0.267849, 0, 0, 0)
-
 [node name="LevelPlacer" type="StaticBody3D" parent="."]
 script = ExtResource("7_tnb0d")
 spawn_room = ExtResource("3_0v1st")
