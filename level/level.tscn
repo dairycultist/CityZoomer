@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=9 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_jc008"]
+[ext_resource type="PackedScene" uid="uid://bdo6wr33ukb0g" path="res://level/rooms/spawnroom.tscn" id="3_0v1st"]
 [ext_resource type="PackedScene" uid="uid://uxxs8gbdixvg" path="res://level/rooms/x_corridor.tscn" id="3_qohg2"]
 [ext_resource type="PackedScene" uid="uid://ckbjcqa54o60r" path="res://level/rooms/corridor_long.tscn" id="4_ktfr2"]
 [ext_resource type="PackedScene" uid="uid://feuupdd0i41y" path="res://level/rooms/corridor_short.tscn" id="5_44x8d"]
@@ -23,6 +24,6 @@ transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0
 
 [node name="LevelPlacer" type="StaticBody3D" parent="."]
 script = ExtResource("7_tnb0d")
-spawn_room = ExtResource("3_qohg2")
+spawn_room = ExtResource("3_0v1st")
 rooms = Array[PackedScene]([ExtResource("3_qohg2"), ExtResource("4_ktfr2"), ExtResource("5_44x8d"), ExtResource("6_44x8d")])
 door_stopper = ExtResource("7_ivpvi")

@@ -44,6 +44,7 @@ func place_door_stopper(door: Node3D) -> void:
 	stopper.global_rotation = door.global_rotation
 
 # gets AABB in global space
+# (only of ROOM'S collider, no need to include that from objects within)
 func get_room_aabb(room: Node3D) -> AABB:
 	
 	var shape = room.shape as ConcavePolygonShape3D
@@ -71,6 +72,10 @@ func room_causes_intersection(room: Node3D) -> bool:
 				return true
 	
 	return false
+
+# TODO instead of immediately placing the room, queue it to
+# prevent one path from completely dominating and then preventing
+# the placement of other paths
 
 func place_random_room(from_door: Node3D, max_depth: int) -> void:
 	
