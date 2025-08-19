@@ -238,7 +238,7 @@ offset_right = 52.5
 offset_bottom = -41.29
 grow_horizontal = 2
 grow_vertical = 2
-text = "MENU"
+text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -17,10 +17,10 @@
 
 [node name="Player" parent="." instance=ExtResource("1_jc008")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
-ground_accel = 75.0
+ground_accel = 110.0
 air_accel = 15.0
 max_velocity = 10.0
-ground_friction = 10
+ground_friction = 15
 jump_speed = 6
 
 [node name="LevelPlacer" type="StaticBody3D" parent="."]

@@ -25,8 +25,6 @@ func _ready() -> void:
 		$Model/Armature/Skeleton3D/RightHandIK.target_node = right_target.get_path()
 		$Model/Armature/Skeleton3D/RightHandIK.start()
 	
-	$Model/AnimationPlayer.play("Walk") # temp, mostly just for the title screen
-	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$PauseMenu.visible = false
 
@@ -84,6 +82,14 @@ func _input(event):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			$PauseMenu.visible = false
+	
+	if event.is_action_pressed("interact"):
+		
+		var query = PhysicsRayQueryParameters3D.create($Camera3D.global_position, $Camera3D.global_position - 30 * $Camera3D.global_transform.basis.z)
+		var result = get_world_3d().direct_space_state.intersect_ray(query)
+		
+		if (result and result.collider.is_in_group("Loot")):
+			print(result.collider)
 	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		
