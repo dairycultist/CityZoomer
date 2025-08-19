@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=11 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
 [ext_resource type="Material" uid="uid://c7morv0ouf260" path="res://player/model/player.tres" id="4_qjkh3"]
+[ext_resource type="Texture2D" uid="uid://deeti2ha7kudf" path="res://icon.svg" id="4_yw30f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
@@ -374,3 +375,18 @@ magnet = Vector3(-3.38, -5.16, 0)
 libraries = {
 &"": SubResource("AnimationLibrary_5w4da")
 }
+
+[node name="Crosshair" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_yw30f")
+expand_mode = 1
