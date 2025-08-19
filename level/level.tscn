@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=4 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_jc008"]
-[ext_resource type="PackedScene" uid="uid://bfxbyc5uhe4jv" path="res://level/road/road_segment_straight.tscn" id="3_ktfr2"]
-[ext_resource type="PackedScene" uid="uid://mblmaqv5oal1" path="res://level/road/road_segment_x.tscn" id="4_44x8d"]
+[ext_resource type="PackedScene" uid="uid://uxxs8gbdixvg" path="res://level/x_corridor.tscn" id="3_qohg2"]
 [ext_resource type="Script" uid="uid://bf34brm263fl6" path="res://level/level_placer.gd" id="7_tnb0d"]
-[ext_resource type="PackedScene" uid="uid://bn1tdmbx32ivj" path="res://level/road/road_segment_end.tscn" id="8_qf8vw"]
 
 [node name="GameScene" type="Node3D"]
 
@@ -21,5 +19,4 @@ transform = Transform3D(0.757656, -0.610509, 0.230729, 0, 0.353524, 0.935426, -0
 
 [node name="LevelPlacer" type="StaticBody3D" parent="."]
 script = ExtResource("7_tnb0d")
-rooms = Array[PackedScene]([ExtResource("3_ktfr2"), ExtResource("4_44x8d")])
-door_stopper = ExtResource("8_qf8vw")
+rooms = Array[PackedScene]([ExtResource("3_qohg2")])

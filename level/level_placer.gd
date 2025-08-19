@@ -7,8 +7,18 @@ var random = RandomNumberGenerator.new()
 
 func _ready() -> void:
 	
-	# TODO handle spawn room differently since it isn't placed off of a door
-	place_random_room(Node3D.new(), 3)
+	# must handle spawn room differently since it isn't placed off of a door
+	var room: Node3D = rooms[0].instantiate()
+	add_child(room)
+	
+	var doors := get_doors(room)
+	
+	# start branching off doors
+	while not doors.is_empty():
+		place_random_room(
+			doors.pop_back(),
+			10
+		)
 
 # rooms have children in group "Door" for connecting together (Z+ is outwards)
 func get_doors(room: Node3D) -> Array[Node3D]:
@@ -22,6 +32,9 @@ func get_doors(room: Node3D) -> Array[Node3D]:
 	return doors
 
 func place_door_stopper(door: Node3D) -> void:
+	
+	if not door_stopper:
+		return
 	
 	# place door stopper on top of door (doesn't check AABB)
 	var stopper = door_stopper.instantiate()
