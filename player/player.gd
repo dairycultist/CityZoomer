@@ -89,7 +89,7 @@ func _input(event):
 		var result = get_world_3d().direct_space_state.intersect_ray(query)
 		
 		if (result and result.collider.is_in_group("Loot")):
-			print(result.collider)
+			result.collider.queue_free()
 	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		
