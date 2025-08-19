@@ -1,5 +1,6 @@
 extends StaticBody3D
 
+@export var spawn_room: PackedScene
 @export var rooms: Array[PackedScene]
 @export var door_stopper: PackedScene
 
@@ -8,7 +9,7 @@ var random = RandomNumberGenerator.new()
 func _ready() -> void:
 	
 	# must handle spawn room differently since it isn't placed off of a door
-	var room: Node3D = rooms[0].instantiate()
+	var room: Node3D = spawn_room.instantiate()
 	add_child(room)
 	
 	var doors := get_doors(room)
