@@ -1,10 +1,10 @@
 # CityZoomer
 
-Rougelike FPS with tight movement, and bhopping, gunplay, and boobs. the end goal to be a "save the princess" type deal, but the princess is stacked, so the goal is really to touch the maiden's boobs
+Rougelike first-person extraction shooter with tight movement, and bhopping, gunplay, and boobs. the end goal to be a "save the princess" type deal, but the princess is stacked, so the goal is really to touch the maiden's boobs
 
-on scene load, a full level is randomly generated. it's mostly linear with a few short off-shoots
+gameplay loop: enter a level, quickly get money, extract (before enemies get too powerful), visit the shop, upgrade, repeat
 
-[music](https://www.beepbox.co/#9n31sbk0l04e07t2ma7g0fj07r1i0o232T7v1u07f50p61770q72d42g3q0F21590h961d06HT-SRJJJJIAAAAAh0I7E1c11T1v3u30f0qwx10r511d08A9F4B0Q19e4Pb631E3b7626637T1v1uadf0q0z10o531d03A1F0B2Q31bdPb525E2b263bT2v2u15f10w4qw02d03w0E0b4h4z8OcA000000004x800000000000004h4z8OcA000p22uFE-1HMkzknOxvgnWiq_zaFHGOIDbM2BfvxpS6Vjjr0VKtAVdeZT8k6nhgptuTy6i5dHVcAU6jBWqfGgjpv-llkCTuyA00FIIUhQAt97ihR8EFU9HOkQpaiYDoSsD9FOd2z9StzpOsCBcFd6jEk6nhgptePAV80)
+[music](https://www.beepbox.co/#9n31sbk0l00e0ft2wa7g0fj07r1i0o242T7v1u07f50p61770q72d42g3q0F21590h961d06HT-SRJJJJIAAAAAh0I7E1c11T1v3u30f0qwx10r511d08A9F4B0Q19e4Pb631E3b7626637T8v2u08f117bq00d03x600W7E3121218T2v2u15f10w4qw02d03w0E0b8Ocz959m0000018i000Mg2cz8Ohilw008Ocz92cz000p24PFE-1HMkzknOxvgnWiq_zaFHGOIDbM2BfvxpS6Vjjr0VKtAVdeZT8k6nhgptuTy6jNhllnjjnnnnjj0g5Y1w6hw5dc30pKjAFIL2arnN4D0OsLjhZi2rbZOGGASXQkO_gXXF1dvzi_0arrsUaqfwqY58R5YEnQ5-ACLUOGqWIH9OY0FjTUmtxKkQSMerDpejjLtO51BQk6nnJUxAYklllQQRRRRQQM41v0o1Ao1jj0M6rAVarbMyCOPx7ihQAt97kyyDwCL9jhAFbOtzpOsCD8QacDpSdD9OqkOAQpexgpt51BQXejAw)
 
 should probably rename since this is no longer a port of cz lol
 
