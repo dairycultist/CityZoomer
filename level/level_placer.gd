@@ -120,5 +120,5 @@ func place_random_room(from_door: Node3D, max_depth: int) -> void:
 				)
 			return
 	
-	# if there are no more possible rooms, place a door stopper
+	# if it is impossible to place any room, place a door stopper
 	place_door_stopper(from_door)
