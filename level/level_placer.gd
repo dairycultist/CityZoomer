@@ -1,5 +1,6 @@
 extends StaticBody3D
 
+@export var max_depth: int = 5
 @export var spawn_room: PackedScene
 @export var rooms: Array[PackedScene]
 @export var door_stopper: PackedScene
@@ -13,12 +14,13 @@ func _ready() -> void:
 	add_child(room)
 	
 	var doors := get_doors(room)
+	doors.shuffle()
 	
 	# start branching off doors
 	while not doors.is_empty():
 		place_random_room(
 			doors.pop_back(),
-			10
+			max_depth
 		)
 
 # rooms have children in group "Door" for connecting together (Z+ is outwards)
