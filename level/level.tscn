@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=13 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_jc008"]
 [ext_resource type="PackedScene" uid="uid://bdo6wr33ukb0g" path="res://level/rooms/spawnroom.tscn" id="3_0v1st"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bwq502eo4w18n" path="res://level/rooms/walkway1.tscn" id="8_6gtgk"]
 [ext_resource type="PackedScene" uid="uid://s4frspct23yd" path="res://level/rooms/l_room.tscn" id="9_cw150"]
 [ext_resource type="PackedScene" uid="uid://bgi5ch3enrku0" path="res://level/rooms/room_small.tscn" id="10_xii2b"]
+[ext_resource type="PackedScene" uid="uid://dpk0q8ts0alvq" path="res://items/gem.tscn" id="12_rhqlf"]
 
 [node name="GameScene" type="Node3D"]
 
@@ -27,3 +28,4 @@ script = ExtResource("7_tnb0d")
 spawn_room = ExtResource("3_0v1st")
 rooms = Array[PackedScene]([ExtResource("3_qohg2"), ExtResource("4_ktfr2"), ExtResource("5_44x8d"), ExtResource("6_44x8d"), ExtResource("8_6gtgk"), ExtResource("9_cw150"), ExtResource("10_xii2b")])
 door_stopper = ExtResource("7_ivpvi")
+loot = Array[PackedScene]([ExtResource("12_rhqlf")])

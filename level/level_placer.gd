@@ -1,19 +1,26 @@
 extends StaticBody3D
 
+@export_group("Room placement")
 @export var max_depth: int = 5
 @export var spawn_room: PackedScene
 @export var rooms: Array[PackedScene]
 @export var door_stopper: PackedScene
 
+@export_group("Loot")
+@export var loot: Array[PackedScene]
+
 var random = RandomNumberGenerator.new()
 
 func _ready() -> void:
+	
+	# wait for scene root to finish loading
+	await get_tree().tree_changed
 	
 	# must handle spawn room differently since it isn't placed off of a door
 	var room: Node3D = spawn_room.instantiate()
 	add_child(room)
 	
-	var doors := get_doors(room)
+	var doors := get_children_of_group(room, "Door")
 	doors.shuffle()
 	
 	# start branching off doors
@@ -24,12 +31,12 @@ func _ready() -> void:
 		)
 
 # rooms have children in group "Door" for connecting together (Z+ is outwards)
-func get_doors(room: Node3D) -> Array[Node3D]:
+func get_children_of_group(room: Node3D, group: String) -> Array[Node3D]:
 	
 	var doors: Array[Node3D] = []
 	
 	for child in room.get_children():
-		if child.is_in_group("Door"):
+		if child.is_in_group(group):
 			doors.append(child)
 	
 	return doors
@@ -95,24 +102,30 @@ func place_random_room(from_door: Node3D, max_depth: int) -> void:
 		var room: Node3D = room_pool.pop_back().instantiate()
 		add_child(room)
 		
-		var doors := get_doors(room)
+		var doors := get_children_of_group(room, "Door")
 		doors.shuffle()
 		var to_door: Node3D = doors.pop_back()
 		
 		room.global_rotation.y = from_door.global_rotation.y - to_door.global_rotation.y + PI
 		room.global_position = from_door.global_position - (to_door.position.rotated(Vector3.UP, room.rotation.y))
 		
-		# if intersecting with other rooms, delete and try again
-		# (room root node should be its collider)
 		if (room_causes_intersection(room)):
 			
+			# if intersecting with other rooms, delete and try again
+			# (room root node should be its collider)
 			remove_child(room)
 			room.queue_free()
 			
 		else:
-			# otherwise, place rooms at all open doors of this room
-			# 	right now just connects a random possible room to a room (a room
-			# 	cannot specify which rooms are allowed to be placed next to it)
+			# otherwise, randomly populate the room with loot
+			for loot_spawn in get_children_of_group(room, "LootSpawn"):
+				
+				var loot_piece = loot[random.randi() % loot.size()].instantiate()
+				get_tree().root.add_child(loot_piece)
+				loot_piece.global_position = loot_spawn.global_position
+				loot_piece.global_rotation.y = random.randf_range(0, PI * 2)
+			
+			# and place rooms at all open doors of this room
 			while not doors.is_empty():
 				place_random_room(
 					doors.pop_back(),

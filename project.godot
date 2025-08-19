@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [global_group]
 
 Door="Rooms have empty Node3Ds in this group for connecting together. Z+ arrow (BLUE) should point OUTWARDS."
+LootSpawn="Position upon which a piece of loot may spawn."
 
 [input]
 
