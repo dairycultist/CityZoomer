@@ -117,7 +117,9 @@ func place_random_room(from_door: Node3D, max_depth: int) -> void:
 			room.queue_free()
 			
 		else:
-			# otherwise, randomly populate the room with loot
+			# otherwise, randomly populate the room with loot...
+			# (must instance as child of scene root, anything
+			# instanced as a child of us is considered a room)
 			for loot_spawn in get_children_of_group(room, "LootSpawn"):
 				
 				var loot_piece = loot[random.randi() % loot.size()].instantiate()
@@ -125,7 +127,7 @@ func place_random_room(from_door: Node3D, max_depth: int) -> void:
 				loot_piece.global_position = loot_spawn.global_position
 				loot_piece.global_rotation.y = random.randf_range(0, PI * 2)
 			
-			# and place rooms at all open doors of this room
+			# ...and place rooms at all open doors of this room
 			while not doors.is_empty():
 				place_random_room(
 					doors.pop_back(),
