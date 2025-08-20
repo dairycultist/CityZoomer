@@ -22,12 +22,11 @@ think about cool graphics later I want GAMEPLAY
 - Toggle for bhop autojump in pause settings
 
 tentative order
-- greybox level rooms
-- implement looting system
+- money system (upon collecting loot)
+- main menu + returning to main menu upon extraction
 - implement hand UI (hand model, IK, gun animation)
-- implement gunplay
 - implement pathfinding generation for rooms
 - implement enemies
-- main menu
+- implement bounty system
 - finalize gameloop (loot, shop, repeat)
 - make more final assets like the level rooms, enemies, items, weapons

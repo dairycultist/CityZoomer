@@ -233,14 +233,15 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 [node name="BountyText" type="RichTextLabel" parent="."]
 offset_left = 30.0
 offset_top = 30.0
-offset_right = 584.0
+offset_right = 795.0
 offset_bottom = 284.0
 theme = ExtResource("10_32hag")
 theme_override_fonts/bold_font = SubResource("SystemFont_65viv")
 bbcode_enabled = true
 text = "[b][color=orange]Bounties[/color][/b]
-[$100]	Defeat 50 enemies
-[$60]	Loot 5 energy cores"
+$100	Defeat enemies (0/50)
+$60		Loot restricted documents (0/8)
+$200	Destroy reactors (0/3)"
 scroll_active = false
 autowrap_mode = 0
 
