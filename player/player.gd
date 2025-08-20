@@ -63,22 +63,27 @@ func _process(delta: float) -> void:
 		if is_on_floor() and Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
 	
-	# shooting and reloading and stuff
-	if Input.is_action_pressed("fire"):
-		
-		if player_animator.try_shoot(clip_ammo, firerate):
+	# shooting
+	if Input.is_action_pressed("fire") \
+		and player_animator.try_shoot(clip_ammo, firerate):
+			
 			clip_ammo -= 1
 			update_ammo_gui()
 	
-	if Input.is_action_just_pressed("reload") and reserve_ammo > 0 and clip_ammo < max_clip_ammo:
-		
-		if player_animator.try_reload():
+	# reloading
+	if Input.is_action_just_pressed("reload") \
+		and reserve_ammo > 0 \
+		and clip_ammo < max_clip_ammo \
+		and player_animator.try_reload():
+			
 			if reserve_ammo >= max_clip_ammo - clip_ammo:
 				reserve_ammo -= max_clip_ammo - clip_ammo
 				clip_ammo = max_clip_ammo
 			else:
 				clip_ammo += reserve_ammo
 				reserve_ammo = 0
+				
+			update_ammo_gui()
 	
 	move_and_slide()
 
