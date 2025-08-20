@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	gun.try_run(direction)
+	gun.run(direction)
 	
 	# gravity
 	velocity.y -= 25 * delta
@@ -63,11 +63,11 @@ func _process(delta: float) -> void:
 	
 	# shooting
 	if Input.is_action_pressed("fire"):
-		gun.try_shoot()
+		gun.shoot()
 	
 	# reloading
 	if Input.is_action_just_pressed("reload"):
-			gun.try_reload()
+		gun.reload()
 	
 	move_and_slide()
 

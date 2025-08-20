@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 	rifle_mesh.position = lerp(rifle_mesh.position, rifle_target_pos, delta * 15);
 	rifle_mesh.rotation = lerp(rifle_mesh.rotation, rifle_target_rot, delta * 15);
 
-func try_run(direction: Vector3) -> void:
+func run(direction: Vector3) -> void:
 	
 	if busy:
 		return
@@ -60,8 +60,7 @@ func try_run(direction: Vector3) -> void:
 		rifle_target_pos = SHOOT_POS
 		rifle_target_rot = SHOOT_ROT
 
-func try_shoot() -> void:
-	# returns true if used ammo
+func shoot() -> void: # TODO return true if should initiate raycast
 	
 	if busy:
 		return
@@ -118,7 +117,7 @@ func dryfire_animation(firerate: int) -> void:
 func shrink_rifle_flare() -> void:
 	rifle_flare_mesh.scale *= 0.95
 
-func try_reload() -> void:
+func reload() -> void:
 	
 	if busy or reserve_ammo == 0 or clip_ammo == max_clip_ammo:
 		return
