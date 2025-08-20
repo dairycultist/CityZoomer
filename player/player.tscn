@@ -210,7 +210,7 @@ transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("6_ebec5")
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "left_hand", "left_target", "right_hand", "right_target")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "left_hand", "left_target", "right_hand", "right_target", "ammo_text")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
 animation_player = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/AnimationPlayer")
@@ -218,6 +218,7 @@ left_hand = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/S
 left_target = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/LeftTargetIK")
 right_hand = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D/RightHandIK")
 right_target = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/RightTargetIK")
+ammo_text = NodePath("AmmoText")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -472,6 +473,10 @@ visible = false
 layers = 1024
 mesh = SubResource("QuadMesh_e7oew")
 surface_material_override/0 = SubResource("StandardMaterial3D_c35mf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera"]
+transform = Transform3D(-0.737195, -0.543052, -0.402043, -1.29434e-07, -0.595019, 0.803712, -0.67568, 0.592492, 0.438645, 0, 0, 0)
+layers = 1024
 
 [node name="PauseMenu" type="Control" parent="."]
 layout_mode = 3

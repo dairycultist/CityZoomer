@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @export var mouse_sensitivity := 0.3
+var camera_pitch := 0.0
 
 @export var animation_player: AnimationPlayer
 
@@ -17,7 +18,13 @@ extends CharacterBody3D
 @export var right_hand: Node3D
 @export var right_target: Node3D
 
-var camera_pitch := 0.0
+@export_group("Gun")
+@export var firerate := 8
+@export var max_clip_ammo := 50
+@export var max_reserve_ammo := 200
+@export var ammo_text: RichTextLabel
+var clip_ammo := max_clip_ammo
+var reserve_ammo := max_reserve_ammo
 
 func _ready() -> void:
 	
@@ -30,6 +37,7 @@ func _ready() -> void:
 		right_hand.start()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	update_ammo_gui()
 	$PauseMenu.visible = false
 
 func _process(delta: float) -> void:
@@ -102,3 +110,6 @@ func _input(event):
 		camera_pitch = clampf(camera_pitch - event.relative.y * mouse_sensitivity, -90, 90)
 		
 		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
+
+func update_ammo_gui():
+	ammo_text.text = str(clip_ammo, " | ", reserve_ammo)

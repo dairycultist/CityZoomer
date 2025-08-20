@@ -1,20 +1,4 @@
-extends CharacterBody3D
-
-# Configuration
-#
-@export_group("Mouse")
-@export var mouse_sensitivity := 0.3
-
-@export_group("Movement")
-@export var drag := 8
-@export var max_speed := 8
-@export var ground_accel := 50
-@export var air_accel := 30
-
-@export_group("Gun")
-@export var firerate := 8
-@export var max_clip_ammo := 50
-@export var max_reserve_ammo := 200
+extends Node3D
 
 # Rifle animation/state machine
 #
@@ -35,13 +19,6 @@ var rifle_target_rot = SHOOT_ROT
 
 var animation_thread: Thread
 var busy := false
-
-# Other stuff
-#
-@onready var ammo_text = $AmmoText
-
-var clip_ammo := max_clip_ammo
-var reserve_ammo := max_reserve_ammo
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -70,64 +47,12 @@ func _process(delta: float) -> void:
 	rifle.position = lerp(rifle.position, rifle_target_pos, delta * 15);
 	rifle.rotation = lerp(rifle.rotation, rifle_target_rot, delta * 15);
 	
-	# failsafe
-	if (position.y < -1):
-		position = Vector3.ZERO
-		velocity = Vector3.ZERO
-	
 	# shooting and reloading and stuff
 	if Input.is_action_pressed("fire"):
 		try_shoot()
 	
 	if Input.is_action_just_pressed("reload") and try_reload():
 		$AudioReload.play()
-	
-	# movement
-	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	if is_on_floor():
-		
-		if direction:
-			velocity.x = lerp(velocity.x, max_speed * direction.x, ground_accel * delta)
-			velocity.z = lerp(velocity.z, max_speed * direction.z, ground_accel * delta)
-		
-		if Input.is_action_pressed("jump"):
-			velocity.y = 8
-		
-		velocity.x = lerp(velocity.x, 0.0, delta * drag)
-		velocity.z = lerp(velocity.z, 0.0, delta * drag)
-		
-	else:
-		
-		if direction:
-			velocity.x = lerp(velocity.x, max_speed * direction.x, air_accel * delta)
-			velocity.z = lerp(velocity.z, max_speed * direction.z, air_accel * delta)
-		
-		velocity.y -= 30 * delta
-	
-	move_and_slide()
-
-func update_ammo_gui():
-	
-	ammo_text.text = str(clip_ammo, " | ", reserve_ammo)
-
-func _input(event):
-	
-	if event.is_action_pressed("pause"):
-		
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	if event is InputEventMouseMotion:
-		
-		rotation.y += deg_to_rad(-event.relative.x * mouse_sensitivity)
-		
-		$Camera3D.rotation.x = clampf($Camera3D.rotation.x - deg_to_rad(event.relative.y * mouse_sensitivity), -PI / 2, PI / 2)
-
-
 
 func try_shoot() -> bool:
 	
