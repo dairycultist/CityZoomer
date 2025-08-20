@@ -230,16 +230,17 @@ fov = 90.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_mlf6e")
 
-[node name="ObjectiveText" type="RichTextLabel" parent="."]
+[node name="BountyText" type="RichTextLabel" parent="."]
 offset_left = 30.0
 offset_top = 30.0
-offset_right = 797.0
-offset_bottom = 201.0
+offset_right = 584.0
+offset_bottom = 284.0
 theme = ExtResource("10_32hag")
 theme_override_fonts/bold_font = SubResource("SystemFont_65viv")
 bbcode_enabled = true
-text = "[b][color=orange]Objective[/color][/b]
-Defeat all enemies (3/50)"
+text = "[b][color=orange]Bounties[/color][/b]
+[$100]	Defeat 50 enemies
+[$60]	Loot 5 energy cores"
 scroll_active = false
 autowrap_mode = 0
 

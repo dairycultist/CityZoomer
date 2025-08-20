@@ -29,33 +29,33 @@ func _ready() -> void:
 	rifle_mesh.rotation = rifle_target_rot
 
 func _process(delta: float) -> void:
-	
-	# animation
-	if not busy:
-		
-		#if not is_on_floor():
-			#animation_player.play("Walk", 0.4) # todo jump
-		#elif direction:
-			#animation_player.play("Walk", 0.8)
-		#else:
-			#animation_player.play("Idle", 0.8)
-		
-		var direction := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
-		
-		if direction:
-			
-			rifle_target_pos = RUN_POS + Vector3(
-				cos(Time.get_ticks_msec() * 0.01) * 0.03,
-				abs(sin(Time.get_ticks_msec() * 0.01) * 0.03),
-				0.0
-			)
-			rifle_target_rot = RUN_ROT
-		else:
-			rifle_target_pos = SHOOT_POS
-			rifle_target_rot = SHOOT_ROT
-	
 	rifle_mesh.position = lerp(rifle_mesh.position, rifle_target_pos, delta * 15);
 	rifle_mesh.rotation = lerp(rifle_mesh.rotation, rifle_target_rot, delta * 15);
+
+func try_run(direction: Vector3) -> bool:
+	
+	if busy:
+		return false
+	
+	#if not is_on_floor():
+		#animation_player.play("Walk", 0.4) # todo jump
+	#elif direction:
+		#animation_player.play("Walk", 0.8)
+	#else:
+		#animation_player.play("Idle", 0.8)
+	
+	if direction:
+		rifle_target_pos = RUN_POS + Vector3(
+			cos(Time.get_ticks_msec() * 0.01) * 0.03,
+			abs(sin(Time.get_ticks_msec() * 0.01) * 0.03),
+			0.0
+		)
+		rifle_target_rot = RUN_ROT
+	else:
+		rifle_target_pos = SHOOT_POS
+		rifle_target_rot = SHOOT_ROT
+	
+	return true
 
 func try_shoot(clip_ammo: int, firerate: int) -> bool:
 	# returns true if used ammo
