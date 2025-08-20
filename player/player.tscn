@@ -210,7 +210,7 @@ transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("6_ebec5")
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "left_hand", "left_target", "right_hand", "right_target", "ammo_text")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "left_hand", "left_target", "right_hand", "right_target", "ammo_text", "rifle_mesh", "rifle_flare_mesh")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
 animation_player = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/AnimationPlayer")
@@ -219,6 +219,8 @@ left_target = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/LeftTarg
 right_hand = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D/RightHandIK")
 right_target = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/RightTargetIK")
 ammo_text = NodePath("AmmoText")
+rifle_mesh = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle")
+rifle_flare_mesh = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/MuzzleFlare")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
