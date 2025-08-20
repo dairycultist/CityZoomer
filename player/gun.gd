@@ -6,6 +6,14 @@ extends Node3D
 # animation functions (prepended with try_, e.g. try_shoot) return true when
 # they "do something" (fired? true! dryfired? false)
 
+@export_group("Gunplay")
+@export var firerate := 8
+@export var max_clip_ammo := 50
+@export var max_reserve_ammo := 200
+var clip_ammo := max_clip_ammo
+var reserve_ammo := max_reserve_ammo
+
+@export_group("Animation")
 @export var rifle_mesh: Node3D
 @export var rifle_flare_mesh: Node3D
 
@@ -57,7 +65,7 @@ func try_run(direction: Vector3) -> bool:
 	
 	return true
 
-func try_shoot(clip_ammo: int, firerate: int) -> bool:
+func try_shoot() -> bool:
 	# returns true if used ammo
 	
 	if busy:
@@ -76,6 +84,8 @@ func try_shoot(clip_ammo: int, firerate: int) -> bool:
 	animation_thread = Thread.new()
 	
 	if clip_ammo > 0:
+		
+		clip_ammo -= 1
 		
 		var random = RandomNumberGenerator.new()
 	
@@ -118,7 +128,10 @@ func shrink_rifle_flare():
 func try_reload() -> bool:
 	
 	if busy:
-		return false;
+		return false
+	
+	if reserve_ammo == 0 or clip_ammo == max_clip_ammo:
+		return false
 	
 	$AudioReload.play()
 	
@@ -135,7 +148,14 @@ func try_reload() -> bool:
 
 func reload_animation():
 	
-	OS.delay_msec(1000)
+	OS.delay_msec(1000) # will be longer for intense duck-and-cover moments
+	
+	if reserve_ammo >= max_clip_ammo - clip_ammo:
+		reserve_ammo -= max_clip_ammo - clip_ammo
+		clip_ammo = max_clip_ammo
+	else:
+		clip_ammo += reserve_ammo
+		reserve_ammo = 0
 	
 	busy = false
 	

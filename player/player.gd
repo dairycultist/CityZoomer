@@ -3,7 +3,8 @@ extends CharacterBody3D
 @export var mouse_sensitivity := 0.3
 var camera_pitch := 0.0
 
-@export var player_animator: Node3D
+@export var gun: Node3D
+@export var ammo_text: RichTextLabel
 
 @export_group("Movement")
 @export var ground_accel: float = 25
@@ -14,17 +15,9 @@ var camera_pitch := 0.0
 
 @export_group("IK")
 @export var left_hand: Node3D
-@export var left_target: Node3D
 @export var right_hand: Node3D
-@export var right_target: Node3D
-
-@export_group("Gun")
-@export var firerate := 8
-@export var max_clip_ammo := 50
-@export var max_reserve_ammo := 200
-@export var ammo_text: RichTextLabel
-var clip_ammo := max_clip_ammo
-var reserve_ammo := max_reserve_ammo
+var left_target: Node3D
+var right_target: Node3D
 
 func _ready() -> void:
 	
@@ -37,15 +30,18 @@ func _ready() -> void:
 		right_hand.start()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	update_ammo_gui()
 	$PauseMenu.visible = false
 
 func _process(delta: float) -> void:
 	
+	# update ammo gui
+	ammo_text.text = str(gun.clip_ammo, " | ", gun.reserve_ammo)
+	
+	# input
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	player_animator.try_run(direction)
+	gun.try_run(direction)
 	
 	# gravity
 	velocity.y -= 25 * delta
@@ -66,26 +62,12 @@ func _process(delta: float) -> void:
 			velocity.y = jump_speed
 	
 	# shooting
-	if Input.is_action_pressed("fire") \
-		and player_animator.try_shoot(clip_ammo, firerate):
-			
-			clip_ammo -= 1
-			update_ammo_gui()
+	if Input.is_action_pressed("fire"):
+		gun.try_shoot()
 	
 	# reloading
-	if Input.is_action_just_pressed("reload") \
-		and reserve_ammo > 0 \
-		and clip_ammo < max_clip_ammo \
-		and player_animator.try_reload():
-			
-			if reserve_ammo >= max_clip_ammo - clip_ammo:
-				reserve_ammo -= max_clip_ammo - clip_ammo
-				clip_ammo = max_clip_ammo
-			else:
-				clip_ammo += reserve_ammo
-				reserve_ammo = 0
-				
-			update_ammo_gui()
+	if Input.is_action_just_pressed("reload"):
+			gun.try_reload()
 	
 	move_and_slide()
 
@@ -126,6 +108,3 @@ func _input(event):
 		camera_pitch = clampf(camera_pitch - event.relative.y * mouse_sensitivity, -90, 90)
 		
 		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
-
-func update_ammo_gui():
-	ammo_text.text = str(clip_ammo, " | ", reserve_ammo)
