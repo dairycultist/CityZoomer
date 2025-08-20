@@ -1,10 +1,7 @@
 extends Node3D
 
-# current system would allow hotswapping player animators for different
-# weapons, curious
-
-# animation functions (prepended with try_, e.g. try_shoot) return true when
-# they "do something" (fired? true! dryfired? false)
+# TODO implement gun hotswapping system
+# TODO (lets you change mesh, animation, fire properties...)
 
 @export_group("Gunplay")
 @export var firerate := 8
@@ -40,10 +37,10 @@ func _process(delta: float) -> void:
 	rifle_mesh.position = lerp(rifle_mesh.position, rifle_target_pos, delta * 15);
 	rifle_mesh.rotation = lerp(rifle_mesh.rotation, rifle_target_rot, delta * 15);
 
-func try_run(direction: Vector3) -> bool:
+func try_run(direction: Vector3) -> void:
 	
 	if busy:
-		return false
+		return
 	
 	#if not is_on_floor():
 		#animation_player.play("Walk", 0.4) # todo jump
@@ -62,14 +59,12 @@ func try_run(direction: Vector3) -> bool:
 	else:
 		rifle_target_pos = SHOOT_POS
 		rifle_target_rot = SHOOT_ROT
-	
-	return true
 
-func try_shoot() -> bool:
+func try_shoot() -> void:
 	# returns true if used ammo
 	
 	if busy:
-		return false
+		return
 	
 	busy = true
 	
@@ -99,14 +94,12 @@ func try_shoot() -> bool:
 		
 		$AudioGunshot.play()
 		animation_thread.start(shoot_animation.bind(firerate))
-		return true
 	
 	else:
 		$AudioDryfire.play()
 		animation_thread.start(dryfire_animation.bind(firerate))
-		return false
 
-func shoot_animation(firerate: int):
+func shoot_animation(firerate: int) -> void:
 	
 	for x in range(100 / firerate):
 		OS.delay_msec(10)
@@ -116,22 +109,19 @@ func shoot_animation(firerate: int):
 	
 	busy = false
 
-func dryfire_animation(firerate: int):
+func dryfire_animation(firerate: int) -> void:
 	
 	OS.delay_msec(1000 / firerate)
 	
 	busy = false
 
-func shrink_rifle_flare():
+func shrink_rifle_flare() -> void:
 	rifle_flare_mesh.scale *= 0.95
 
-func try_reload() -> bool:
+func try_reload() -> void:
 	
-	if busy:
-		return false
-	
-	if reserve_ammo == 0 or clip_ammo == max_clip_ammo:
-		return false
+	if busy or reserve_ammo == 0 or clip_ammo == max_clip_ammo:
+		return
 	
 	$AudioReload.play()
 	
@@ -143,10 +133,8 @@ func try_reload() -> bool:
 		animation_thread.wait_to_finish()
 	animation_thread = Thread.new()
 	animation_thread.start(reload_animation)
-	
-	return true
 
-func reload_animation():
+func reload_animation() -> void:
 	
 	OS.delay_msec(1000) # will be longer for intense duck-and-cover moments
 	
@@ -162,7 +150,7 @@ func reload_animation():
 	rifle_target_pos = SHOOT_POS
 	rifle_target_rot = SHOOT_ROT
 
-func _exit_tree():
+func _exit_tree() -> void:
 	
 	if animation_thread:
 		animation_thread.wait_to_finish()
