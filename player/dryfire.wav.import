@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dyf71o0e2k60a"
-path="res://.godot/imported/gunshot.wav-e3faddf17ba8c542bf6b0f76003175e4.sample"
+uid="uid://bjd3ycx544pvl"
+path="res://.godot/imported/dryfire.wav-e9da8562c0eec044766f51f89ee935b5.sample"
 
 [deps]
 
-source_file="res://bleh/gunshot.wav"
-dest_files=["res://.godot/imported/gunshot.wav-e3faddf17ba8c542bf6b0f76003175e4.sample"]
+source_file="res://player/dryfire.wav"
+dest_files=["res://.godot/imported/dryfire.wav-e9da8562c0eec044766f51f89ee935b5.sample"]
 
 [params]
 

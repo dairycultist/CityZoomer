@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
 [ext_resource type="Material" uid="uid://c7morv0ouf260" path="res://player/model/player.tres" id="4_qjkh3"]
-[ext_resource type="Texture2D" uid="uid://bxojs3i1713u0" path="res://bleh/muzzle_flash.png" id="6_ebec5"]
-[ext_resource type="AudioStream" uid="uid://dyf71o0e2k60a" path="res://bleh/gunshot.wav" id="7_yllr7"]
-[ext_resource type="AudioStream" uid="uid://bjd3ycx544pvl" path="res://bleh/dryfire.wav" id="8_kb6p2"]
-[ext_resource type="AudioStream" uid="uid://bfcrvdnrb1m4c" path="res://bleh/reload.wav" id="9_wodsf"]
-[ext_resource type="Theme" uid="uid://cp2y1w0do1rye" path="res://bleh/gui_theme.tres" id="10_32hag"]
-[ext_resource type="Texture2D" uid="uid://o7fyxchiywpq" path="res://bleh/crosshair.png" id="11_tqiix"]
+[ext_resource type="Texture2D" uid="uid://bxojs3i1713u0" path="res://player/muzzle_flash.png" id="6_ebec5"]
+[ext_resource type="AudioStream" uid="uid://dyf71o0e2k60a" path="res://player/gunshot.wav" id="7_yllr7"]
+[ext_resource type="AudioStream" uid="uid://bjd3ycx544pvl" path="res://player/dryfire.wav" id="8_kb6p2"]
+[ext_resource type="AudioStream" uid="uid://bfcrvdnrb1m4c" path="res://player/reload.wav" id="9_wodsf"]
+[ext_resource type="Theme" uid="uid://cp2y1w0do1rye" path="res://player/gui_theme.tres" id="10_32hag"]
+[ext_resource type="Texture2D" uid="uid://o7fyxchiywpq" path="res://player/crosshair.png" id="11_tqiix"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
@@ -207,16 +207,17 @@ size = Vector2(10, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c35mf"]
 transparency = 1
+shading_mode = 0
 albedo_texture = ExtResource("6_ebec5")
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "left_hand", "left_target", "right_hand", "right_target")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
-animation_player = NodePath("GUIGunOverlay/GunOverlay/Model/AnimationPlayer")
-left_hand = NodePath("GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D/LeftHandIK")
-left_target = NodePath("GUIGunOverlay/GunOverlay/Camera3D/Rifle/LeftTargetIK")
-right_hand = NodePath("GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D/RightHandIK")
-right_target = NodePath("GUIGunOverlay/GunOverlay/Camera3D/Rifle/RightTargetIK")
+animation_player = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/AnimationPlayer")
+left_hand = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D/LeftHandIK")
+left_target = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/LeftTargetIK")
+right_hand = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D/RightHandIK")
+right_target = NodePath("GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle/RightTargetIK")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -300,7 +301,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_tqiix")
 
-[node name="GUIGunOverlay" type="SubViewportContainer" parent="."]
+[node name="GunOverlayGUI" type="SubViewportContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -308,19 +309,23 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="GunOverlay" type="SubViewport" parent="GUIGunOverlay"]
+[node name="GunOverlay" type="SubViewport" parent="GunOverlayGUI"]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="Model" type="Node3D" parent="GUIGunOverlay/GunOverlay"]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.74846e-08, 0, -0.2)
+[node name="GunOverlayCamera" type="Camera3D" parent="GunOverlayGUI/GunOverlay"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 0)
+cull_mask = 1024
 
-[node name="Armature" type="Node3D" parent="GUIGunOverlay/GunOverlay/Model"]
+[node name="Model" type="Node3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.55271e-15, -1.5, 0.2)
+
+[node name="Armature" type="Node3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.839765, 0)
 
-[node name="Skeleton3D" type="Skeleton3D" parent="GUIGunOverlay/GunOverlay/Model/Armature"]
+[node name="Skeleton3D" type="Skeleton3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature"]
 bones/0/name = "Root"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -1.80543e-15, 8.49807e-08, -4.7142e-15, 1, 7.67189e-08, -8.49807e-08, -7.67189e-08, 1, 0, 0, 0)
@@ -427,45 +432,41 @@ bones/14/position = Vector3(1.61391e-08, 0.401327, -2.22045e-16)
 bones/14/rotation = Quaternion(-0.656368, 4.68084e-07, 1.24471e-07, 0.754441)
 bones/14/scale = Vector3(1, 1, 1)
 
-[node name="Mercenary" type="MeshInstance3D" parent="GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D"]
+[node name="Mercenary" type="MeshInstance3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D"]
 layers = 1024
 mesh = SubResource("ArrayMesh_pw7f2")
 skin = SubResource("Skin_thu5b")
 
-[node name="LeftHandIK" type="SkeletonIK3D" parent="GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D"]
+[node name="LeftHandIK" type="SkeletonIK3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D"]
 root_bone = &"LArm"
 tip_bone = &"LTipIK"
 use_magnet = true
 magnet = Vector3(1.5, -0.48, 0)
 
-[node name="RightHandIK" type="SkeletonIK3D" parent="GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D"]
+[node name="RightHandIK" type="SkeletonIK3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Model/Armature/Skeleton3D"]
 root_bone = &"RArm"
 tip_bone = &"RTipIK"
 use_magnet = true
 magnet = Vector3(-3.38, -5.16, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUIGunOverlay/GunOverlay/Model"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Model"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w4da")
 }
 
-[node name="Camera3D" type="Camera3D" parent="GUIGunOverlay/GunOverlay"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 0)
-cull_mask = 1024
-
-[node name="Rifle" type="MeshInstance3D" parent="GUIGunOverlay/GunOverlay/Camera3D"]
+[node name="Rifle" type="MeshInstance3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera"]
 transform = Transform3D(-0.05, 0, -4.37114e-09, 0, 0.05, 0, 4.37114e-09, 0, -0.05, 0.148, -0.19, -0.265)
 layers = 1024
 mesh = ExtResource("2_qjkh3")
 skeleton = NodePath("../../../..")
 
-[node name="LeftTargetIK" type="Node3D" parent="GUIGunOverlay/GunOverlay/Camera3D/Rifle"]
+[node name="LeftTargetIK" type="Node3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle"]
 transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
 
-[node name="RightTargetIK" type="Node3D" parent="GUIGunOverlay/GunOverlay/Camera3D/Rifle"]
+[node name="RightTargetIK" type="Node3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle"]
 transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
 
-[node name="MuzzleFlare" type="MeshInstance3D" parent="GUIGunOverlay/GunOverlay/Camera3D/Rifle"]
+[node name="MuzzleFlare" type="MeshInstance3D" parent="GunOverlayGUI/GunOverlay/GunOverlayCamera/Rifle"]
 transform = Transform3D(1, 0, 6.3573e-08, 0, 1, 0, -6.3573e-08, 0, 1, 0, 1.75, 4.1)
 visible = false
 layers = 1024
