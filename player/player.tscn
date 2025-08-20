@@ -240,7 +240,7 @@ theme_override_fonts/bold_font = SubResource("SystemFont_65viv")
 bbcode_enabled = true
 text = "[b][color=orange]Bounties[/color][/b]
 $100	Defeat enemies (0/50)
-$60		Loot restricted documents (0/8)
+[s][color=gray]$60		Loot restricted documents (8/8)[/color][/s]
 $200	Destroy reactors (0/3)"
 scroll_active = false
 autowrap_mode = 0
