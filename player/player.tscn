@@ -1,13 +1,23 @@
-[gd_scene load_steps=11 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=19 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="2_qjkh3"]
 [ext_resource type="Material" uid="uid://c7morv0ouf260" path="res://player/model/player.tres" id="4_qjkh3"]
-[ext_resource type="Texture2D" uid="uid://deeti2ha7kudf" path="res://icon.svg" id="4_yw30f"]
+[ext_resource type="Texture2D" uid="uid://bxojs3i1713u0" path="res://bleh/muzzle_flash.png" id="6_ebec5"]
+[ext_resource type="AudioStream" uid="uid://dyf71o0e2k60a" path="res://bleh/gunshot.wav" id="7_yllr7"]
+[ext_resource type="AudioStream" uid="uid://bjd3ycx544pvl" path="res://bleh/dryfire.wav" id="8_kb6p2"]
+[ext_resource type="AudioStream" uid="uid://bfcrvdnrb1m4c" path="res://bleh/reload.wav" id="9_wodsf"]
+[ext_resource type="Theme" uid="uid://cp2y1w0do1rye" path="res://bleh/gui_theme.tres" id="10_32hag"]
+[ext_resource type="Texture2D" uid="uid://o7fyxchiywpq" path="res://bleh/crosshair.png" id="11_tqiix"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
 height = 1.7
+
+[sub_resource type="SystemFont" id="SystemFont_65viv"]
+font_names = PackedStringArray("Tw Cen MT", "Monospace")
+font_weight = 700
+subpixel_positioning = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_pw7f2"]
 resource_name = "player_Cube_005"
@@ -191,64 +201,126 @@ _data = {
 &"Walk": SubResource("Animation_fujjk")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_target", "right_target")]
+[sub_resource type="QuadMesh" id="QuadMesh_e7oew"]
+flip_faces = true
+size = Vector2(10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c35mf"]
+transparency = 1
+albedo_texture = ExtResource("6_ebec5")
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "left_hand", "left_target", "right_hand", "right_target")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
-left_target = NodePath("Camera3D/Rifle/LeftTargetIK")
-right_target = NodePath("Camera3D/Rifle/RightTargetIK")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
-shape = SubResource("CapsuleShape3D_mlf6e")
+animation_player = NodePath("GUIGunOverlay/GunOverlay/Model/AnimationPlayer")
+left_hand = NodePath("GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D/LeftHandIK")
+left_target = NodePath("GUIGunOverlay/GunOverlay/Camera3D/Rifle/LeftTargetIK")
+right_hand = NodePath("GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D/RightHandIK")
+right_target = NodePath("GUIGunOverlay/GunOverlay/Camera3D/Rifle/RightTargetIK")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-cull_mask = 1048063
+cull_mask = 1
 fov = 90.0
 
-[node name="Rifle" type="MeshInstance3D" parent="Camera3D"]
-transform = Transform3D(-0.05, 0, 7.54979e-09, 0, 0.05, 0, -7.54979e-09, 0, -0.05, 0.148416, -0.189603, -0.265146)
-mesh = ExtResource("2_qjkh3")
-skeleton = NodePath("../..")
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_mlf6e")
 
-[node name="LeftTargetIK" type="Node3D" parent="Camera3D/Rifle"]
-transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
+[node name="AudioGunshot" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("7_yllr7")
 
-[node name="RightTargetIK" type="Node3D" parent="Camera3D/Rifle"]
-transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
+[node name="AudioDryfire" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_kb6p2")
 
-[node name="PauseMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="AudioReload" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("9_wodsf")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenu"]
-layout_mode = 1
+[node name="ObjectiveText" type="RichTextLabel" parent="."]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 797.0
+offset_bottom = 201.0
+theme = ExtResource("10_32hag")
+theme_override_fonts/bold_font = SubResource("SystemFont_65viv")
+bbcode_enabled = true
+text = "[b][color=orange]Objective[/color][/b]
+Defeat all enemies (3/50)"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="AmmoText" type="RichTextLabel" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -52.5
-offset_top = -84.29
-offset_right = 52.5
-offset_bottom = -41.29
+offset_left = 100.0
+offset_top = -35.0
+offset_right = 366.0
+offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "PAUSED"
-horizontal_alignment = 1
+theme = ExtResource("10_32hag")
+theme_override_colors/default_color = Color(1, 1, 1, 0.627451)
+text = "50 | 200"
+scroll_active = false
 vertical_alignment = 1
 
-[node name="Model" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.2)
+[node name="HealthText" type="RichTextLabel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -35.0
+offset_right = -100.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("10_32hag")
+theme_override_colors/default_color = Color(1, 1, 1, 0.627451)
+text = "100"
+scroll_active = false
+horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="Armature" type="Node3D" parent="Model"]
+[node name="Crosshair" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_tqiix")
+
+[node name="GUIGunOverlay" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="GunOverlay" type="SubViewport" parent="GUIGunOverlay"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Model" type="Node3D" parent="GUIGunOverlay/GunOverlay"]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.74846e-08, 0, -0.2)
+
+[node name="Armature" type="Node3D" parent="GUIGunOverlay/GunOverlay/Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.839765, 0)
 
-[node name="Skeleton3D" type="Skeleton3D" parent="Model/Armature"]
+[node name="Skeleton3D" type="Skeleton3D" parent="GUIGunOverlay/GunOverlay/Model/Armature"]
 bones/0/name = "Root"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, -1.80543e-15, 8.49807e-08, -4.7142e-15, 1, 7.67189e-08, -8.49807e-08, -7.67189e-08, 1, 0, 0, 0)
@@ -324,7 +396,7 @@ bones/10/parent = 9
 bones/10/rest = Transform3D(1, 5.96226e-22, 1.89657e-08, -2.93018e-22, 1, -1.59872e-14, -1.89657e-08, 1.59872e-14, 1, -1.49012e-08, 0.394348, 0)
 bones/10/enabled = true
 bones/10/position = Vector3(-1.49012e-08, 0.394348, 0)
-bones/10/rotation = Quaternion(-0.00778607, -0.0751667, 0.032141, 0.996622)
+bones/10/rotation = Quaternion(-0.00778607, -0.0751667, 0.032141, 0.996623)
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/name = "LFoot"
 bones/11/parent = 10
@@ -352,41 +424,75 @@ bones/14/parent = 13
 bones/14/rest = Transform3D(1, -9.01877e-07, 4.27439e-07, -4.27439e-07, 3.57628e-07, 1, -9.01877e-07, -1, 3.57628e-07, 1.61391e-08, 0.401327, -2.22045e-16)
 bones/14/enabled = true
 bones/14/position = Vector3(1.61391e-08, 0.401327, -2.22045e-16)
-bones/14/rotation = Quaternion(-0.656368, 4.68084e-07, 1.2447e-07, 0.754441)
+bones/14/rotation = Quaternion(-0.656368, 4.68084e-07, 1.24471e-07, 0.754441)
 bones/14/scale = Vector3(1, 1, 1)
 
-[node name="Mercenary" type="MeshInstance3D" parent="Model/Armature/Skeleton3D"]
+[node name="Mercenary" type="MeshInstance3D" parent="GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D"]
+layers = 1024
 mesh = SubResource("ArrayMesh_pw7f2")
 skin = SubResource("Skin_thu5b")
 
-[node name="LeftHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D"]
+[node name="LeftHandIK" type="SkeletonIK3D" parent="GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D"]
 root_bone = &"LArm"
 tip_bone = &"LTipIK"
 use_magnet = true
 magnet = Vector3(1.5, -0.48, 0)
 
-[node name="RightHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D"]
+[node name="RightHandIK" type="SkeletonIK3D" parent="GUIGunOverlay/GunOverlay/Model/Armature/Skeleton3D"]
 root_bone = &"RArm"
 tip_bone = &"RTipIK"
 use_magnet = true
 magnet = Vector3(-3.38, -5.16, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Model"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUIGunOverlay/GunOverlay/Model"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w4da")
 }
 
-[node name="Crosshair" type="TextureRect" parent="."]
+[node name="Camera3D" type="Camera3D" parent="GUIGunOverlay/GunOverlay"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 0)
+cull_mask = 1024
+
+[node name="Rifle" type="MeshInstance3D" parent="GUIGunOverlay/GunOverlay/Camera3D"]
+transform = Transform3D(-0.05, 0, -4.37114e-09, 0, 0.05, 0, 4.37114e-09, 0, -0.05, 0.148, -0.19, -0.265)
+layers = 1024
+mesh = ExtResource("2_qjkh3")
+skeleton = NodePath("../../../..")
+
+[node name="LeftTargetIK" type="Node3D" parent="GUIGunOverlay/GunOverlay/Camera3D/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
+
+[node name="RightTargetIK" type="Node3D" parent="GUIGunOverlay/GunOverlay/Camera3D/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
+
+[node name="MuzzleFlare" type="MeshInstance3D" parent="GUIGunOverlay/GunOverlay/Camera3D/Rifle"]
+transform = Transform3D(1, 0, 6.3573e-08, 0, 1, 0, -6.3573e-08, 0, 1, 0, 1.75, 4.1)
+visible = false
+layers = 1024
+mesh = SubResource("QuadMesh_e7oew")
+surface_material_override/0 = SubResource("StandardMaterial3D_c35mf")
+
+[node name="PauseMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenu"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = -52.5
+offset_top = -84.29
+offset_right = 52.5
+offset_bottom = -41.29
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_yw30f")
-expand_mode = 1
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1

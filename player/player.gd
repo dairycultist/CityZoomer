@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 @export var mouse_sensitivity := 0.3
 
+@export var animation_player: AnimationPlayer
+
 @export_group("Movement")
 @export var ground_accel: float = 25
 @export var air_accel: float = 25
@@ -10,7 +12,9 @@ extends CharacterBody3D
 @export var jump_speed := 8
 
 @export_group("IK")
+@export var left_hand: Node3D
 @export var left_target: Node3D
+@export var right_hand: Node3D
 @export var right_target: Node3D
 
 var camera_pitch := 0.0
@@ -18,12 +22,12 @@ var camera_pitch := 0.0
 func _ready() -> void:
 	
 	if left_target:
-		$Model/Armature/Skeleton3D/LeftHandIK.target_node = left_target.get_path()
-		$Model/Armature/Skeleton3D/LeftHandIK.start()
+		left_hand.target_node = left_target.get_path()
+		left_hand.start()
 	
 	if right_target:
-		$Model/Armature/Skeleton3D/RightHandIK.target_node = right_target.get_path()
-		$Model/Armature/Skeleton3D/RightHandIK.start()
+		right_hand.target_node = right_target.get_path()
+		right_hand.start()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$PauseMenu.visible = false
@@ -35,11 +39,11 @@ func _process(delta: float) -> void:
 	
 	# animation
 	if not is_on_floor():
-		$Model/AnimationPlayer.play("Walk", 0.4) # todo jump
+		animation_player.play("Walk", 0.4) # todo jump
 	elif direction:
-		$Model/AnimationPlayer.play("Walk", 0.8)
+		animation_player.play("Walk", 0.8)
 	else:
-		$Model/AnimationPlayer.play("Idle", 0.8)
+		animation_player.play("Idle", 0.8)
 	
 	# gravity
 	velocity.y -= 25 * delta
