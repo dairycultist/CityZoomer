@@ -1,6 +1,14 @@
 # CityZoomer
 
-Rougelike first-person extraction shooter with tight movement, and bhopping, gunplay, and boobs. the end goal to be a "save the princess" type deal, but the princess is stacked, so the goal is really to touch the maiden's boobs
+Rougelike first-person extraction shooter with tight movement, and bhopping, gunplay, and boobs.
+
+brutalist architecture á la soviet union for the style (I like it + easy to model + worldbuilding/setting + gasmasks)
+
+hallway with barebones dormitory rooms since the workers of the facility need to sleep somewhere, and it can also make for cool worldbuilding like the place is an actual lived-in place
+
+SCP but there's only one anomaly and it's busty anomolous extradimensional demongirls that appear from who knows where and are locked up and studied, but there's a Chaos Insurgency (name pending) hell-bent on letting 'em loose
+
+maybe you can also "gain favour" with demongirls during your run, which act as permanant upgrades across runs
 
 gameplay loop: enter a level, quickly get money, extract (before enemies get too powerful), visit the shop, upgrade, repeat
 
