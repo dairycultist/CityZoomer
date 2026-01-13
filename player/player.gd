@@ -45,11 +45,7 @@ func _process(delta: float) -> void:
 	if is_on_floor() and (not Input.is_action_pressed("jump") or Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
 		velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
 	
-	# forward coherence (try to align velocity with facing direction)
-	var v = Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized() * Vector2(velocity.x, velocity.z).length()
-	var f = min(max(v.length() - max_velocity, 0) * forward_coherence, 1.0)
-	velocity.x = lerp(velocity.x, v.x, f)
-	velocity.z = lerp(velocity.z, v.y, f)
+	print(Vector2(velocity.x, velocity.z).length())
 	
 	# movement
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -101,3 +97,10 @@ func _input(event):
 		camera_pitch = clampf(camera_pitch - event.relative.y * mouse_sensitivity, -90, 90)
 		
 		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
+		
+		# forward coherence (try to align velocity with facing
+		# direction when turning)
+		var v = Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized() * Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized().dot(Vector2(velocity.x, velocity.z))
+		var f = min(max(v.length() - max_velocity, 0) * forward_coherence * abs(event.relative.x) * mouse_sensitivity, 1.0)
+		velocity.x = lerp(velocity.x, v.x, f)
+		velocity.z = lerp(velocity.z, v.y, f)
