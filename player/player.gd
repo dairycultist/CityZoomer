@@ -84,9 +84,10 @@ func _input(event):
 		
 		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
 		
-		# forward coherence (try to align velocity with facing
-		# direction when turning)
-		var v = Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized() * Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized().dot(Vector2(velocity.x, velocity.z))
-		var f = min(max(v.length() - max_velocity, 0) * forward_coherence * abs(event.relative.x) * mouse_sensitivity, 1.0)
-		velocity.x = lerp(velocity.x, v.x, f)
-		velocity.z = lerp(velocity.z, v.y, f)
+		# forward coherence (try to align velocity w/ facing direction when turning)
+		var forward := Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized()
+		var velocity_2d := Vector2(velocity.x, velocity.z)
+		var cohered_velocity := forward * forward.dot(velocity_2d)
+		var fac = min(max(velocity_2d.length() - max_velocity, 0) * forward_coherence * abs(event.relative.x) * mouse_sensitivity, 1.0)
+		velocity.x = lerp(velocity.x, cohered_velocity.x, fac)
+		velocity.z = lerp(velocity.z, cohered_velocity.y, fac)
