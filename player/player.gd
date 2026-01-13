@@ -3,9 +3,6 @@ extends CharacterBody3D
 @export var mouse_sensitivity := 0.3
 var camera_pitch := 0.0
 
-@export var gun: Node3D
-@export var ammo_text: RichTextLabel
-
 @export_group("Movement")
 @export var ground_accel: float = 25
 @export var air_accel: float = 25
@@ -34,14 +31,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	# update ammo gui
-	ammo_text.text = str(gun.clip_ammo, " | ", gun.reserve_ammo)
-	
 	# input
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	gun.run(direction)
 	
 	# gravity
 	velocity.y -= 25 * delta
@@ -60,14 +52,6 @@ func _process(delta: float) -> void:
 		# jumping
 		if is_on_floor() and Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
-	
-	# shooting
-	if Input.is_action_pressed("fire"):
-		gun.shoot()
-	
-	# reloading
-	if Input.is_action_just_pressed("reload"):
-		gun.reload()
 	
 	move_and_slide()
 
@@ -98,8 +82,8 @@ func _input(event):
 		var query = PhysicsRayQueryParameters3D.create($Camera3D.global_position, $Camera3D.global_position - 30 * $Camera3D.global_transform.basis.z)
 		var result = get_world_3d().direct_space_state.intersect_ray(query)
 		
-		if (result and result.collider.is_in_group("Loot")):
-			result.collider.queue_free()
+		if (result):
+			print(result)
 	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		

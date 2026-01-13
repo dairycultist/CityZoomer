@@ -1,8 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cp2y1w0do1rye"]
-
-[sub_resource type="SystemFont" id="SystemFont_j2q5q"]
-font_names = PackedStringArray("Tw Cen MT", "Monospace")
-
-[resource]
-default_font = SubResource("SystemFont_j2q5q")
-default_font_size = 40

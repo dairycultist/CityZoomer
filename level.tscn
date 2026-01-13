@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bd1sgkptmj0mo"]
 
-[ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_jc008"]
-[ext_resource type="Material" uid="uid://dblx7mwwvqrom" path="res://level/debug.tres" id="2_5gx2l"]
+[ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="1_vonw3"]
+[ext_resource type="Material" uid="uid://dblx7mwwvqrom" path="res://debug.tres" id="2_oi3di"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_qohg2"]
 size = Vector2(100, 100)
@@ -13,7 +13,7 @@ orientation = 1
 
 [node name="GameScene" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("1_jc008")]
+[node name="Player" parent="." instance=ExtResource("1_vonw3")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 ground_accel = 30.0
 air_accel = 10.0
@@ -23,7 +23,7 @@ ground_friction = 15
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-material_override = ExtResource("2_5gx2l")
+material_override = ExtResource("2_oi3di")
 mesh = SubResource("QuadMesh_qohg2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
