@@ -4,11 +4,14 @@ extends CharacterBody3D
 var camera_pitch := 0.0
 
 @export_group("Movement")
-@export var ground_accel: float = 25
-@export var air_accel: float = 25
-@export var max_velocity: float = 5
-@export var ground_friction := 8
-@export var jump_speed := 8
+@export var ground_accel: float      = 25
+@export var air_accel: float         = 25
+@export var max_velocity: float      = 5
+@export var ground_friction: float   = 8
+@export var jump_speed: float        = 8
+## Higher values make you lose more speed when turning; Lower values make
+## coherence lesser.
+@export var forward_coherence: float = 0.05
 
 @export_group("IK")
 @export var left_hand: Node3D
@@ -42,10 +45,9 @@ func _process(delta: float) -> void:
 	if is_on_floor() and (not Input.is_action_pressed("jump") or Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
 		velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
 	
-	# forward coherence
+	# forward coherence (try to align velocity with facing direction)
 	var v = Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized() * Vector2(velocity.x, velocity.z).length()
-	var f = max(v.length() - max_velocity, 0) * 0.05
-	print(f)
+	var f = min(max(v.length() - max_velocity, 0) * forward_coherence, 1.0)
 	velocity.x = lerp(velocity.x, v.x, f)
 	velocity.z = lerp(velocity.z, v.y, f)
 	
