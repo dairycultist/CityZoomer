@@ -10,24 +10,10 @@ var camera_pitch := 0.0
 @export var ground_friction: float   = 8
 @export var jump_speed: float        = 8
 ## Higher values make you lose more speed when turning; Lower values make
-## coherence lesser.
+## coherence lesser. Coherence is proportional to speed.
 @export var forward_coherence: float = 0.05
 
-@export_group("IK")
-@export var left_hand: Node3D
-@export var right_hand: Node3D
-var left_target: Node3D
-var right_target: Node3D
-
 func _ready() -> void:
-	
-	if left_target:
-		left_hand.target_node = left_target.get_path()
-		left_hand.start()
-	
-	if right_target:
-		right_hand.target_node = right_target.get_path()
-		right_hand.start()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$PauseMenu.visible = false
