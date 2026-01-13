@@ -9,9 +9,9 @@ var camera_pitch := 0.0
 @export var max_velocity: float      = 5
 @export var ground_friction: float   = 8
 @export var jump_speed: float        = 8
-## Higher values make you lose more speed when turning; Lower values make
-## coherence lesser. Coherence is proportional to speed.
-@export var forward_coherence: float = 0.05
+## Lower values make it easier to gain speed. Higher values make it easier to
+## change direction in the air while maintaining speed.
+@export_range(0.0, 0.1, 0.001, "or_greater") var forward_coherence: float = 0.05
 
 func _ready() -> void:
 	
@@ -85,9 +85,9 @@ func _input(event):
 		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
 		
 		# forward coherence (try to align velocity w/ facing direction when turning)
-		var forward := Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized()
-		var velocity_2d := Vector2(velocity.x, velocity.z)
+		var forward          := Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized()
+		var velocity_2d      := Vector2(velocity.x, velocity.z)
 		var cohered_velocity := forward * forward.dot(velocity_2d)
-		var fac = min(max(velocity_2d.length() - max_velocity, 0) * forward_coherence * abs(event.relative.x) * mouse_sensitivity, 1.0)
+		var fac              := minf(velocity_2d.length() * forward_coherence * abs(event.relative.x) * mouse_sensitivity, 1.0)
 		velocity.x = lerp(velocity.x, cohered_velocity.x, fac)
 		velocity.z = lerp(velocity.z, cohered_velocity.y, fac)
