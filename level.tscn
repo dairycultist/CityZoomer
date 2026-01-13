@@ -16,7 +16,7 @@ orientation = 1
 [node name="Player" parent="." instance=ExtResource("1_vonw3")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 ground_accel = 30.0
-air_accel = 10.0
+air_accel = 18.0
 max_velocity = 3.0
 ground_friction = 15
 
@@ -28,3 +28,6 @@ mesh = SubResource("QuadMesh_qohg2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_5gx2l")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.78552216, 0.6188335, 0, -0.6188335, 0.78552216, 0, 0, 0)
