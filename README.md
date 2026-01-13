@@ -21,20 +21,6 @@ should probably rename since this is no longer a port of cz lol
 think about cool graphics later I want GAMEPLAY
 
 ## TODO
-- model floating arm and boob models (the latter you only see when looking down)
-	- ensure arm has hand bones (they should be used as the "tip" for IK; their basis matches the target so that they properly hold the rifle)
- 	- player model has boobs and animations built into the file (textures and IK aren't :\<)
 - I want a super smash bros brawl style menu with a paper doll of the player
-- Inventory system with arbitrary items (including using those items, e.g. shooting)
-	- Rocket jumping? Handheld spring? Contact-grenade launcher?
+- neat levels. remember the game doesn't really have to be high fidelity, just add neat stuff
 - Toggle for bhop autojump in pause settings
-
-tentative order
-- money system (upon collecting loot)
-- main menu + returning to main menu upon extraction
-- implement hand UI (hand model, IK, gun animation)
-- implement pathfinding generation for rooms
-- implement enemies
-- implement bounty system
-- finalize gameloop (loot, shop, repeat)
-- make more final assets like the level rooms, enemies, items, weapons
