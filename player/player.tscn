@@ -1,17 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=5 format=3 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
+[ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://o7fyxchiywpq" path="res://player/crosshair.png" id="11_tqiix"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.294356
 height = 1.7
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand")]
+[node name="Player" type="CharacterBody3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_4flbx")
-left_hand = NodePath("")
-right_hand = NodePath("")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -60,3 +59,6 @@ grow_vertical = 2
 text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HopSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_g1dw6")

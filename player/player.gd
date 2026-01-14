@@ -43,6 +43,8 @@ func _process(delta: float) -> void:
 		# jumping
 		if is_on_floor() and Input.is_action_pressed("jump"):
 			velocity.y = jump_speed
+			$HopSound.play()
+			$HopSound.pitch_scale = randf_range(0.9, 1.1)
 	
 	move_and_slide()
 
