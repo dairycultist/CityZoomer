@@ -45,7 +45,7 @@ func _process(delta: float) -> void:
 		$HopSound.pitch_scale = randf_range(0.9, 1.1)
 		$HopSound.play()
 		
-		if combo_amt < 9:
+		if combo_amt < 2 or (combo_amt < 9 and randi() % 10 != 0):
 			
 			combo_amt += 1
 			
@@ -59,17 +59,17 @@ func _process(delta: float) -> void:
 		
 		else:
 			
-			combo_label_t = 0.0
-			combo_amt = 0
-			
 			if randi() % 2 == 0:
 				$ComboLabel.label_settings.font_color = Color.GREEN
 				$ComboEndSound.play()
-				$ComboLabel.text = "CRAZY!!"
+				$ComboLabel.text = "OK!" if combo_amt < 5 else ("WOW!!" if combo_amt < 8 else "CRAZY!!")
 			else:
 				$ComboLabel.label_settings.font_color = Color.RED
 				$ComboFailSound.play()
 				$ComboLabel.text = "$%&@"
+			
+			combo_label_t = 0.0
+			combo_amt = 0
 	
 	@warning_ignore("integer_division")
 	$ComboLabel.label_settings.font_size = max(1, lerp(lerp(0, 48 + (combo_amt / 2) * 18, pow(combo_label_t, 0.3)), 0.0, min(1.0, combo_label_t * combo_label_t)))
