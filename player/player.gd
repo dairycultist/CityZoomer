@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+@export_group("Camera")
 @export var mouse_sensitivity: float = 0.3
 var camera_pitch := 0.0
 
@@ -9,7 +10,6 @@ var camera_pitch := 0.0
 @export var ground_accel: float      = 25
 @export var air_accel: float         = 25
 @export var max_velocity: float      = 5
-@export var ground_friction: float   = 8
 @export var jump_speed: float        = 8
 ## Lower values make it easier to gain speed. Higher values make it easier to
 ## change direction in the air while maintaining speed.
@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	# gravity
-	velocity.y -= 25 * delta
+	velocity.y -= 25.0 * delta
 	
 	print(Vector2(velocity.x, velocity.z).length())
 	
@@ -48,6 +48,7 @@ func _process(delta: float) -> void:
 	
 	# place camera
 	var query = PhysicsRayQueryParameters3D.create($CameraAnchor.global_position, $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z)
+	query.exclude = [get_rid()]
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
 	
 	if (result):
