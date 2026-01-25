@@ -31,18 +31,15 @@ func _process(delta: float) -> void:
 	
 	print(Vector2(velocity.x, velocity.z).length())
 	
-	# movement
-	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		
-		# walking
-		if direction:
-			velocity = accelerate(delta, ground_accel if is_on_floor() else air_accel, direction, velocity)
-		
-		# jumping
-		if is_on_floor():
-			velocity.y = jump_speed
-			$HopSound.play()
-			$HopSound.pitch_scale = randf_range(0.9, 1.1)
+	# moving
+	if direction:
+		velocity = accelerate(delta, ground_accel if is_on_floor() else air_accel, direction, velocity)
+	
+	# jumping
+	if is_on_floor():
+		velocity.y = jump_speed
+		$HopSound.play()
+		$HopSound.pitch_scale = randf_range(0.9, 1.1)
 	
 	move_and_slide()
 	
