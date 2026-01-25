@@ -17,6 +17,8 @@ var camera_pitch := 0.0
 
 var combo_amt: int = 0
 
+var combo_label_t: float = 0.0
+
 func _ready() -> void:
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -43,14 +45,34 @@ func _process(delta: float) -> void:
 		$HopSound.pitch_scale = randf_range(0.9, 1.1)
 		$HopSound.play()
 		
-		$ComboSound.pitch_scale = pow(2, combo_amt / 12.0)
-		$ComboSound.play()
-		combo_amt += 1
-		$ComboLabel.text = str(combo_amt) + ("!" if combo_amt < 5 else "!!")
-		$ComboLabel.label_settings.font_size = 0
-		$ComboLabel.label_settings.font_color = Color(1., 1. / combo_amt, 0.)
+		if combo_amt < 9:
+			
+			combo_amt += 1
+			
+			if combo_amt > 1:
+				$ComboSound.pitch_scale = pow(2, (combo_amt - 1) / 12.0)
+				$ComboSound.play()
+				
+				combo_label_t = 0.0
+				$ComboLabel.text = str(combo_amt) + ("!" if combo_amt < 5 else "!!")
+				$ComboLabel.label_settings.font_color = Color(1., 1. / combo_amt, 0.04 * combo_amt)
+		
+		else:
+			
+			combo_label_t = 0.0
+			combo_amt = 0
+			
+			if randi() % 2 == 0:
+				$ComboLabel.label_settings.font_color = Color.GREEN
+				$ComboEndSound.play()
+				$ComboLabel.text = "CRAZY!!"
+			else:
+				$ComboLabel.label_settings.font_color = Color.RED
+				$ComboFailSound.play()
+				$ComboLabel.text = "$%&@"
 	
-	$ComboLabel.label_settings.font_size = lerp($ComboLabel.label_settings.font_size, 48 + combo_amt * 6, 20.0 * delta)
+	$ComboLabel.label_settings.font_size = lerp(lerp(1, 48 + combo_amt * 6, pow(combo_label_t, 0.3)), 0.0, min(1.0, combo_label_t * combo_label_t))
+	combo_label_t += delta
 	
 	move_and_slide()
 	

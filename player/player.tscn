@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=9 format=3 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
 [ext_resource type="AudioStream" uid="uid://bcyfv4qy5kx3a" path="res://player/combo.mp3" id="3_yw30f"]
+[ext_resource type="AudioStream" uid="uid://cl327dcbscyhd" path="res://player/combo_end.mp3" id="4_qjkh3"]
+[ext_resource type="AudioStream" uid="uid://crhx4v8pgrch4" path="res://player/combo_fail.wav" id="5_g6k8r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.3
@@ -39,6 +41,12 @@ stream = ExtResource("3_g1dw6")
 
 [node name="ComboSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_yw30f")
+
+[node name="ComboEndSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qjkh3")
+
+[node name="ComboFailSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_g6k8r")
 
 [node name="ComboLabel" type="Label" parent="."]
 anchors_preset = 8
