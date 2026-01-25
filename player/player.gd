@@ -1,7 +1,9 @@
 extends CharacterBody3D
 
-@export var mouse_sensitivity := 0.3
+@export var mouse_sensitivity: float = 0.3
 var camera_pitch := 0.0
+
+@export var max_camera_distance: float = 3.0
 
 @export_group("Movement")
 @export var ground_accel: float      = 25
@@ -27,10 +29,6 @@ func _process(delta: float) -> void:
 	# gravity
 	velocity.y -= 25 * delta
 	
-	# drag (only when not frame-perfect jumping)
-	if is_on_floor() and (not Input.is_action_pressed("jump") or Input.mouse_mode == Input.MOUSE_MODE_VISIBLE):
-		velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
-	
 	print(Vector2(velocity.x, velocity.z).length())
 	
 	# movement
@@ -41,12 +39,21 @@ func _process(delta: float) -> void:
 			velocity = accelerate(delta, ground_accel if is_on_floor() else air_accel, direction, velocity)
 		
 		# jumping
-		if is_on_floor() and Input.is_action_pressed("jump"):
+		if is_on_floor():
 			velocity.y = jump_speed
 			$HopSound.play()
 			$HopSound.pitch_scale = randf_range(0.9, 1.1)
 	
 	move_and_slide()
+	
+	# place camera
+	var query = PhysicsRayQueryParameters3D.create($CameraAnchor.global_position, $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z)
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	
+	if (result):
+		$CameraAnchor/Camera3D.global_position = result.position
+	else:
+		$CameraAnchor/Camera3D.global_position = $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z
 
 # https://adrianb.io/2015/02/14/bunnyhop.html
 func accelerate(delta: float, accel: float, inputDirection: Vector3, prevVelocity: Vector3) -> Vector3:
@@ -70,21 +77,13 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			$PauseMenu.visible = false
 	
-	if event.is_action_pressed("interact"):
-		
-		var query = PhysicsRayQueryParameters3D.create($Camera3D.global_position, $Camera3D.global_position - 30 * $Camera3D.global_transform.basis.z)
-		var result = get_world_3d().direct_space_state.intersect_ray(query)
-		
-		if (result):
-			print(result)
-	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		
 		rotation.y += deg_to_rad(-event.relative.x * mouse_sensitivity)
 		
 		camera_pitch = clampf(camera_pitch - event.relative.y * mouse_sensitivity, -90, 90)
 		
-		$Camera3D.rotation.x = deg_to_rad(camera_pitch)
+		$CameraAnchor.rotation.x = deg_to_rad(camera_pitch)
 		
 		# forward coherence (try to align velocity w/ facing direction when turning)
 		var forward          := Vector2(-transform.basis.z.x, -transform.basis.z.z).normalized()
