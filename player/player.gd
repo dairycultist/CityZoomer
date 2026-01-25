@@ -15,10 +15,11 @@ var camera_pitch := 0.0
 ## change direction in the air while maintaining speed.
 @export_range(0.0, 0.1, 0.001, "or_greater") var forward_coherence: float = 0.05
 
+var combo_amt: int = 0
+
 func _ready() -> void:
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	$PauseMenu.visible = false
 
 func _process(delta: float) -> void:
 	
@@ -37,9 +38,19 @@ func _process(delta: float) -> void:
 	
 	# jumping
 	if is_on_floor():
+		
 		velocity.y = jump_speed
-		$HopSound.play()
 		$HopSound.pitch_scale = randf_range(0.9, 1.1)
+		$HopSound.play()
+		
+		$ComboSound.pitch_scale = pow(2, combo_amt / 12.0)
+		$ComboSound.play()
+		combo_amt += 1
+		$ComboLabel.text = str(combo_amt) + ("!" if combo_amt < 5 else "!!")
+		$ComboLabel.label_settings.font_size = 0
+		$ComboLabel.label_settings.font_color = Color(1., 1. / combo_amt, 0.)
+	
+	$ComboLabel.label_settings.font_size = lerp($ComboLabel.label_settings.font_size, 48 + combo_amt * 6, 20.0 * delta)
 	
 	move_and_slide()
 	
@@ -70,10 +81,8 @@ func _input(event):
 		
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			$PauseMenu.visible = true
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			$PauseMenu.visible = false
 	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		
