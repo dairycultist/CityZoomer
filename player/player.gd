@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 				$ComboSound.play()
 				
 				combo_label_t = 0.0
-				$ComboLabel.text = str(combo_amt) + ("!" if combo_amt < 5 else "!!")
+				$ComboLabel.text = str(combo_amt) + ("!" if combo_amt < 5 else ("!!" if combo_amt < 8 else "!?!"))
 				$ComboLabel.label_settings.font_color = Color(1., 1. / combo_amt, 0.04 * combo_amt)
 		
 		else:
@@ -71,7 +71,8 @@ func _process(delta: float) -> void:
 				$ComboFailSound.play()
 				$ComboLabel.text = "$%&@"
 	
-	$ComboLabel.label_settings.font_size = lerp(lerp(1, 48 + combo_amt * 6, pow(combo_label_t, 0.3)), 0.0, min(1.0, combo_label_t * combo_label_t))
+	@warning_ignore("integer_division")
+	$ComboLabel.label_settings.font_size = max(1, lerp(lerp(0, 48 + (combo_amt / 2) * 18, pow(combo_label_t, 0.3)), 0.0, min(1.0, combo_label_t * combo_label_t)))
 	combo_label_t += delta
 	
 	move_and_slide()
