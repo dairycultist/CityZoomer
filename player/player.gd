@@ -7,19 +7,33 @@ var camera_pitch := 0.0
 @export var max_camera_distance: float = 3.0
 
 @export_group("Movement")
-@export var ground_accel: float      = 25
-@export var air_accel: float         = 25
-@export var max_velocity: float      = 5
-@export var jump_speed: float        = 8
+@export var ground_accel: float    = 25
+@export var air_accel: float       = 25
+@export var max_velocity: float    = 5
+@export var ground_friction: float = 8
+@export var jump_speed: float      = 8
 ## Lower values make it easier to gain speed. Higher values make it easier to
 ## change direction in the air while maintaining speed.
 @export_range(0.0, 0.1, 0.001, "or_greater") var forward_coherence: float = 0.05
 
-var combo_amt: int = 0
-
-var combo_label_t: float = 0.0
+@export_group("IK")
+@export var left_hand: Node3D
+@export var right_hand: Node3D
+@export var left_target: Node3D
+@export var right_target: Node3D
 
 func _ready() -> void:
+	
+	$Model/AnimationPlayer.current_animation = "Walk"
+	$Model/AnimationPlayer.play()
+	
+	if left_target:
+		left_hand.target_node = left_target.get_path()
+		left_hand.start()
+	
+	if right_target:
+		right_hand.target_node = right_target.get_path()
+		right_hand.start()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -32,48 +46,23 @@ func _process(delta: float) -> void:
 	# gravity
 	velocity.y -= 25.0 * delta
 	
-	print(Vector2(velocity.x, velocity.z).length())
-	
 	# moving
 	if direction:
 		velocity = accelerate(delta, ground_accel if is_on_floor() else air_accel, direction, velocity)
 	
-	# jumping
 	if is_on_floor():
 		
-		velocity.y = jump_speed
-		$HopSound.pitch_scale = randf_range(0.9, 1.1)
-		$HopSound.play()
+		if Input.is_action_pressed("jump"):
 		
-		if combo_amt < 2 or (combo_amt < 9 and randi() % 10 != 0):
-			
-			combo_amt += 1
-			
-			if combo_amt > 1:
-				$ComboSound.pitch_scale = pow(2, (combo_amt - 1) / 12.0)
-				$ComboSound.play()
-				
-				combo_label_t = 0.0
-				$ComboLabel.text = str(combo_amt) + ("!" if combo_amt < 5 else ("!!" if combo_amt < 8 else "!?!"))
-				$ComboLabel.label_settings.font_color = Color(1., 1. / combo_amt, 0.04 * combo_amt)
+			# jumping
+			velocity.y = jump_speed
+			$HopSound.pitch_scale = randf_range(0.9, 1.1)
+			$HopSound.play()
 		
 		else:
 			
-			if randi() % 2 == 0:
-				$ComboLabel.label_settings.font_color = Color.GREEN
-				$ComboEndSound.play()
-				$ComboLabel.text = "OK!" if combo_amt < 5 else ("WOW!!" if combo_amt < 8 else "CRAZY!!")
-			else:
-				$ComboLabel.label_settings.font_color = Color.RED
-				$ComboFailSound.play()
-				$ComboLabel.text = "$%&@"
-			
-			combo_label_t = 0.0
-			combo_amt = 0
-	
-	@warning_ignore("integer_division")
-	$ComboLabel.label_settings.font_size = max(1, lerp(lerp(0, 48 + (combo_amt / 2) * 18, pow(combo_label_t, 0.3)), 0.0, min(1.0, combo_label_t * combo_label_t)))
-	combo_label_t += delta
+			# drag
+			velocity = lerp(velocity, Vector3.ZERO, ground_friction * delta)
 	
 	move_and_slide()
 	
