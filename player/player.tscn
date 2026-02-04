@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
-[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://items/rifle.obj" id="7_hg6s5"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="7_hg6s5"]
 [ext_resource type="Material" uid="uid://c7morv0ouf260" path="res://player/model/player.tres" id="8_8t03j"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
@@ -197,15 +197,26 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 script = ExtResource("1_4flbx")
 left_hand = NodePath("Model/Armature/Skeleton3D/LeftHandIK")
 right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
-left_target = NodePath("Model/Rifle/LeftTargetIK")
-right_target = NodePath("Model/Rifle/RightTargetIK")
+left_target = NodePath("CameraAnchor/Rifle/LeftTargetIK")
+right_target = NodePath("CameraAnchor/Rifle/RightTargetIK")
 
 [node name="CameraAnchor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 8.74228e-08)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5107497, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraAnchor"]
 cull_mask = 1
 fov = 90.0
+
+[node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
+transform = Transform3D(-0.05, 0, -4.37114e-09, 0, 0.05, 0, 4.37114e-09, 0, -0.05, -0.352, -0.24435163, -0.39)
+mesh = ExtResource("7_hg6s5")
+skeleton = NodePath("../..")
+
+[node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
+
+[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
+transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
@@ -230,17 +241,6 @@ texture = ExtResource("6_rgyib")
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.5527137e-15, 0, 0.2)
-
-[node name="Rifle" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.14800003, 1.31, 0.46499997)
-mesh = ExtResource("7_hg6s5")
-skeleton = NodePath("../..")
-
-[node name="LeftTargetIK" type="Node3D" parent="Model/Rifle"]
-transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, 0.650816, -1.86985, 1.77106)
-
-[node name="RightTargetIK" type="Node3D" parent="Model/Rifle"]
-transform = Transform3D(-20, 0, -3.01992e-06, 0, 20, 0, 3.01992e-06, 0, -20, -0.417968, -1.45921, -1.36423)
 
 [node name="Armature" type="Node3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.839765, 0)
