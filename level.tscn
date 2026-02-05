@@ -15,10 +15,6 @@ orientation = 1
 
 [node name="Player" parent="." instance=ExtResource("1_vonw3")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
-accel = 70.0
-max_speed = 8.5
-jump_speed = 7.0
-gravity = 20.0
 
 [node name="Floor" type="StaticBody3D" parent="."]
 

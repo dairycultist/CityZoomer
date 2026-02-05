@@ -13,6 +13,8 @@ var camera_pitch := 0.0
 @export var jump_speed: float = 8
 @export var gravity: float    = 25
 
+var max_speed_bonus: float = 0
+
 @export_group("IK")
 @export var left_hand: Node3D
 @export var right_hand: Node3D
@@ -43,25 +45,39 @@ func _process(delta: float) -> void:
 	# gravity
 	velocity.y -= gravity * delta
 	
-	# moving
-	if direction:
+	# dash
+	if Input.is_action_just_pressed("altfire1"):
 		
-		velocity += direction * accel * delta
+		velocity   += -transform.basis.z * max_speed * 2.0
+		velocity.y += 4
+		max_speed_bonus = max_speed * 2.0
 		
-		var vel2d := Vector2(velocity.x, velocity.z)
-
-		if (vel2d.length() > max_speed):
-			
-			vel2d = vel2d.normalized() * max_speed
-			
-			velocity.x = vel2d.x
-			velocity.z = vel2d.y
+		limit_speed()
 	
-	else:
+	max_speed_bonus = lerp(max_speed_bonus, 0.0, delta)
+	
+	# leap
+	if Input.is_action_just_pressed("altfire2"):
 		
-		# drag
-		velocity.x = lerp(velocity.x, 0.0, drag * delta)
-		velocity.z = lerp(velocity.z, 0.0, drag * delta)
+		velocity = direction * max_speed
+		velocity.y += 13
+		
+		limit_speed()
+	
+	# moving
+	if is_on_floor():
+		
+		if direction:
+			
+			velocity += direction * accel * delta
+			
+			limit_speed()
+		
+		else:
+			
+			# drag
+			velocity.x = lerp(velocity.x, 0.0, drag * delta)
+			velocity.z = lerp(velocity.z, 0.0, drag * delta)
 		
 	if is_on_floor() and Input.is_action_pressed("jump"):
 	
@@ -82,6 +98,17 @@ func _process(delta: float) -> void:
 	else:
 		$CameraAnchor/Camera3D.global_position = $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z
 
+func limit_speed():
+	
+	var vel2d := Vector2(velocity.x, velocity.z)
+
+	if (vel2d.length() > max_speed + max_speed_bonus):
+		
+		vel2d = vel2d.normalized() * (max_speed + max_speed_bonus)
+		
+		velocity.x = vel2d.x
+		velocity.z = vel2d.y
+
 func _input(event):
 	
 	if event.is_action_pressed("pause"):
@@ -101,7 +128,9 @@ func _input(event):
 		
 		$CameraAnchor.rotation.x = deg_to_rad(camera_pitch)
 		
-		# rotate velocity with camera rotation
-		var rotated := Vector2(velocity.x, velocity.z).rotated(-rotation_angle)
+		# rotate velocity with camera rotation with lesser
+		# magnitude proportional to rotation angle
+		var rotated := Vector2(velocity.x, velocity.z).rotated(-rotation_angle).normalized()
+		rotated = rotated * Vector2(velocity.x, velocity.z).dot(rotated)
 		velocity.x = rotated.x
 		velocity.z = rotated.y
