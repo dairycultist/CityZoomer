@@ -7,13 +7,22 @@ var camera_pitch := 0.0
 @export var max_camera_distance: float = 3.0
 
 @export_group("Movement")
-@export var accel: float      = 25
+@export var ground_accel: float = 25
+@export var air_accel: float    = 10
 @export var max_speed: float  = 5
 @export var drag: float       = 8
 @export var jump_speed: float = 8
 @export var gravity: float    = 25
 
+@export_group("Dash")
+
+@export var dash_speed_mult: float = 3
+
 var max_speed_bonus: float = 0
+
+@export_group("Leap")
+
+@export var leap_speed: float = 13
 
 @export_group("IK")
 @export var left_hand: Node3D
@@ -48,36 +57,39 @@ func _process(delta: float) -> void:
 	# dash
 	if Input.is_action_just_pressed("altfire1"):
 		
-		velocity   += -transform.basis.z * max_speed * 2.0
+		max_speed_bonus = dash_speed_mult
+		
+		velocity   += -transform.basis.z * max_speed * max_speed_bonus
 		velocity.y += 4
-		max_speed_bonus = max_speed * 2.0
 		
 		limit_speed()
 	
-	max_speed_bonus = lerp(max_speed_bonus, 0.0, delta)
+	max_speed_bonus = lerp(max_speed_bonus, 1.0, delta)
 	
 	# leap
 	if Input.is_action_just_pressed("altfire2"):
 		
-		velocity = direction * max_speed
-		velocity.y += 13
+		velocity   += direction * max_speed * max_speed_bonus
+		velocity.y += leap_speed
 		
 		limit_speed()
 	
 	# moving
-	if is_on_floor():
+	
+	if direction:
 		
-		if direction:
-			
-			velocity += direction * accel * delta
-			
-			limit_speed()
-		
+		if is_on_floor():
+			velocity += direction * ground_accel * delta
 		else:
-			
-			# drag
-			velocity.x = lerp(velocity.x, 0.0, drag * delta)
-			velocity.z = lerp(velocity.z, 0.0, drag * delta)
+			velocity += direction * air_accel * delta
+		
+		limit_speed()
+	
+	elif is_on_floor():
+		
+		# drag
+		velocity.x = lerp(velocity.x, 0.0, drag * delta)
+		velocity.z = lerp(velocity.z, 0.0, drag * delta)
 		
 	if is_on_floor() and Input.is_action_pressed("jump"):
 	
@@ -102,9 +114,9 @@ func limit_speed():
 	
 	var vel2d := Vector2(velocity.x, velocity.z)
 
-	if (vel2d.length() > max_speed + max_speed_bonus):
+	if (vel2d.length() > max_speed * max_speed_bonus):
 		
-		vel2d = vel2d.normalized() * (max_speed + max_speed_bonus)
+		vel2d = vel2d.normalized() * max_speed * max_speed_bonus
 		
 		velocity.x = vel2d.x
 		velocity.z = vel2d.y
@@ -127,10 +139,3 @@ func _input(event):
 		camera_pitch = clampf(camera_pitch - event.relative.y * mouse_sensitivity, -90, 90)
 		
 		$CameraAnchor.rotation.x = deg_to_rad(camera_pitch)
-		
-		# rotate velocity with camera rotation with lesser
-		# magnitude proportional to rotation angle
-		var rotated := Vector2(velocity.x, velocity.z).rotated(-rotation_angle).normalized()
-		rotated = rotated * Vector2(velocity.x, velocity.z).dot(rotated)
-		velocity.x = rotated.x
-		velocity.z = rotated.y
