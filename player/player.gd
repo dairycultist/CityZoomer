@@ -57,19 +57,18 @@ func _process(delta: float) -> void:
 			velocity.x = vel2d.x
 			velocity.z = vel2d.y
 	
-	if is_on_floor():
+	else:
 		
-		if Input.is_action_pressed("jump"):
+		# drag
+		velocity.x = lerp(velocity.x, 0.0, drag * delta)
+		velocity.z = lerp(velocity.z, 0.0, drag * delta)
 		
-			# jumping
-			velocity.y = jump_speed
-			$HopSound.pitch_scale = randf_range(0.9, 1.1)
-			$HopSound.play()
-		
-		elif not direction:
-			
-			# drag
-			velocity = lerp(velocity, Vector3.ZERO, drag * delta)
+	if is_on_floor() and Input.is_action_pressed("jump"):
+	
+		# jumping
+		velocity.y = jump_speed
+		$HopSound.pitch_scale = randf_range(0.9, 1.1)
+		$HopSound.play()
 	
 	move_and_slide()
 	
