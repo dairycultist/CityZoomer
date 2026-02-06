@@ -14,16 +14,6 @@ var camera_pitch := 0.0
 @export var jump_speed: float = 8
 @export var gravity: float    = 25
 
-@export_group("Dash")
-
-@export var dash_speed_mult: float = 3
-
-var max_speed_bonus: float = 0
-
-@export_group("Leap")
-
-@export var leap_speed: float = 13
-
 @export_group("IK")
 @export var left_hand: Node3D
 @export var right_hand: Node3D
@@ -54,28 +44,7 @@ func _process(delta: float) -> void:
 	# gravity
 	velocity.y -= gravity * delta
 	
-	# dash
-	if Input.is_action_just_pressed("altfire1"):
-		
-		max_speed_bonus = dash_speed_mult
-		
-		velocity   += -transform.basis.z * max_speed * max_speed_bonus
-		velocity.y += 4
-		
-		limit_speed()
-	
-	max_speed_bonus = lerp(max_speed_bonus, 1.0, delta)
-	
-	# leap
-	if Input.is_action_just_pressed("altfire2"):
-		
-		velocity   += direction * max_speed * max_speed_bonus
-		velocity.y += leap_speed
-		
-		limit_speed()
-	
 	# moving
-	
 	if direction:
 		
 		if is_on_floor():
@@ -83,7 +52,15 @@ func _process(delta: float) -> void:
 		else:
 			velocity += direction * air_accel * delta
 		
-		limit_speed()
+		# limit speed
+		var vel2d := Vector2(velocity.x, velocity.z)
+
+		if (vel2d.length() > max_speed):
+			
+			vel2d = vel2d.normalized() * max_speed
+			
+			velocity.x = vel2d.x
+			velocity.z = vel2d.y
 	
 	elif is_on_floor():
 		
@@ -109,17 +86,6 @@ func _process(delta: float) -> void:
 		$CameraAnchor/Camera3D.global_position = result.position
 	else:
 		$CameraAnchor/Camera3D.global_position = $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z
-
-func limit_speed():
-	
-	var vel2d := Vector2(velocity.x, velocity.z)
-
-	if (vel2d.length() > max_speed * max_speed_bonus):
-		
-		vel2d = vel2d.normalized() * max_speed * max_speed_bonus
-		
-		velocity.x = vel2d.x
-		velocity.z = vel2d.y
 
 func _input(event):
 	
