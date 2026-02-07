@@ -11,7 +11,9 @@ Storm the castle-type gameplay format:
 
 short rounds means gameplay is quick and you're usually doing stuff at the same time and around your teammate
 
+simple character controller with big boobs
 
+---
 
 think about cool graphics later I want A FUNDAMENTAL GAMEPLAY FORMAT that's FUN and I LIKE TO PLAY (BY MYSELF WITH BOTS) (and multiplayer later on)
 

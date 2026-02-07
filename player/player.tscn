@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=4 uid="uid://ng6xdry7dssv"]
 
-[ext_resource type="Script" uid="uid://db4nmoieo5cus" path="res://player/player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://bkdclfxtxl7uw" path="res://player/local_player.gd" id="1_qjkh3"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="7_hg6s5"]
@@ -194,7 +194,7 @@ _data = {
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand", "left_target", "right_target")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-script = ExtResource("1_4flbx")
+script = ExtResource("1_qjkh3")
 max_camera_distance = 2.0
 ground_accel = 50.0
 air_accel = 15.0
