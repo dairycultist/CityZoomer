@@ -7,10 +7,14 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
+	# movement
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	_process_move(direction, Input.is_action_pressed("jump"), delta)
+	
+	if Input.is_action_pressed("fire"):
+		_shoot()
 	
 	# place camera
 	var query = PhysicsRayQueryParameters3D.create($CameraAnchor.global_position, $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z)

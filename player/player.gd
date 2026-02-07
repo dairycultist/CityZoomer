@@ -22,9 +22,6 @@ var camera_pitch := 0.0
 @export var left_target: Node3D
 @export var right_target: Node3D
 
-#set_look()
-#damage()
-
 func _ready() -> void:
 	
 	$Model/AnimationPlayer.current_animation = "Walk"
@@ -39,6 +36,14 @@ func _ready() -> void:
 		right_hand.start()
 
 func _process_move(direction, jumping, delta: float) -> void:
+	
+	var result = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+		$CameraAnchor/Camera3D.global_position,
+		$CameraAnchor/Camera3D.global_position - $CameraAnchor/Camera3D.global_basis.z * 50.0
+	))
+	
+	if result:
+		$CameraAnchor/Rifle.look_at(result.position)
 	
 	# gravity
 	velocity.y -= gravity * delta
@@ -76,7 +81,27 @@ func _process_move(direction, jumping, delta: float) -> void:
 	
 	move_and_slide()
 
-func _change_look(d_yaw, d_pitch):
+func _shoot():
+	
+	var result = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+		$CameraAnchor/Camera3D.global_position,
+		$CameraAnchor/Camera3D.global_position - $CameraAnchor/Camera3D.global_basis.z * 50.0
+	))
+	
+	if result:
+		
+		print(result.position)
+		
+		if result.collider is Player:
+			result.collider._damage(10)
+
+func _damage(amt: int):
+	print(name, " took ", amt, " damage")
+
+func _look_at_global(_pos: Vector3):
+	pass
+
+func _change_look(d_yaw: float, d_pitch: float):
 	
 	rotation.y += deg_to_rad(d_yaw)
 		

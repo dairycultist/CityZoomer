@@ -11,6 +11,9 @@ data = PackedVector3Array(10, 0, -6, 7, 0, -6, 10, 0, -10, 10, 0, -10, 7, 0, -6,
 
 [node name="Player" parent="." instance=ExtResource("1_vonw3")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
+mouse_sensitivity = 0.3
+max_speed = 5.0
+drag = 8.0
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
