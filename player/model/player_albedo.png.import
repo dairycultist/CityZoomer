@@ -2,14 +2,14 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d106e8rn5p0l"
+uid="uid://bg7dfy2t847b1"
 path.s3tc="res://.godot/imported/player_albedo.png-51ef8f258eda41c591c502c6b1b3775f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "a180629f52b8a01695f163dc0dbcde5e"
+"md5": "5fb4baffc351f300f615d7b004b98d9f"
 }
 
 [deps]
