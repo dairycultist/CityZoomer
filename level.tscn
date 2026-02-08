@@ -30,6 +30,11 @@ shape = SubResource("ConcavePolygonShape3D_vonw3")
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 mesh = ExtResource("3_oi3di")
 
+[node name="NavigationLink3D" type="NavigationLink3D" parent="NavigationRegion3D"]
+bidirectional = false
+start_position = Vector3(5.0468006, 2.9999008, -18.538357)
+end_position = Vector3(5.047, 0, -17.110928)
+
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 9.204384, 0)
 omni_range = 40.35
@@ -43,5 +48,5 @@ omni_attenuation = 0.3
 omni_shadow_mode = 0
 
 [node name="Bot" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_0b4ue")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.9514759, 2.9999008, -19.506252)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7.601044, 3, -28.216854)
 target = NodePath("../Player")
