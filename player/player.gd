@@ -26,10 +26,10 @@ var spray: float = 0.0
 @export var standing_spray_increase_rate: float = 15.0
 @export var standing_spray_decrease_rate: float = 5.0
 
-@export var running_spray_min: float = 1.0
-@export var running_spray_max: float = 4.0
-@export var running_spray_increase_rate: float = 20.0
-@export var running_spray_decrease_rate: float = 2.0
+@export var moving_spray_min: float = 1.0
+@export var moving_spray_max: float = 4.0
+@export var moving_spray_increase_rate: float = 20.0
+@export var moving_spray_decrease_rate: float = 2.0
 
 @export_group("Movement")
 @export var ground_accel: float = 50
@@ -83,16 +83,16 @@ func _process_move(direction, jumping, delta: float) -> void:
 	if time_since_last_shot < (1.0 / firerate_per_sec):
 		
 		# currently shooting, increase spray
-		if velocity.length() > 0.1:
-			spray = min(running_spray_max, spray + running_spray_increase_rate * delta)
+		if velocity.length() > 0.1: # moving
+			spray = min(moving_spray_max, spray + moving_spray_increase_rate * delta)
 		else:
 			spray = min(standing_spray_max, spray + standing_spray_increase_rate * delta)
 	
 	else:
 		
 		# not shooting, decrease spray
-		if velocity.length() > 0.1:
-			spray = max(running_spray_min, spray - running_spray_decrease_rate * delta)
+		if velocity.length() > 0.1: # moving
+			spray = max(moving_spray_min, spray - moving_spray_decrease_rate * delta)
 		else:
 			spray = max(standing_spray_min, spray - standing_spray_decrease_rate * delta)
 	
