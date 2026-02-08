@@ -83,8 +83,8 @@ func _shoot():
 		if result.collider is Player:
 			result.collider._damage(10)
 
-func _damage(amt: int):
-	print(name, " took ", amt, " damage")
+func _damage(attacker: Player, amt: int):
+	print(name, " took ", amt, " damage from ", attacker.name)
 
 func _look_at_global(_pos: Vector3):
 	pass

@@ -20,13 +20,13 @@ max_camera_distance = 1.0
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_vonw3")
 
-[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D"]
+[node name="Map" type="StaticBody3D" parent="NavigationRegion3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Map"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_vonw3")
 
-[node name="Map" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]
+[node name="Map" type="MeshInstance3D" parent="NavigationRegion3D/Map"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 mesh = ExtResource("3_oi3di")
 
@@ -42,6 +42,6 @@ omni_range = 17.27
 omni_attenuation = 0.3
 omni_shadow_mode = 0
 
-[node name="Player2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_0b4ue")]
+[node name="Bot" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_0b4ue")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.9514759, 2.9999008, -19.506252)
 target = NodePath("../Player")
