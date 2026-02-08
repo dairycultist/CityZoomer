@@ -171,11 +171,22 @@ func _damage(attacker: Player, amt: int):
 
 func _look_at(other: Player):
 	
-	var temp_transform: Transform3D = $CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1., 0.))
+	_look_towards_transform( $CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1., 0.)))
+
+func _look_towards_move():
 	
-	rotation.y = temp_transform.basis.get_rotation_quaternion().get_euler().y
+	if velocity.length() < 0.1:
+		return
 	
-	$CameraAnchor.rotation.x = temp_transform.basis.get_rotation_quaternion().get_euler().x
+	_look_towards_transform(Transform3D().looking_at(velocity))
+
+func _look_towards_transform(t: Transform3D):
+	
+	# TODO add lerp so bots don't snap their look direction
+	
+	rotation.y = t.basis.get_rotation_quaternion().get_euler().y
+	
+	$CameraAnchor.rotation.x = t.basis.get_rotation_quaternion().get_euler().x
 	camera_pitch = rad_to_deg($CameraAnchor.rotation.x)
 
 func _change_look(d_yaw: float, d_pitch: float):

@@ -15,8 +15,6 @@ func _physics_process(delta: float) -> void:
 	# TODO: have "sight" be based on both seeing stuff in front of the agent,
 	# as well as being hit by a bullet
 	
-	_look_at(target)
-	
 	$NavigationAgent3D.target_position = target.global_position
 	
 	if global_position.distance_to(target.global_position) > 3.0:
@@ -26,7 +24,9 @@ func _physics_process(delta: float) -> void:
 		var curr_pos = Vector3(global_position.x, 0.0, global_position.z)
 
 		_process_move((next_pos - curr_pos).normalized(), false, delta)
+		_look_towards_move()
 	
 	else:
 		
 		_process_move(Vector3.ZERO, false, delta)
+		_look_at(target)
