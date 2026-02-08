@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=16 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://bkdclfxtxl7uw" path="res://player/local_player.gd" id="1_qjkh3"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
+[ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/cs_ak_fire.wav" id="4_2kkfv"]
 [ext_resource type="Material" uid="uid://c4du4s1lwy3w" path="res://player/model/player_mat.tres" id="6_2kkfv"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="7_hg6s5"]
@@ -249,6 +250,10 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 
 [node name="HopSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_g1dw6")
+
+[node name="FireSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2kkfv")
+max_polyphony = 10
 
 [node name="Crosshair" type="TextureRect" parent="."]
 anchors_preset = 8

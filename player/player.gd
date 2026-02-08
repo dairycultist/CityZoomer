@@ -12,7 +12,7 @@ enum Team {
 
 @export_group("Gunplay")
 
-@export var recoil: float = 3.0
+@export var recoil: float = 4.0
 
 @export var firerate_per_sec: float = 10
 
@@ -140,6 +140,9 @@ func _shoot():
 	time_since_last_shot = 0.0
 	
 	_change_look(0.0, -recoil)
+	
+	$FireSound.pitch_scale = randf_range(0.95, 1.0)
+	$FireSound.play()
 	
 	var query = PhysicsRayQueryParameters3D.create(
 		$CameraAnchor.global_position,
