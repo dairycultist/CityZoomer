@@ -4,6 +4,12 @@ extends CharacterBody3D
 
 var camera_pitch := 0.0
 
+@export_group("Game")
+enum Team {
+	NoTeam, Attacker, Defender
+}
+@export var team: Team
+
 @export_group("Movement")
 @export var ground_accel: float = 50
 @export var air_accel: float    = 15
@@ -30,6 +36,19 @@ func _ready() -> void:
 	if right_target:
 		right_hand.target_node = right_target.get_path()
 		right_hand.start()
+	
+	# duplicate material
+	var material: ShaderMaterial = $Model/Armature/Skeleton3D/Mercenary.get_surface_override_material(0).duplicate()
+	
+	$Model/Armature/Skeleton3D/Mercenary.set_surface_override_material(0, material)
+	
+	match (team):
+		Team.NoTeam:
+			material.set("shader_parameter/color", Vector3(0.4, 0.4, 0.4));
+		Team.Attacker:
+			material.set("shader_parameter/color", Vector3(1.0, 0.1, 0.0));
+		Team.Defender:
+			material.set("shader_parameter/color", Vector3(0.1, 0.1, 1.0));
 
 func _process_move(direction, jumping, delta: float) -> void:
 	

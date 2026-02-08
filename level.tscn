@@ -16,6 +16,7 @@ data = PackedVector3Array(10, 0, -6.0004, 6.9999, 0, -6.0004, 10, 0, -10, 10, 0,
 [node name="Player" parent="." instance=ExtResource("1_vonw3")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 max_camera_distance = 1.0
+team = 2
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_vonw3")
@@ -50,3 +51,4 @@ omni_shadow_mode = 0
 [node name="Bot" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_0b4ue")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7.601044, 3, -28.216854)
 target = NodePath("../Player")
+team = 1
