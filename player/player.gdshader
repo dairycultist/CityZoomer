@@ -1,6 +1,6 @@
 shader_type spatial;
 
-uniform sampler2D albedo;
+uniform sampler2D albedo : source_color;
 uniform sampler2D color_map;
 
 uniform vec3 color : source_color = vec3(1.0, 0.5, 0.0);
