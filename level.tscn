@@ -10,6 +10,7 @@ data = PackedVector3Array(10, 0, -6.0004, 6.9999, 0, -6.0004, 10, 0, -10, 10, 0,
 
 [node name="Player" parent="." instance=ExtResource("1_vonw3")]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
+max_camera_distance = 1.0
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -22,6 +23,13 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 
 shape = SubResource("ConcavePolygonShape3D_vonw3")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.204384, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 9.204384, 0)
 omni_range = 40.35
 omni_attenuation = 0.1
+omni_shadow_mode = 0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.204384, -27)
+omni_range = 17.27
+omni_attenuation = 0.3
+omni_shadow_mode = 0

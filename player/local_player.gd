@@ -15,16 +15,6 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("fire"):
 		_shoot()
-	
-	# place camera
-	var query = PhysicsRayQueryParameters3D.create($CameraAnchor.global_position, $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z)
-	query.exclude = [get_rid()]
-	var result = get_world_3d().direct_space_state.intersect_ray(query)
-	
-	if (result):
-		$CameraAnchor/Camera3D.global_position = result.position
-	else:
-		$CameraAnchor/Camera3D.global_position = $CameraAnchor.global_position + max_camera_distance * $CameraAnchor.global_transform.basis.z
 
 func _input(event):
 	

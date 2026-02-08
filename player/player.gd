@@ -37,14 +37,6 @@ func _ready() -> void:
 
 func _process_move(direction, jumping, delta: float) -> void:
 	
-	var result = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
-		$CameraAnchor/Camera3D.global_position,
-		$CameraAnchor/Camera3D.global_position - $CameraAnchor/Camera3D.global_basis.z * 50.0
-	))
-	
-	if result:
-		$CameraAnchor/Rifle.look_at(result.position)
-	
 	# gravity
 	velocity.y -= gravity * delta
 	

@@ -206,14 +206,14 @@ left_target = NodePath("CameraAnchor/Rifle/LeftTargetIK")
 right_target = NodePath("CameraAnchor/Rifle/RightTargetIK")
 
 [node name="CameraAnchor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5107497, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraAnchor"]
 cull_mask = 1
 fov = 90.0
 
 [node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
-transform = Transform3D(-0.05, 0, -4.37114e-09, 0, 0.05, 0, 4.37114e-09, 0, -0.05, -0.352, -0.24435163, -0.39)
+transform = Transform3D(-0.05, 0, -4.37114e-09, 0, 0.05, 0, 4.37114e-09, 0, -0.05, 0.148, -0.23360193, -0.39)
 mesh = ExtResource("7_hg6s5")
 skeleton = NodePath("../..")
 
