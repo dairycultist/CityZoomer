@@ -12,9 +12,22 @@ enum Team {
 
 @export_group("Gunplay")
 
+@export var recoil: float = 1.0
+
 @export var firerate_per_sec: float = 10
 
 var time_since_last_shot: float = 0
+
+# spray amount is a float that goes up as you shoot
+var spray: float = 0.0
+
+@export var standing_spray_min: float = 0.0
+@export var standing_spray_max: float = 5.0
+@export var standing_spray_increase_rate: float = 5.0
+@export var standing_spray_decrease_rate: float = 5.0
+
+#@export var running_spray_min: float = 0.0
+#@export var running_spray_max: float = 1.0
 
 @export_group("Movement")
 @export var ground_accel: float = 50
@@ -59,8 +72,21 @@ func _ready() -> void:
 func _process_move(direction, jumping, delta: float) -> void:
 	
 	time_since_last_shot += delta
-	$CameraAnchor/Rifle/BulletTracer.scale.x = max(0.0, 1.0 - 10.0 * time_since_last_shot)
-	$CameraAnchor/Rifle/BulletTracer.scale.y = max(0.0, 1.0 - 10.0 * time_since_last_shot)
+	
+	# fade tracer
+	$CameraAnchor/Rifle/BulletTracer.scale.x = max(0.0, 1.0 - 140.0 * time_since_last_shot * time_since_last_shot)
+	$CameraAnchor/Rifle/BulletTracer.scale.y = $CameraAnchor/Rifle/BulletTracer.scale.x
+	
+	# change spray
+	if time_since_last_shot < (1.0 / firerate_per_sec):
+		
+		# currently shooting, increase spray
+		spray = min(standing_spray_max, spray + standing_spray_increase_rate * delta)
+	
+	else:
+		
+		# not shooting, decrease spray
+		spray = max(standing_spray_min, spray - standing_spray_decrease_rate * delta)
 	
 	# gravity
 	velocity.y -= gravity * delta
@@ -103,14 +129,25 @@ func _shoot():
 	if time_since_last_shot < (1.0 / firerate_per_sec):
 		return
 	
-	var result = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+	time_since_last_shot = 0.0
+	
+	_change_look(0.0, -recoil)
+	
+	var query = PhysicsRayQueryParameters3D.create(
 		$CameraAnchor.global_position,
 		$CameraAnchor.global_position - $CameraAnchor.global_basis.z * 50.0
-	))
+		+ Vector3(
+			randf_range(-spray, spray),
+			randf_range(0, spray),
+			randf_range(-spray, spray)
+		)
+	)
+	
+	query.exclude = [self]
+	
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
 	
 	if result:
-		
-		time_since_last_shot = 0.0
 		
 		$CameraAnchor/Rifle/BulletTracer.look_at(result.position)
 		$CameraAnchor/Rifle/BulletTracer.scale.z = result.position.distance_to($CameraAnchor/Rifle/BulletTracer.global_position)

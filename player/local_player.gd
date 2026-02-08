@@ -1,5 +1,7 @@
 extends Player
 
+#@export var automatic_gunfire: bool = true
+
 @export_group("Camera")
 @export var mouse_sensitivity: float = 0.3
 @export var max_camera_distance: float = 2.0
