@@ -1,5 +1,9 @@
 extends Player
 
+@export_group("Camera")
+@export var mouse_sensitivity: float = 0.3
+@export var max_camera_distance: float = 2.0
+
 func _ready() -> void:
 	
 	super._ready()

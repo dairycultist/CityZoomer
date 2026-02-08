@@ -2,19 +2,15 @@
 class_name Player
 extends CharacterBody3D
 
-@export_group("Camera")
-@export var mouse_sensitivity: float = 0.3
-@export var max_camera_distance: float = 3.0
-
 var camera_pitch := 0.0
 
 @export_group("Movement")
-@export var ground_accel: float = 25
-@export var air_accel: float    = 10
+@export var ground_accel: float = 50
+@export var air_accel: float    = 15
 @export var max_speed: float  = 5
 @export var drag: float       = 8
-@export var jump_speed: float = 8
-@export var gravity: float    = 25
+@export var jump_speed: float = 7
+@export var gravity: float    = 20
 
 @export_group("IK")
 @export var left_hand: Node3D
@@ -76,8 +72,8 @@ func _process_move(direction, jumping, delta: float) -> void:
 func _shoot():
 	
 	var result = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
-		$CameraAnchor/Camera3D.global_position,
-		$CameraAnchor/Camera3D.global_position - $CameraAnchor/Camera3D.global_basis.z * 50.0
+		$CameraAnchor.global_position,
+		$CameraAnchor.global_position - $CameraAnchor.global_basis.z * 50.0
 	))
 	
 	if result:
