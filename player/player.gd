@@ -105,8 +105,14 @@ func _shoot():
 func _damage(attacker: Player, amt: int):
 	print(name, " took ", amt, " damage from ", attacker.name)
 
-func _look_at_global(_pos: Vector3):
-	pass
+func _look_at(other: Player):
+	
+	var temp_transform: Transform3D = $CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1., 0.))
+	
+	rotation.y = temp_transform.basis.get_rotation_quaternion().get_euler().y
+	
+	$CameraAnchor.rotation.x = temp_transform.basis.get_rotation_quaternion().get_euler().x
+	camera_pitch = rad_to_deg($CameraAnchor.rotation.x)
 
 func _change_look(d_yaw: float, d_pitch: float):
 	
