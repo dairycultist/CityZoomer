@@ -81,7 +81,7 @@ func _shoot():
 		print(result.position)
 		
 		if result.collider is Player:
-			result.collider._damage(10)
+			result.collider._damage(self, 10)
 
 func _damage(attacker: Player, amt: int):
 	print(name, " took ", amt, " damage from ", attacker.name)
