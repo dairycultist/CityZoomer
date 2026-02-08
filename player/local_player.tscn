@@ -1,10 +1,22 @@
-[gd_scene load_steps=13 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=15 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://bkdclfxtxl7uw" path="res://player/local_player.gd" id="1_qjkh3"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
 [ext_resource type="Material" uid="uid://c4du4s1lwy3w" path="res://player/model/player_mat.tres" id="6_2kkfv"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="7_hg6s5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l815a"]
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2kkfv"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 1.0
+radial_segments = 6
+rings = 0
+cap_top = false
+cap_bottom = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.3
@@ -214,6 +226,15 @@ fov = 90.0
 [node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
 transform = Transform3D(-0.05, 0, -4.37114e-09, 0, 0.05, 0, 4.37114e-09, 0, -0.05, 0.148, -0.23360193, -0.39)
 mesh = ExtResource("7_hg6s5")
+skeleton = NodePath("../..")
+
+[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Rifle"]
+transform = Transform3D(1, 1.5099579e-07, -1.509958e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -7.1525574e-07, 1.6141415, 4.1918154)
+
+[node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Rifle/BulletTracer"]
+transform = Transform3D(20, -3.4969125e-06, 1.528549e-13, 0, -8.742278e-07, -20, 3.4969125e-06, 20, -8.742278e-07, 0, 0, -10)
+material_override = SubResource("StandardMaterial3D_l815a")
+mesh = SubResource("CylinderMesh_2kkfv")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]

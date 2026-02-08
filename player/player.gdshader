@@ -7,4 +7,6 @@ uniform vec3 color : source_color = vec3(1.0, 0.5, 0.0);
 
 void fragment() {
 	ALBEDO = texture(albedo, UV).rgb * mix(vec3(1.), color, texture(color_map, UV).r);
+	SPECULAR = 0.0;
+	ROUGHNESS = 1.0;
 }

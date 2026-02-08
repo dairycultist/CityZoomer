@@ -10,6 +10,12 @@ enum Team {
 }
 @export var team: Team
 
+@export_group("Gunplay")
+
+@export var firerate_per_sec: float = 10
+
+var time_since_last_shot: float = 0
+
 @export_group("Movement")
 @export var ground_accel: float = 50
 @export var air_accel: float    = 15
@@ -52,6 +58,10 @@ func _ready() -> void:
 
 func _process_move(direction, jumping, delta: float) -> void:
 	
+	time_since_last_shot += delta
+	$CameraAnchor/Rifle/BulletTracer.scale.x = max(0.0, 1.0 - 10.0 * time_since_last_shot)
+	$CameraAnchor/Rifle/BulletTracer.scale.y = max(0.0, 1.0 - 10.0 * time_since_last_shot)
+	
 	# gravity
 	velocity.y -= gravity * delta
 	
@@ -90,6 +100,9 @@ func _process_move(direction, jumping, delta: float) -> void:
 
 func _shoot():
 	
+	if time_since_last_shot < (1.0 / firerate_per_sec):
+		return
+	
 	var result = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
 		$CameraAnchor.global_position,
 		$CameraAnchor.global_position - $CameraAnchor.global_basis.z * 50.0
@@ -97,7 +110,10 @@ func _shoot():
 	
 	if result:
 		
-		print(result.position)
+		time_since_last_shot = 0.0
+		
+		$CameraAnchor/Rifle/BulletTracer.look_at(result.position)
+		$CameraAnchor/Rifle/BulletTracer.scale.z = result.position.distance_to($CameraAnchor/Rifle/BulletTracer.global_position)
 		
 		if result.collider is Player:
 			result.collider._damage(self, 10)
