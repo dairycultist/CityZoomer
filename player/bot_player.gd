@@ -1,5 +1,21 @@
 extends Player
 
+# state machine w/ two states, Offensive and Defensive, which they
+# switch between based on reloading, health, match time, etc
+
+# in Defensive, they try to hide behind cover based on where they
+# think you are, but will still shoot at you if they see you (as
+# they run to cover)
+
+# in Offensive, they'll try to find you based on where they think
+# you are (and scout you out if they learn you're not where they
+# thought you'd be), moving out of cover but not out into the open,
+# just enough to spot you and open fire
+
+# where they "think you are" is based off a sight system that takes
+# into account seeing stuff in front of the agent, being hit by a
+# bullet, hearing other players, etc
+
 @export var target: Node3D
 	
 func _physics_process(delta: float) -> void:
@@ -8,12 +24,6 @@ func _physics_process(delta: float) -> void:
 	# position where the agent can't see the player
 	# (by looping through a list of hiding-spot nodes until
 	# it find one that the player can't see)
-	
-	# TODO: offensive behaviour like scouting for the player's position
-	# (to store in memory), shooting when seeing the player, etc
-	
-	# TODO: have "sight" be based on both seeing stuff in front of the agent,
-	# as well as being hit by a bullet
 	
 	$NavigationAgent3D.target_position = target.global_position
 	
