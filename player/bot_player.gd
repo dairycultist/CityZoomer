@@ -1,27 +1,21 @@
 class_name BotPlayer
 extends Player
 
-# in Offensive, go to nearest hiding spot with foes suspected to be
-# there (if the bot has no idea where any foe is, move randomly)
-# AS SOON AS they spot a foe, they will stand still and open fire
-# (as to not move into the open, just out of cover)
-
-# where they "think you are" is based off a sight system that takes
-# into account seeing stuff in front of the agent, being hit by a
-# bullet, hearing other players, etc
-# the suspected position of each foe is initialized with their spawnpoint
-
 @export var hiding_spot_parent: Node3D
 
 @export var friends: Array[Player]
 @export var foes: Array[Player]
 @export var state: State
 
-# switch between based on reloading, health, match time, etc
 enum State {
 	Defensive,
 	Offensive
 }
+
+func _ready() -> void:
+	super._ready()
+	
+	# TODO the suspected position of each foe is initialized with their spawnpoint
 
 # uses the foe's suspected position based on previous information
 func can_see_suspected_foe(foe_index: int) -> bool:
@@ -95,23 +89,10 @@ func select_hiding_spot():
 
 func _physics_process(delta: float) -> void:
 	
-	if state == State.Defensive:
-		
-		# Defensive: go to nearest hiding spot where we see the fewest
-		# number of foes
-		select_hiding_spot()
-		
-		#if $NavigationAgent3D.distance_to_target() > 10.0:
-			## can't reach cover fast enough, switch to Offensive
-			#state = State.Offensive
-		
-	else:
-		pass
-	
-	# logic shared between Defensive and Offensive
-	
 	# update belief of foe positions (this is the ONLY place where the actual
-	# foe position is/should be used!)
+	# foe position is/should be used!) based off a sight system that takes
+	# into account seeing stuff in front of the agent, being hit by a
+	# bullet, hearing other players, etc
 	for i in range(foes.size()):
 		
 		if can_see_foe(i):
@@ -156,3 +137,25 @@ func _physics_process(delta: float) -> void:
 	if target_foe != -1:
 		_look_at(foes[target_foe], delta) # TODO should be suspected position
 		_shoot()
+	
+	# state-specific logic (determines target_position and that's it!)
+	if state == State.Defensive:
+		
+		# Defensive: go to nearest hiding spot where we see the fewest
+		# number of foes
+		select_hiding_spot()
+		
+		#if $NavigationAgent3D.distance_to_target() > 10.0:
+			## can't reach cover fast enough, switch to Offensive
+			#state = State.Offensive
+		
+		# also switch to Offensive if magazine is full AND match time is above 20s
+		# AND health is above 25
+		
+	else:
+		
+		# Offensive: go to nearest hiding spot with foes suspected to be
+		# visible from there (if the bot has no idea where any foe is,
+		# move randomly); AS SOON AS a foe can be targetted, the bot will stand
+		# still and open fire (as to not move into the open, just out of cover)
+		pass
