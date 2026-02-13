@@ -74,6 +74,11 @@ func _physics_process(delta: float) -> void:
 	
 	# logic shared between Defensive and Offensive
 	# for running and shooting
+	var target_foe = -1
+	
+	if point_can_see_foe($CameraAnchor.global_position, 0):
+		target_foe = 0
+	
 	var next_pos_raw = $NavigationAgent3D.get_next_path_position()
 	var next_pos = Vector3(next_pos_raw.x, 0.0, next_pos_raw.z)
 	var curr_pos = Vector3(global_position.x, 0.0, global_position.z)
@@ -82,12 +87,17 @@ func _physics_process(delta: float) -> void:
 	if diff.length() > 0.5:
 
 		_process_move(diff.normalized(), false, delta)
-		_look_towards_move()
+		if target_foe == -1:
+			_look_towards_move(delta)
 	
 	else:
 		
 		_process_move(Vector3.ZERO, false, delta)
 		#_look_at(target)
 	
-	# TODO the agent will still shoot at you if they see you
-	# (as they run to cover)
+	# TODO the agent will always shoot at you (after a reaction-time
+	# delay) once they see you (whether they're running to cover or
+	# intentionally camping you)
+	if target_foe != -1:
+		_look_at(foes[target_foe], delta)
+		_shoot()

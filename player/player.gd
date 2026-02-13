@@ -169,25 +169,25 @@ func _shoot():
 func _damage(attacker: Player, amt: int):
 	print(name, " took ", amt, " damage from ", attacker.name)
 
-func _look_at(other: Player):
+func _look_at(other: Player, delta: float):
 	
-	_look_towards_transform( $CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1., 0.)))
+	_look_towards_transform($CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1., 0.)), delta)
 
-func _look_towards_move():
+func _look_towards_move(delta: float):
 	
 	if velocity.length() < 0.1:
 		return
 	
-	_look_towards_transform(Transform3D().looking_at(velocity))
+	_look_towards_transform(Transform3D().looking_at(velocity), delta)
 
-func _look_towards_transform(t: Transform3D):
+func _look_towards_transform(t: Transform3D, delta: float):
 	
-	# TODO add lerp so bots don't snap their look direction
+	const LERP_SPEED := 10.0
 	
-	rotation.y = t.basis.get_rotation_quaternion().get_euler().y
+	global_rotation.y = lerp_angle(global_rotation.y, t.basis.get_rotation_quaternion().get_euler().y, LERP_SPEED * delta)
 	
-	$CameraAnchor.rotation.x = t.basis.get_rotation_quaternion().get_euler().x
-	camera_pitch = rad_to_deg($CameraAnchor.rotation.x)
+	$CameraAnchor.global_rotation.x = lerp_angle($CameraAnchor.global_rotation.x, t.basis.get_rotation_quaternion().get_euler().x, LERP_SPEED * delta)
+	camera_pitch = rad_to_deg($CameraAnchor.global_rotation.x)
 
 func _change_look(d_yaw: float, d_pitch: float):
 	
