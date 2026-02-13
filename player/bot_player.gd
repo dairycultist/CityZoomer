@@ -3,7 +3,7 @@ extends Player
 # in Offensive, they'll try to find you based on where they think
 # you are (and scout you out if they learn you're not where they
 # thought you'd be), moving out of cover but not out into the open,
-# just enough to spot you and open fire
+# just enough to spot you, stand still, and open fire
 
 # where they "think you are" is based off a sight system that takes
 # into account seeing stuff in front of the agent, being hit by a
@@ -54,14 +54,18 @@ func select_hiding_spot():
 
 func _physics_process(delta: float) -> void:
 	
-	# Defensive:
-	
-	# if the agent can see the player, move to a
-	# position where the agent can't see the player
-	# (by looping through a list of hiding-spot nodes until
-	# it find one that the player can't see)
-	
-	select_hiding_spot()
+	if state == State.Defensive:
+		
+		# Defensive: go to nearest hiding spot where we see the fewest
+		# number of foes
+		select_hiding_spot()
+		
+		if $NavigationAgent3D.distance_to_target() > 10.0:
+			# can't run to cover fast enough, switch to Offensive
+			state = State.Offensive
+		
+	else:
+		pass
 	
 	# logic shared between Defensive and Offensive
 	# for running and shooting
