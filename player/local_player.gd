@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	_process_move(direction, Input.is_action_pressed("jump"), delta)
+	_process_move(direction, Input.is_action_pressed("jump"), Input.is_action_pressed("ads"), delta)
 	
 	if semiautomatic_firing:
 		if Input.is_action_pressed("fire"):
@@ -26,10 +26,10 @@ func _process(delta: float) -> void:
 			_shoot()
 	
 	# rifle walk animation
-	# TODO while walking (with shift), you ADS
-	$CameraAnchor/Rifle.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * (velocity.length() / max_speed)
-	$CameraAnchor/Rifle.position += Vector3(input_dir.x, 0.0, input_dir.y) * 0.01
-	$CameraAnchor/Rifle.rotation.z += input_dir.x * 0.03
+	if not Input.is_action_pressed("ads"):
+		$CameraAnchor/Rifle.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * (velocity.length() / max_speed)
+		$CameraAnchor/Rifle.position += Vector3(input_dir.x, 0.0, input_dir.y) * 0.01
+		$CameraAnchor/Rifle.rotation.z += input_dir.x * 0.03
 
 func _input(event):
 	

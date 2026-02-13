@@ -22,16 +22,17 @@ var time_since_last_shot: float = 0
 var spray: float = 0.0
 
 var rifle_base_pos: Vector3
+var rifle_ads_pos: Vector3
 
 @export var standing_spray_min: float = 0.0
 @export var standing_spray_max: float = 1.5
 @export var standing_spray_increase_rate: float = 12.0
 @export var standing_spray_decrease_rate: float = 8.0
 
-@export var moving_spray_min: float = 1.0
-@export var moving_spray_max: float = 3.0
-@export var moving_spray_increase_rate: float = 20.0
-@export var moving_spray_decrease_rate: float = 2.0
+@export var running_spray_min: float = 1.0
+@export var running_spray_max: float = 3.0
+@export var running_spray_increase_rate: float = 20.0
+@export var running_spray_decrease_rate: float = 2.0
 
 @export_group("Movement")
 @export var ground_accel: float = 50
@@ -50,6 +51,7 @@ var rifle_base_pos: Vector3
 func _ready() -> void:
 	
 	rifle_base_pos = $CameraAnchor/Rifle.position
+	rifle_ads_pos = Vector3(0.0, rifle_base_pos.y, rifle_base_pos.z) / 2.0 # scuffed
 	
 	$Model/AnimationPlayer.current_animation = "Walk"
 	$Model/AnimationPlayer.play()
@@ -75,7 +77,7 @@ func _ready() -> void:
 		Team.Defender:
 			material.set("shader_parameter/color", Vector3(0.1, 0.1, 1.0));
 
-func _process_move(direction, jumping, delta: float) -> void:
+func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	
 	time_since_last_shot += delta
 	
@@ -87,16 +89,16 @@ func _process_move(direction, jumping, delta: float) -> void:
 	if time_since_last_shot < (1.0 / firerate_per_sec):
 		
 		# currently shooting, increase spray
-		if velocity.length() > 0.1: # moving
-			spray = min(moving_spray_max, spray + moving_spray_increase_rate * delta)
+		if velocity.length() > 0.1 and not ads: # running
+			spray = min(running_spray_max, spray + running_spray_increase_rate * delta)
 		else:
 			spray = min(standing_spray_max, spray + standing_spray_increase_rate * delta)
 	
 	else:
 		
 		# not shooting, decrease spray
-		if velocity.length() > 0.1: # moving
-			spray = max(moving_spray_min, spray - moving_spray_decrease_rate * delta)
+		if velocity.length() > 0.1 and not ads: # running
+			spray = max(running_spray_min, spray - running_spray_decrease_rate * delta)
 		else:
 			spray = max(standing_spray_min, spray - standing_spray_decrease_rate * delta)
 	
@@ -114,9 +116,9 @@ func _process_move(direction, jumping, delta: float) -> void:
 		# limit speed
 		var vel2d := Vector2(velocity.x, velocity.z)
 
-		if (vel2d.length() > max_speed):
+		if (vel2d.length() > (max_speed / 2 if ads else max_speed)):
 			
-			vel2d = vel2d.normalized() * max_speed
+			vel2d = vel2d.normalized() * (max_speed / 2 if ads else max_speed)
 			
 			velocity.x = vel2d.x
 			velocity.z = vel2d.y
@@ -137,7 +139,7 @@ func _process_move(direction, jumping, delta: float) -> void:
 	move_and_slide()
 	
 	# lerp rifle back to default pose
-	$CameraAnchor/Rifle.position = lerp($CameraAnchor/Rifle.position, rifle_base_pos, 10.0 * delta)
+	$CameraAnchor/Rifle.position = lerp($CameraAnchor/Rifle.position, rifle_ads_pos if ads else rifle_base_pos, 10.0 * delta)
 	$CameraAnchor/Rifle.rotation = lerp($CameraAnchor/Rifle.rotation, Vector3(0.0, -PI, 0.0), 10.0 * delta)
 
 func _shoot():

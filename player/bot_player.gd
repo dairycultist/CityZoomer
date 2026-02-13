@@ -125,13 +125,13 @@ func _physics_process(delta: float) -> void:
 	
 	if diff.length() > 0.5:
 
-		_process_move(diff.normalized(), false, delta)
+		_process_move(diff.normalized(), false, false, delta)
 		if target_foe == -1:
 			_look_towards_move(delta)
 	
 	else:
 		
-		_process_move(Vector3.ZERO, false, delta)
+		_process_move(Vector3.ZERO, false, false, delta)
 	
 	# TODO shoot at the target (regardless of if running to cover or being aggressive)
 	if target_foe != -1:
