@@ -1,12 +1,16 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://c4du4s1lwy3w"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://c4du4s1lwy3w"]
 
 [ext_resource type="Shader" uid="uid://bb7yfcdjm20ib" path="res://player/player.gdshader" id="1_wexhl"]
-[ext_resource type="Texture2D" uid="uid://bg7dfy2t847b1" path="res://player/model/player_albedo.png" id="2_wexhl"]
 [ext_resource type="Texture2D" uid="uid://cokhw5ukb1qd4" path="res://player/model/player_colormap.png" id="3_kd30e"]
+[ext_resource type="Texture2D" uid="uid://c8rorqqj0yhir" path="res://player/model/player_1pmask.png" id="3_wexhl"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wfj4u"]
+load_path = "res://.godot/imported/player_albedo.png-51ef8f258eda41c591c502c6b1b3775f.s3tc.ctex"
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_wexhl")
-shader_parameter/albedo = ExtResource("2_wexhl")
+shader_parameter/albedo = SubResource("CompressedTexture2D_wfj4u")
 shader_parameter/color_map = ExtResource("3_kd30e")
+shader_parameter/first_person_mask = ExtResource("3_wexhl")
 shader_parameter/color = Color(0.71421266, 0.71421224, 0.71421224, 1)

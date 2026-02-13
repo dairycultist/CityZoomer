@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=4 uid="uid://dtqvygems848h"]
+[gd_scene load_steps=19 format=4 uid="uid://dtqvygems848h"]
 
 [ext_resource type="Script" uid="uid://b3cq6p8rbsdfj" path="res://player/bot_player.gd" id="1_fsqg5"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="2_tt22f"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_bgo7g"]
 [ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/cs_ak_fire.wav" id="3_fsqg5"]
-[ext_resource type="Material" uid="uid://c4du4s1lwy3w" path="res://player/model/player_mat.tres" id="4_fsqg5"]
+[ext_resource type="Shader" uid="uid://bb7yfcdjm20ib" path="res://player/player.gdshader" id="5_tt22f"]
+[ext_resource type="Texture2D" uid="uid://cokhw5ukb1qd4" path="res://player/model/player_colormap.png" id="6_bgo7g"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fsqg5"]
 shading_mode = 0
@@ -23,7 +24,6 @@ radius = 0.3
 height = 1.7
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fsqg5"]
-load_path = "res://.godot/imported/player_player_albedo.png-e8961a7aa1581b2dc827e57cee2d2649.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw7f2"]
 resource_name = "Material.005"
@@ -96,6 +96,16 @@ bind/13/pose = Transform3D(1, -8.16853e-07, -9.01877e-07, -8.16853e-07, -1, 1.19
 bind/14/name = &"RFoot"
 bind/14/bone = -1
 bind/14/pose = Transform3D(1, -3.89414e-07, -9.91893e-16, -7.95141e-14, -2.04189e-07, 1, -3.89414e-07, -1, -1.48519e-07, 0.118653, -1.82322e-08, 0.0440899)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wfj4u"]
+load_path = "res://.godot/imported/player_albedo.png-51ef8f258eda41c591c502c6b1b3775f.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqafp"]
+render_priority = 0
+shader = ExtResource("5_tt22f")
+shader_parameter/albedo = SubResource("CompressedTexture2D_wfj4u")
+shader_parameter/color_map = ExtResource("6_bgo7g")
+shader_parameter/color = Color(0.71421266, 0.71421224, 0.71421224, 1)
 
 [sub_resource type="Animation" id="Animation_qf8er"]
 resource_name = "Idle"
@@ -371,7 +381,7 @@ bones/14/scale = Vector3(1, 1, 1)
 [node name="Mercenary" type="MeshInstance3D" parent="Model/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_tt22f")
 skin = SubResource("Skin_ebec5")
-surface_material_override/0 = ExtResource("4_fsqg5")
+surface_material_override/0 = SubResource("ShaderMaterial_eqafp")
 
 [node name="LeftHandIK" type="SkeletonIK3D" parent="Model/Armature/Skeleton3D"]
 root_bone = &"LArm"
