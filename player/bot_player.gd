@@ -20,6 +20,17 @@ enum State {
 	Offensive
 }
 
+func point_can_see_foe(global_point: Vector3, foe_index: int) -> bool:
+	
+	var query = PhysicsRayQueryParameters3D.create(
+		global_point,
+		foes[foe_index].global_position + Vector3.UP
+	)
+	
+	query.exclude = [self, foes[foe_index]]
+	
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+
 func select_hiding_spot():
 	
 	var hiding_spots := hiding_spot_parent.get_children().duplicate()
@@ -33,23 +44,17 @@ func select_hiding_spot():
 	# at it
 	var best_amt = 100
 	
-	# select nearest hiding spot where we can't see TODO any foe
-	for i in range(hiding_spots.size()):
+	# select nearest hiding spot where we can't see any foe
+	for hiding_spot in hiding_spots:
 		
-		# raycast from the hiding spot to the foe
-		var query = PhysicsRayQueryParameters3D.create(
-			hiding_spots[i].global_position + Vector3.UP,
-			foes[0].global_position + Vector3.UP
-		)
+		var amt = 0
 		
-		query.exclude = [self, foes[0]]
-		
-		var result = get_world_3d().direct_space_state.intersect_ray(query)
-		
-		var amt = 0 if result else 1
+		for i in range(foes.size()):
+			if point_can_see_foe(hiding_spot.global_position + Vector3.UP, i):
+				amt += 1
 		
 		if amt < best_amt:
-			$NavigationAgent3D.target_position = hiding_spots[i].global_position
+			$NavigationAgent3D.target_position = hiding_spot.global_position
 			best_amt = amt
 
 func _physics_process(delta: float) -> void:
@@ -60,9 +65,9 @@ func _physics_process(delta: float) -> void:
 		# number of foes
 		select_hiding_spot()
 		
-		if $NavigationAgent3D.distance_to_target() > 10.0:
-			# can't run to cover fast enough, switch to Offensive
-			state = State.Offensive
+		#if $NavigationAgent3D.distance_to_target() > 10.0:
+			## can't run to cover fast enough, switch to Offensive
+			#state = State.Offensive
 		
 	else:
 		pass
