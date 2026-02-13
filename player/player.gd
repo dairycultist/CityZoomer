@@ -141,6 +141,9 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	# lerp rifle back to default pose
 	$CameraAnchor/Rifle.position = lerp($CameraAnchor/Rifle.position, rifle_ads_pos if ads else rifle_base_pos, 10.0 * delta)
 	$CameraAnchor/Rifle.rotation = lerp($CameraAnchor/Rifle.rotation, Vector3(0.0, -PI, 0.0), (20.0 if ads else 10.0) * delta)
+	
+	# muzzle flash
+	$CameraAnchor/Rifle/MuzzleFlash.scale = lerp($CameraAnchor/Rifle/MuzzleFlash.scale, Vector3.ZERO, 10.0 * delta)
 
 func _shoot():
 	
@@ -151,6 +154,10 @@ func _shoot():
 	
 	# recoil animation
 	$CameraAnchor/Rifle.position.z += 0.05
+	
+	# muzzle flash
+	$CameraAnchor/Rifle/MuzzleFlash.scale = Vector3.ONE
+	$CameraAnchor/Rifle/MuzzleFlash.rotation.z = randf_range(0.0, PI * 2.0)
 	
 	$FireSound.pitch_scale = randf_range(0.95, 1.0)
 	$FireSound.play()

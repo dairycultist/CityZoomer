@@ -20,7 +20,7 @@ fun to play (by myself with bots) (multiplayer is planned tho)
 - finalize bot positioning + state change behaviour
 - add reloading
 - add actual dynamic animation
-- add muzzle flashes and bullet holes and a pistol 3D model
+- add bullet holes and a pistol 3D model
 - add footstep sounds (probably just the jump sound with a shorter tail?)
 - I have the idea of making the map kinda like a warehouse
   (with high up windows, vents with fans, a big garage door like
