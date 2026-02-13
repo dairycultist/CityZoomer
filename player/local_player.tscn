@@ -1,11 +1,17 @@
-[gd_scene load_steps=16 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=18 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://bkdclfxtxl7uw" path="res://player/local_player.gd" id="1_qjkh3"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
+[ext_resource type="Texture2D" uid="uid://c21bqdq4iq4sx" path="res://player/model/rifle_accent.png" id="3_qvl2y"]
 [ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/cs_ak_fire.wav" id="4_2kkfv"]
 [ext_resource type="Material" uid="uid://c4du4s1lwy3w" path="res://player/model/player_mat.tres" id="6_2kkfv"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="7_hg6s5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhgsi"]
+albedo_color = Color(1, 0.40607405, 0.5454232, 1)
+albedo_texture = ExtResource("3_qvl2y")
+uv1_scale = Vector3(1, 10, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l815a"]
 shading_mode = 0
@@ -229,6 +235,7 @@ fov = 90.0
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0.148, -0.23360193, -0.39)
 mesh = ExtResource("7_hg6s5")
 skeleton = NodePath("../..")
+surface_material_override/1 = SubResource("StandardMaterial3D_xhgsi")
 
 [node name="BulletTracer" type="Node3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.1920929e-07, 0.06549227, 0.5813817)
