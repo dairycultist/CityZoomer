@@ -22,12 +22,12 @@ var time_since_last_shot: float = 0
 var spray: float = 0.0
 
 @export var standing_spray_min: float = 0.0
-@export var standing_spray_max: float = 3.0
-@export var standing_spray_increase_rate: float = 15.0
-@export var standing_spray_decrease_rate: float = 5.0
+@export var standing_spray_max: float = 1.5
+@export var standing_spray_increase_rate: float = 12.0
+@export var standing_spray_decrease_rate: float = 8.0
 
 @export var moving_spray_min: float = 1.0
-@export var moving_spray_max: float = 4.0
+@export var moving_spray_max: float = 3.0
 @export var moving_spray_increase_rate: float = 20.0
 @export var moving_spray_decrease_rate: float = 2.0
 

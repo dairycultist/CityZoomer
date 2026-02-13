@@ -51,10 +51,14 @@ func select_hiding_spot():
 		
 		# if one of your friends (bot) is closer to this spot than you are,
 		# and they are in the Defense state, ignore this spot
+		var skip_this_spot := false
 		for i in range(friends.size()):
 			if friends[i] is BotPlayer:
 				if friends[i].global_position.distance_squared_to(hiding_spot.global_position) < global_position.distance_squared_to(hiding_spot.global_position):
-					continue
+					skip_this_spot = true
+					break
+		if skip_this_spot:
+			continue
 		
 		# otherwise, count how many foes can be seen from this spot
 		var amt = 0
