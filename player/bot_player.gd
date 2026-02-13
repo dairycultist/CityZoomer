@@ -22,10 +22,35 @@ enum State {
 
 func select_hiding_spot():
 	
-	$NavigationAgent3D.target_position = hiding_spot_parent.get_child(0).global_position
+	var hiding_spots := hiding_spot_parent.get_children().duplicate()
 	
-	for i in range(hiding_spot_parent.get_child_count()):
-		pass
+	# sort hiding spots nearest to furthest from bot player
+	hiding_spots.sort_custom(func(a, b):
+		return a.global_position.distance_squared_to(self.global_position) < b.global_position.distance_squared_to(self.global_position)
+	)
+	
+	# the currently selected hiding spot has this amount of foes visible
+	# at it
+	var best_amt = 100
+	
+	# select nearest hiding spot where we can't see TODO any foe
+	for i in range(hiding_spots.size()):
+		
+		# raycast from the hiding spot to the foe
+		var query = PhysicsRayQueryParameters3D.create(
+			hiding_spots[i].global_position + Vector3.UP,
+			foes[0].global_position + Vector3.UP
+		)
+		
+		query.exclude = [self, foes[0]]
+		
+		var result = get_world_3d().direct_space_state.intersect_ray(query)
+		
+		var amt = 0 if result else 1
+		
+		if amt < best_amt:
+			$NavigationAgent3D.target_position = hiding_spots[i].global_position
+			best_amt = amt
 
 func _physics_process(delta: float) -> void:
 	
