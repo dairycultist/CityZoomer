@@ -17,23 +17,23 @@ fun to play (by myself with bots) (multiplayer is planned tho)
 
 ---
 
-add muzzle flashes and bullet holes and a pistol 3D model
+- finalize bot positioning + state change behaviour
+- add reloading
+- add actual dynamic animation
+- add muzzle flashes and bullet holes and a pistol 3D model
+- add footstep sounds (probably just the jump sound with a shorter tail?)
+- I have the idea of making the map kinda like a warehouse
+  (with high up windows, vents with fans, a big garage door like
+  on nuke, and have attackers spawn outside in a loading bay),
+  I wonder why the defenders would be defending it tho
+- round system, including timer, score tracking, and spectating
 
-add footstep sounds (probably just the jump sound with a shorter tail?)
-
-I have the idea of making the map kinda like a warehouse
-(with high up windows, vents with fans, a big garage door like
-on nuke, and have attackers spawn outside in a loading bay),
-I wonder why the defenders would be defending it tho
+after all that, u can refactor :3
 
 ---
-
-mercenary
 
 I like ZZZ's characters (scifi worldbuilding/setting/clothing/boobs)
 
 hire a korean fiverr voice actress to perform a stoic yet endearing line delivery
-
-"let's bounce!"
 
 character customization: placeholder base 3D model with 1) bones 2) shapekeys for body proportion sliders 3) texture compositing (separate face, clothing, and white skin texture for color change) 4) hat anchor

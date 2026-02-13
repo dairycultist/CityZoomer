@@ -21,6 +21,8 @@ var time_since_last_shot: float = 0
 # spray amount is a float that goes up as you shoot
 var spray: float = 0.0
 
+var rifle_base_pos: Vector3
+
 @export var standing_spray_min: float = 0.0
 @export var standing_spray_max: float = 1.5
 @export var standing_spray_increase_rate: float = 12.0
@@ -46,6 +48,8 @@ var spray: float = 0.0
 @export var right_target: Node3D
 
 func _ready() -> void:
+	
+	rifle_base_pos = $CameraAnchor/Rifle.position
 	
 	$Model/AnimationPlayer.current_animation = "Walk"
 	$Model/AnimationPlayer.play()
@@ -131,6 +135,10 @@ func _process_move(direction, jumping, delta: float) -> void:
 		$HopSound.play()
 	
 	move_and_slide()
+	
+	# lerp rifle back to default pose
+	$CameraAnchor/Rifle.position = lerp($CameraAnchor/Rifle.position, rifle_base_pos, 10.0 * delta)
+	$CameraAnchor/Rifle.rotation = lerp($CameraAnchor/Rifle.rotation, Vector3(0.0, -PI, 0.0), 10.0 * delta)
 
 func _shoot():
 	
@@ -139,7 +147,8 @@ func _shoot():
 	
 	time_since_last_shot = 0.0
 	
-	_change_look(0.0, -recoil)
+	# recoil animation
+	$CameraAnchor/Rifle.position.z += 0.02
 	
 	$FireSound.pitch_scale = randf_range(0.95, 1.0)
 	$FireSound.play()
@@ -206,3 +215,8 @@ func _change_look(d_yaw: float, d_pitch: float):
 		$Model/Armature/Skeleton3D.find_bone("Head"),
 		Quaternion.from_euler(Vector3(-deg_to_rad(camera_pitch), 0, 0))
 	)
+	
+	# rifle animation
+	$CameraAnchor/Rifle.rotation.x += d_pitch * 0.001 / 0.3
+	$CameraAnchor/Rifle.rotation.y += d_yaw * 0.001 / 0.3
+	$CameraAnchor/Rifle.rotation.z -= d_yaw * 0.001 / 0.3
