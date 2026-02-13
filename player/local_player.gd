@@ -1,10 +1,9 @@
 extends Player
 
-#@export var automatic_gunfire: bool = true
+@export var semiautomatic_firing: bool = true
 
 @export_group("Camera")
 @export var mouse_sensitivity: float = 0.3
-@export var max_camera_distance: float = 2.0
 
 func _ready() -> void:
 	
@@ -19,8 +18,12 @@ func _process(delta: float) -> void:
 	
 	_process_move(direction, Input.is_action_pressed("jump"), delta)
 	
-	if Input.is_action_pressed("fire"):
-		_shoot()
+	if semiautomatic_firing:
+		if Input.is_action_pressed("fire"):
+			_shoot()
+	else:
+		if Input.is_action_just_pressed("fire"):
+			_shoot()
 
 func _input(event):
 	
