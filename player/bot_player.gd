@@ -1,3 +1,4 @@
+class_name BotPlayer
 extends Player
 
 # in Offensive, they'll try to find you based on where they think
@@ -11,6 +12,7 @@ extends Player
 
 @export var hiding_spot_parent: Node3D
 
+@export var friends: Array[Player]
 @export var foes: Array[Player]
 @export var state: State
 
@@ -27,7 +29,7 @@ func point_can_see_foe(global_point: Vector3, foe_index: int) -> bool:
 		foes[foe_index].global_position + Vector3.UP
 	)
 	
-	query.exclude = [self, foes[foe_index]]
+	query.collision_mask = 1 # terrain is layer 1, players are layer 2
 	
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
@@ -37,7 +39,7 @@ func select_hiding_spot():
 	
 	# sort hiding spots nearest to furthest from bot player
 	hiding_spots.sort_custom(func(a, b):
-		return a.global_position.distance_squared_to(self.global_position) < b.global_position.distance_squared_to(self.global_position)
+		return a.global_position.distance_squared_to(global_position) < b.global_position.distance_squared_to(global_position)
 	)
 	
 	# the currently selected hiding spot has this amount of foes visible
@@ -47,6 +49,14 @@ func select_hiding_spot():
 	# select nearest hiding spot where we can't see any foe
 	for hiding_spot in hiding_spots:
 		
+		# if one of your friends (bot) is closer to this spot than you are,
+		# and they are in the Defense state, ignore this spot
+		for i in range(friends.size()):
+			if friends[i] is BotPlayer:
+				if friends[i].global_position.distance_squared_to(hiding_spot.global_position) < global_position.distance_squared_to(hiding_spot.global_position):
+					continue
+		
+		# otherwise, count how many foes can be seen from this spot
 		var amt = 0
 		
 		for i in range(foes.size()):

@@ -212,6 +212,8 @@ _data = {
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand", "left_target", "right_target")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_fsqg5")
 left_hand = NodePath("Model/Armature/Skeleton3D/LeftHandIK")
 right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
