@@ -133,7 +133,7 @@ func _physics_process(delta: float) -> void:
 		
 		_process_move(Vector3.ZERO, false, false, delta)
 	
-	# TODO shoot at the target (regardless of if running to cover or being aggressive)
+	# shoot at the target (regardless of if running to cover or being aggressive)
 	if target_foe != -1:
 		_look_at(foes[target_foe], delta) # TODO should be suspected position
 		_shoot()
