@@ -140,7 +140,7 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	
 	# lerp rifle back to default pose
 	$CameraAnchor/Rifle.position = lerp($CameraAnchor/Rifle.position, rifle_ads_pos if ads else rifle_base_pos, 10.0 * delta)
-	$CameraAnchor/Rifle.rotation = lerp($CameraAnchor/Rifle.rotation, Vector3(0.0, -PI, 0.0), 10.0 * delta)
+	$CameraAnchor/Rifle.rotation = lerp($CameraAnchor/Rifle.rotation, Vector3(0.0, -PI, 0.0), (20.0 if ads else 10.0) * delta)
 
 func _shoot():
 	
