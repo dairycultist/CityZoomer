@@ -180,7 +180,7 @@ func _damage(attacker: Player, amt: int):
 
 func _look_at(other: Player, delta: float):
 	
-	_look_towards_transform($CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1., 0.)), delta)
+	_look_towards_transform($CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1.5, 0.)), delta)
 
 func _look_towards_move(delta: float):
 	

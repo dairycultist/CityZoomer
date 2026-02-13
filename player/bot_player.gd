@@ -27,7 +27,7 @@ func point_can_see_suspected_foe(global_point: Vector3, foe_index: int) -> bool:
 	
 	var query = PhysicsRayQueryParameters3D.create(
 		global_point,
-		foes[foe_index].global_position + Vector3.UP
+		foes[foe_index].global_position + $CameraAnchor.position
 	)
 	
 	query.collision_mask = 1 # terrain is layer 1, players are layer 2
@@ -42,7 +42,7 @@ func point_can_see_foe(global_point: Vector3, foe_index: int) -> bool:
 	
 	var query = PhysicsRayQueryParameters3D.create(
 		global_point,
-		foes[foe_index].global_position + Vector3.UP
+		foes[foe_index].global_position + $CameraAnchor.position
 	)
 	
 	query.collision_mask = 1 # terrain is layer 1, players are layer 2
@@ -80,7 +80,7 @@ func select_hiding_spot():
 		var amt = 0
 		
 		for i in range(foes.size()):
-			if point_can_see_suspected_foe(hiding_spot.global_position + Vector3.UP, i):
+			if point_can_see_suspected_foe(hiding_spot.global_position + $CameraAnchor.position, i):
 				amt += 1
 		
 		if amt < best_amt:
