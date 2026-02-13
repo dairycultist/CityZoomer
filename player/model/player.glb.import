@@ -2098,9 +2098,9 @@ _subresources={
 },
 "materials": {
 "Material.005": {
-"use_external/enabled": true,
-"use_external/fallback_path": "",
-"use_external/path": "uid://c7morv0ouf260"
+"use_external/enabled": false,
+"use_external/fallback_path": "res://player/model/player_mat.tres",
+"use_external/path": "uid://c4du4s1lwy3w"
 }
 }
 }
