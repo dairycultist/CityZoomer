@@ -217,6 +217,6 @@ func _change_look(d_yaw: float, d_pitch: float):
 	)
 	
 	# rifle animation
-	$CameraAnchor/Rifle.rotation.x += d_pitch * 0.001 / 0.3
-	$CameraAnchor/Rifle.rotation.y += d_yaw * 0.001 / 0.3
-	$CameraAnchor/Rifle.rotation.z -= d_yaw * 0.001 / 0.3
+	$CameraAnchor/Rifle.rotation.x += d_pitch * 0.01 / 3
+	$CameraAnchor/Rifle.rotation.y += d_yaw * 0.01 / 3
+	$CameraAnchor/Rifle.rotation.z -= d_yaw * 0.005
