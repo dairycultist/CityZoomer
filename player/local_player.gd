@@ -25,8 +25,8 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("fire"):
 			_shoot()
 	
-	# TODO make this not hardcoded
-	$CameraAnchor/Rifle.position.y = -0.234 + sin(Time.get_ticks_msec() * 0.02) * 0.01 * (velocity.length() / max_speed)
+	# rifle walk animation
+	$CameraAnchor/Rifle.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.005 * (velocity.length() / max_speed)
 
 func _input(event):
 	

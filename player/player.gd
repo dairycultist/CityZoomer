@@ -148,7 +148,7 @@ func _shoot():
 	time_since_last_shot = 0.0
 	
 	# recoil animation
-	$CameraAnchor/Rifle.position.z += 0.02
+	$CameraAnchor/Rifle.position.z += 0.05
 	
 	$FireSound.pitch_scale = randf_range(0.95, 1.0)
 	$FireSound.play()
