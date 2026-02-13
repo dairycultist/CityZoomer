@@ -29,6 +29,8 @@ func can_see_suspected_foe(foe_index: int) -> bool:
 	
 func point_can_see_suspected_foe(global_point: Vector3, foe_index: int) -> bool:
 	
+	# TODO make partial knowledge
+	
 	var query = PhysicsRayQueryParameters3D.create(
 		global_point,
 		foes[foe_index].global_position + Vector3.UP
@@ -62,15 +64,14 @@ func select_hiding_spot():
 		return a.global_position.distance_squared_to(global_position) < b.global_position.distance_squared_to(global_position)
 	)
 	
-	# the currently selected hiding spot has this amount of foes visible
-	# at it
+	# the currently selected hiding spot has this amount of foes visible at it
 	var best_amt = 100
 	
 	# select nearest hiding spot where we can't see any foe
 	for hiding_spot in hiding_spots:
 		
-		# if one of your friends (bot) is closer to this spot than you are,
-		# and they are in the Defense state, ignore this spot
+		# if one of your BOT friends is closer to this spot than you are, and
+		# they are in the Defense state, ignore this spot (to prevent crowding)
 		var skip_this_spot := false
 		
 		for i in range(friends.size()):
@@ -101,7 +102,7 @@ func _physics_process(delta: float) -> void:
 		select_hiding_spot()
 		
 		#if $NavigationAgent3D.distance_to_target() > 10.0:
-			## can't run to cover fast enough, switch to Offensive
+			## can't reach cover fast enough, switch to Offensive
 			#state = State.Offensive
 		
 	else:
@@ -109,17 +110,30 @@ func _physics_process(delta: float) -> void:
 	
 	# logic shared between Defensive and Offensive
 	
-	# update belief of foe positions
+	# update belief of foe positions (this is the ONLY place where the actual
+	# foe position is/should be used!)
 	for i in range(foes.size()):
 		
-		if can_see_suspected_foe(i) and not can_see_foe(i):
-			# TODO toss out belief about where foe is suspected to be
+		if can_see_foe(i):
+			
+			# TODO if above zero, decrement reaction timer by delta;
+			#      otherwise, update the suspected foe position
 			pass
+		
+		else:
+			
+			# TODO reset reaction timer
+			
+			if can_see_suspected_foe(i):
+			
+				# TODO we suspect the foe to be somewhere they aren't,
+				#      toss out belief about where foe is suspected to be
+				pass
 	
 	# get a targeted foe if possible
 	var target_foe = -1
 	
-	if can_see_foe(0):
+	if can_see_suspected_foe(0): # suspected, to account for reaction time and prefiring
 		target_foe = 0
 	
 	# running
@@ -138,9 +152,7 @@ func _physics_process(delta: float) -> void:
 		
 		_process_move(Vector3.ZERO, false, delta)
 	
-	# TODO the agent will always shoot at you (after a reaction-time
-	# delay) once they see you (whether they're running to cover or
-	# intentionally camping you)
+	# TODO shoot at the target (regardless of if running to cover or being aggressive)
 	if target_foe != -1:
-		_look_at(foes[target_foe], delta)
+		_look_at(foes[target_foe], delta) # TODO should be suspected position
 		_shoot()
