@@ -146,11 +146,11 @@ func _shoot():
 	
 	var query = PhysicsRayQueryParameters3D.create(
 		$CameraAnchor.global_position,
-		$CameraAnchor.global_position - $CameraAnchor.global_basis.z * 50.0
+		$CameraAnchor.global_position - $CameraAnchor.global_basis.z * 500.0
 		+ Vector3(
-			randf_range(-spray, spray),
-			randf_range(0, spray),
-			randf_range(-spray, spray)
+			randf_range(-spray, spray) * 10,
+			randf_range(0, spray) * 10,
+			randf_range(-spray, spray) * 10
 		)
 	)
 	

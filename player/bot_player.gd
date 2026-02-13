@@ -1,14 +1,15 @@
 class_name BotPlayer
 extends Player
 
-# in Offensive, they'll try to find you based on where they think
-# you are (and scout you out if they learn you're not where they
-# thought you'd be), moving out of cover but not out into the open,
-# just enough to spot you, stand still, and open fire
+# in Offensive, go to nearest hiding spot with foes suspected to be
+# there (if the bot has no idea where any foe is, move randomly)
+# AS SOON AS they spot a foe, they will stand still and open fire
+# (as to not move into the open, just out of cover)
 
 # where they "think you are" is based off a sight system that takes
 # into account seeing stuff in front of the agent, being hit by a
 # bullet, hearing other players, etc
+# the suspected position of each foe is initialized with their spawnpoint
 
 @export var hiding_spot_parent: Node3D
 
@@ -22,6 +23,25 @@ enum State {
 	Offensive
 }
 
+# uses the foe's suspected position based on previous information
+func can_see_suspected_foe(foe_index: int) -> bool:
+	return point_can_see_suspected_foe($CameraAnchor.global_position, foe_index)
+	
+func point_can_see_suspected_foe(global_point: Vector3, foe_index: int) -> bool:
+	
+	var query = PhysicsRayQueryParameters3D.create(
+		global_point,
+		foes[foe_index].global_position + Vector3.UP
+	)
+	
+	query.collision_mask = 1 # terrain is layer 1, players are layer 2
+	
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+
+# uses the foe's true position
+func can_see_foe(foe_index: int) -> bool:
+	return point_can_see_foe($CameraAnchor.global_position, foe_index)
+	
 func point_can_see_foe(global_point: Vector3, foe_index: int) -> bool:
 	
 	var query = PhysicsRayQueryParameters3D.create(
@@ -65,7 +85,7 @@ func select_hiding_spot():
 		var amt = 0
 		
 		for i in range(foes.size()):
-			if point_can_see_foe(hiding_spot.global_position + Vector3.UP, i):
+			if point_can_see_suspected_foe(hiding_spot.global_position + Vector3.UP, i):
 				amt += 1
 		
 		if amt < best_amt:
@@ -88,12 +108,21 @@ func _physics_process(delta: float) -> void:
 		pass
 	
 	# logic shared between Defensive and Offensive
-	# for running and shooting
+	
+	# update belief of foe positions
+	for i in range(foes.size()):
+		
+		if can_see_suspected_foe(i) and not can_see_foe(i):
+			# TODO toss out belief about where foe is suspected to be
+			pass
+	
+	# get a targeted foe if possible
 	var target_foe = -1
 	
-	if point_can_see_foe($CameraAnchor.global_position, 0):
+	if can_see_foe(0):
 		target_foe = 0
 	
+	# running
 	var next_pos_raw = $NavigationAgent3D.get_next_path_position()
 	var next_pos = Vector3(next_pos_raw.x, 0.0, next_pos_raw.z)
 	var curr_pos = Vector3(global_position.x, 0.0, global_position.z)
@@ -108,7 +137,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		
 		_process_move(Vector3.ZERO, false, delta)
-		#_look_at(target)
 	
 	# TODO the agent will always shoot at you (after a reaction-time
 	# delay) once they see you (whether they're running to cover or
