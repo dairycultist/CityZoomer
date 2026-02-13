@@ -188,6 +188,11 @@ func _look_towards_transform(t: Transform3D, delta: float):
 	
 	$CameraAnchor.global_rotation.x = lerp_angle($CameraAnchor.global_rotation.x, t.basis.get_rotation_quaternion().get_euler().x, LERP_SPEED * delta)
 	camera_pitch = rad_to_deg($CameraAnchor.global_rotation.x)
+	
+	$Model/Armature/Skeleton3D.set_bone_pose_rotation(
+		$Model/Armature/Skeleton3D.find_bone("Head"),
+		Quaternion.from_euler(Vector3(-deg_to_rad(camera_pitch), 0, 0))
+	)
 
 func _change_look(d_yaw: float, d_pitch: float):
 	
@@ -196,3 +201,8 @@ func _change_look(d_yaw: float, d_pitch: float):
 	camera_pitch = clampf(camera_pitch - d_pitch, -90, 90)
 	
 	$CameraAnchor.rotation.x = deg_to_rad(camera_pitch)
+	
+	$Model/Armature/Skeleton3D.set_bone_pose_rotation(
+		$Model/Armature/Skeleton3D.find_bone("Head"),
+		Quaternion.from_euler(Vector3(-deg_to_rad(camera_pitch), 0, 0))
+	)
