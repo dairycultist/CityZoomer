@@ -2,17 +2,17 @@
 
 [ext_resource type="Script" uid="uid://bkdclfxtxl7uw" path="res://player/local_player.gd" id="1_qjkh3"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
-[ext_resource type="Texture2D" uid="uid://c21bqdq4iq4sx" path="res://player/model/rifle_accent.png" id="3_qvl2y"]
+[ext_resource type="Texture2D" uid="uid://c21bqdq4iq4sx" path="res://player/model/firearms/firearm_accent.png" id="3_qvl2y"]
 [ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/cs_ak_fire.wav" id="4_2kkfv"]
-[ext_resource type="Texture2D" uid="uid://bywh52cmbxe0" path="res://player/model/muzzle_flash.png" id="4_xhgsi"]
+[ext_resource type="Texture2D" uid="uid://bywh52cmbxe0" path="res://player/model/firearms/muzzle_flash.png" id="4_xhgsi"]
 [ext_resource type="Material" uid="uid://c4du4s1lwy3w" path="res://player/model/player_mat.tres" id="6_2kkfv"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
-[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="7_hg6s5"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/firearms/rifle/rifle.obj" id="7_hg6s5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhgsi"]
 albedo_color = Color(1, 0.40607405, 0.5454232, 1)
 albedo_texture = ExtResource("3_qvl2y")
-uv1_scale = Vector3(1, 10, 1)
+uv1_scale = Vector3(3, 3, 3)
 
 [sub_resource type="QuadMesh" id="QuadMesh_qvl2y"]
 flip_faces = true

@@ -1,18 +1,18 @@
 [gd_scene load_steps=25 format=4 uid="uid://dtqvygems848h"]
 
 [ext_resource type="Script" uid="uid://b3cq6p8rbsdfj" path="res://player/bot_player.gd" id="1_fsqg5"]
-[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/rifle.obj" id="2_tt22f"]
+[ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/firearms/rifle/rifle.obj" id="2_tt22f"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_bgo7g"]
-[ext_resource type="Texture2D" uid="uid://c21bqdq4iq4sx" path="res://player/model/rifle_accent.png" id="3_eqafp"]
+[ext_resource type="Texture2D" uid="uid://c21bqdq4iq4sx" path="res://player/model/firearms/firearm_accent.png" id="3_eqafp"]
 [ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/cs_ak_fire.wav" id="3_fsqg5"]
-[ext_resource type="Texture2D" uid="uid://bywh52cmbxe0" path="res://player/model/muzzle_flash.png" id="4_eqafp"]
-[ext_resource type="Shader" uid="uid://bb7yfcdjm20ib" path="res://player/player.gdshader" id="5_tt22f"]
+[ext_resource type="Texture2D" uid="uid://bywh52cmbxe0" path="res://player/model/firearms/muzzle_flash.png" id="4_eqafp"]
+[ext_resource type="Shader" uid="uid://bb7yfcdjm20ib" path="res://player/model/player.gdshader" id="5_tt22f"]
 [ext_resource type="Texture2D" uid="uid://cokhw5ukb1qd4" path="res://player/model/player_colormap.png" id="6_bgo7g"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5kd2c"]
 albedo_color = Color(0.39606, 0.41, 0.2706, 1)
 albedo_texture = ExtResource("3_eqafp")
-uv1_scale = Vector3(1, 10, 1)
+uv1_scale = Vector3(3, 3, 3)
 
 [sub_resource type="QuadMesh" id="QuadMesh_5kd2c"]
 flip_faces = true

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c21bqdq4iq4sx"
-path.s3tc="res://.godot/imported/rifle_accent.png-dd68ff175f9b22978312ab6f3f761f4a.s3tc.ctex"
+uid="uid://bywh52cmbxe0"
+path.s3tc="res://.godot/imported/muzzle_flash.png-f012877dc6c13169f3a3ea9795c99de5.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://player/model/rifle_accent.png"
-dest_files=["res://.godot/imported/rifle_accent.png-dd68ff175f9b22978312ab6f3f761f4a.s3tc.ctex"]
+source_file="res://player/model/firearms/muzzle_flash.png"
+dest_files=["res://.godot/imported/muzzle_flash.png-f012877dc6c13169f3a3ea9795c99de5.s3tc.ctex"]
 
 [params]
 
