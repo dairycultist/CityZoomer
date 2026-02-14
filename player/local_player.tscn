@@ -279,13 +279,13 @@ mesh = SubResource("CylinderMesh_2kkfv")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.033, -0.093, -0.089)
+transform = Transform3D(-1, 0, -3.0199162e-06, 0, 20, 0, 1.5099582e-07, 0, -20, 0, -0.082019806, -0.123000026)
 
 [node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.021, -0.073, 0.068)
 
 [node name="Pistol" type="MeshInstance3D" parent="CameraAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14831105, -0.22278261, -0.46420878)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14831103, -0.22278261, -0.39976764)
 visible = false
 mesh = ExtResource("9_n7ilk")
 skeleton = NodePath("../..")
@@ -315,10 +315,10 @@ mesh = SubResource("CylinderMesh_2kkfv")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.019, -0.057, 0.023)
+transform = Transform3D(-1, 0, -3.0199162e-06, 0, 20, 0, 1.5099582e-07, 0, -20, 0, -0.057, 0.011)
 
 [node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.021, -0.069, 0.055)
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0, -0.069, 0.022)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)

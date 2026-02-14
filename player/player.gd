@@ -67,6 +67,9 @@ func set_active_gun_model(model: Node3D):
 
 	right_hand.target_node = model.get_node("RightTargetIK").get_path()
 	right_hand.start()
+	
+	# start it low so it lerps up, as an animation!
+	active_gun_model.position.y = -1.0
 
 func _ready() -> void:
 	
@@ -151,7 +154,7 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	
 	# lerp rifle back to default pose
 	active_gun_model.position = lerp(active_gun_model.position, active_gun_ads_pos if ads else active_gun_base_pos, 10.0 * delta)
-	active_gun_model.rotation = lerp(active_gun_model.rotation, Vector3(0.0, 0.0, 0.0), (20.0 if ads else 10.0) * delta)
+	active_gun_model.rotation = lerp(active_gun_model.rotation, Vector3.ZERO, (20.0 if ads else 10.0) * delta)
 	
 	# fade muzzle flash
 	active_gun_model.get_node("MuzzleFlash").scale = lerp(active_gun_model.get_node("MuzzleFlash").scale, Vector3.ZERO, 10.0 * delta)
