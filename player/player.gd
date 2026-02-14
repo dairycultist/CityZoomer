@@ -10,6 +10,8 @@ enum Team {
 }
 @export var team: Team
 
+@export var health: int = 100
+
 @export_group("Gunplay")
 
 @export var active_gun_model: Node3D
@@ -46,6 +48,8 @@ var spray: float = 0.0
 @export_group("IK")
 @export var left_hand: Node3D
 @export var right_hand: Node3D
+
+@abstract func on_fragged()
 
 func set_active_gun_model(model: Node3D):
 	
@@ -200,6 +204,11 @@ func _shoot():
 
 func _damage(attacker: Player, amt: int):
 	print(name, " took ", amt, " damage from ", attacker.name)
+	
+	health -= amt
+	
+	if health <= 0:
+		on_fragged()
 
 func _look_at(other: Player, delta: float):
 	

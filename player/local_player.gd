@@ -5,6 +5,9 @@ extends Player
 @export_group("Camera")
 @export var mouse_sensitivity: float = 0.3
 
+func on_fragged():
+	pass
+
 func _ready() -> void:
 	
 	super._ready()

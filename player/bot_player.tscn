@@ -280,7 +280,7 @@ mesh = SubResource("CylinderMesh_jik7g")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.033, -0.093, -0.089)
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0, -0.082019806, -0.123000026)
 
 [node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.021, -0.073, 0.068)
