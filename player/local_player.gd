@@ -27,9 +27,9 @@ func _process(delta: float) -> void:
 	
 	# rifle walk animation
 	if not Input.is_action_pressed("ads"):
-		$CameraAnchor/Rifle.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * (velocity.length() / max_speed)
-		$CameraAnchor/Rifle.position += Vector3(input_dir.x, 0.0, input_dir.y) * 0.01
-		$CameraAnchor/Rifle.rotation.z += input_dir.x * 0.03
+		active_gun_model.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * (velocity.length() / max_speed)
+		active_gun_model.position += Vector3(input_dir.x, 0.0, input_dir.y) * 0.01
+		active_gun_model.rotation.z += input_dir.x * 0.03
 
 func _input(event):
 	

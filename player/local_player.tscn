@@ -240,12 +240,13 @@ _data = {
 &"Walk": SubResource("Animation_fujjk")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("active_gun_model", "left_hand", "right_hand")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_qjkh3")
 semiautomatic_firing = false
+active_gun_model = NodePath("CameraAnchor/Pistol")
 left_hand = NodePath("Model/Armature/Skeleton3D/LeftHandIK")
 right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
 
@@ -256,28 +257,64 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1
 fov = 90.0
 
-[node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
+[node name="Pistol" type="MeshInstance3D" parent="CameraAnchor"]
 transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0.14831105, -0.22278261, -0.46420878)
 mesh = ExtResource("9_n7ilk")
 skeleton = NodePath("../..")
 surface_material_override/1 = SubResource("StandardMaterial3D_fnq51")
 
-[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Rifle"]
+[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Pistol"]
 stream = ExtResource("4_fnq51")
-max_polyphony = 10
+max_polyphony = 4
 
-[node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle"]
+[node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Pistol"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7881393e-07, 0.01908362, 0.11501554)
 mesh = SubResource("QuadMesh_n7ilk")
 surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
 
-[node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Rifle/MuzzleFlash"]
+[node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Pistol/MuzzleFlash"]
 mesh = SubResource("QuadMesh_fnq51")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
 
-[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Rifle"]
+[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Pistol"]
 transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.7881393e-07, 0.01908362, 0.113343984)
+
+[node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Pistol/BulletTracer"]
+transform = Transform3D(1, -1.7484562e-07, 7.642745e-15, 0, -4.371139e-08, -1, 1.7484562e-07, 1, -4.371139e-08, 0, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_l815a")
+mesh = SubResource("CylinderMesh_2kkfv")
+skeleton = NodePath("../..")
+
+[node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.018754348, -0.05665946, -0.022694916)
+
+[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021000028, -0.06949246, -0.054882675)
+
+[node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0.148, -0.23360193, -0.39)
+visible = false
+mesh = ExtResource("7_hg6s5")
+skeleton = NodePath("../..")
+surface_material_override/1 = SubResource("StandardMaterial3D_xhgsi")
+
+[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Rifle"]
+stream = ExtResource("4_2kkfv")
+max_polyphony = 10
+
+[node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4901161e-07, 0.06549227, 0.58305323)
+mesh = SubResource("QuadMesh_qvl2y")
+surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
+
+[node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Rifle/MuzzleFlash"]
+mesh = SubResource("QuadMesh_xhgsi")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
+
+[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Rifle"]
+transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.1920929e-07, 0.06549227, 0.5813817)
 
 [node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Rifle/BulletTracer"]
 transform = Transform3D(1, -1.7484562e-07, 7.642745e-15, 0, -4.371139e-08, -1, 1.7484562e-07, 1, -4.371139e-08, 0, 0, -0.5)
@@ -286,45 +323,9 @@ mesh = SubResource("CylinderMesh_2kkfv")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.018754348, -0.05665946, -0.022694916)
-
-[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021000028, -0.06949246, -0.054882675)
-
-[node name="Rifle_" type="MeshInstance3D" parent="CameraAnchor"]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0.148, -0.23360193, -0.39)
-visible = false
-mesh = ExtResource("7_hg6s5")
-skeleton = NodePath("../..")
-surface_material_override/1 = SubResource("StandardMaterial3D_xhgsi")
-
-[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Rifle_"]
-stream = ExtResource("4_2kkfv")
-max_polyphony = 10
-
-[node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle_"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4901161e-07, 0.06549227, 0.58305323)
-mesh = SubResource("QuadMesh_qvl2y")
-surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
-
-[node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Rifle_/MuzzleFlash"]
-mesh = SubResource("QuadMesh_xhgsi")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
-
-[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Rifle_"]
-transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.1920929e-07, 0.06549227, 0.5813817)
-
-[node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Rifle_/BulletTracer"]
-transform = Transform3D(1, -1.7484562e-07, 7.642745e-15, 0, -4.371139e-08, -1, 1.7484562e-07, 1, -4.371139e-08, 0, 0, -0.5)
-material_override = SubResource("StandardMaterial3D_l815a")
-mesh = SubResource("CylinderMesh_2kkfv")
-skeleton = NodePath("../..")
-
-[node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle_"]
 transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.033, -0.093, 0.089)
 
-[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle_"]
+[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021, -0.073, -0.068)
 
 [node name="Collider" type="CollisionShape3D" parent="."]

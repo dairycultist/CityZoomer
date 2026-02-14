@@ -12,6 +12,10 @@ enum Team {
 
 @export_group("Gunplay")
 
+@export var active_gun_model: Node3D
+var active_gun_base_pos: Vector3
+var active_gun_ads_pos: Vector3
+
 @export var recoil: float = 4.0
 
 @export var firerate_per_sec: float = 10
@@ -20,9 +24,6 @@ var time_since_last_shot: float = 0
 
 # spray amount is a float that goes up as you shoot
 var spray: float = 0.0
-
-var rifle_base_pos: Vector3
-var rifle_ads_pos: Vector3
 
 @export var standing_spray_min: float = 0.0
 @export var standing_spray_max: float = 1.5
@@ -46,19 +47,31 @@ var rifle_ads_pos: Vector3
 @export var left_hand: Node3D
 @export var right_hand: Node3D
 
+func set_active_gun_model(model: Node3D):
+	
+	# reset previous gun model
+	if active_gun_model:
+		active_gun_model.position = active_gun_base_pos
+	
+	active_gun_model = model
+	
+	active_gun_base_pos = model.position
+	# scuffed
+	active_gun_ads_pos  = Vector3(0.0, active_gun_base_pos.y, active_gun_base_pos.z) / 2.0
+
 func _ready() -> void:
 	
-	rifle_base_pos = $CameraAnchor/Rifle.position
-	rifle_ads_pos = Vector3(0.0, rifle_base_pos.y, rifle_base_pos.z) / 2.0 # scuffed
+	active_gun_base_pos = active_gun_model.position
+	set_active_gun_model(active_gun_model)
 	
-	$Model/AnimationPlayer.current_animation = "Walk"
-	$Model/AnimationPlayer.play()
+	#$Model/AnimationPlayer.current_animation = "Walk"
+	#$Model/AnimationPlayer.play()
 	
 	# set IK targets
-	left_hand.target_node = $CameraAnchor/Rifle/LeftTargetIK.get_path()
+	left_hand.target_node = active_gun_model.get_node("LeftTargetIK").get_path()
 	left_hand.start()
 
-	right_hand.target_node = $CameraAnchor/Rifle/RightTargetIK.get_path()
+	right_hand.target_node = active_gun_model.get_node("RightTargetIK").get_path()
 	right_hand.start()
 	
 	# duplicate material
@@ -79,8 +92,8 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	time_since_last_shot += delta
 	
 	# fade tracer
-	$CameraAnchor/Rifle/BulletTracer.scale.x = max(0.0, 1.0 - 140.0 * time_since_last_shot * time_since_last_shot)
-	$CameraAnchor/Rifle/BulletTracer.scale.y = $CameraAnchor/Rifle/BulletTracer.scale.x
+	active_gun_model.get_node("BulletTracer").scale.x = max(0.0, 1.0 - 140.0 * time_since_last_shot * time_since_last_shot)
+	active_gun_model.get_node("BulletTracer").scale.y = active_gun_model.get_node("BulletTracer").scale.x
 	
 	# change spray
 	if time_since_last_shot < (1.0 / firerate_per_sec):
@@ -136,11 +149,11 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	move_and_slide()
 	
 	# lerp rifle back to default pose
-	$CameraAnchor/Rifle.position = lerp($CameraAnchor/Rifle.position, rifle_ads_pos if ads else rifle_base_pos, 10.0 * delta)
-	$CameraAnchor/Rifle.rotation = lerp($CameraAnchor/Rifle.rotation, Vector3(0.0, -PI, 0.0), (20.0 if ads else 10.0) * delta)
+	active_gun_model.position = lerp(active_gun_model.position, active_gun_ads_pos if ads else active_gun_base_pos, 10.0 * delta)
+	active_gun_model.rotation = lerp(active_gun_model.rotation, Vector3(0.0, -PI, 0.0), (20.0 if ads else 10.0) * delta)
 	
-	# muzzle flash
-	$CameraAnchor/Rifle/MuzzleFlash.scale = lerp($CameraAnchor/Rifle/MuzzleFlash.scale, Vector3.ZERO, 10.0 * delta)
+	# fade muzzle flash
+	active_gun_model.get_node("MuzzleFlash").scale = lerp(active_gun_model.get_node("MuzzleFlash").scale, Vector3.ZERO, 10.0 * delta)
 
 func _shoot():
 	
@@ -150,14 +163,14 @@ func _shoot():
 	time_since_last_shot = 0.0
 	
 	# recoil animation
-	$CameraAnchor/Rifle.position.z += 0.05
+	active_gun_model.position.z += 0.05
 	
 	# muzzle flash
-	$CameraAnchor/Rifle/MuzzleFlash.scale = Vector3.ONE
-	$CameraAnchor/Rifle/MuzzleFlash.rotation.z = randf_range(0.0, PI * 2.0)
+	active_gun_model.get_node("MuzzleFlash").scale = Vector3.ONE
+	active_gun_model.get_node("MuzzleFlash").rotation.z = randf_range(0.0, PI * 2.0)
 	
-	$CameraAnchor/Rifle/FireSound.pitch_scale = randf_range(0.95, 1.0)
-	$CameraAnchor/Rifle/FireSound.play()
+	active_gun_model.get_node("FireSound").pitch_scale = randf_range(0.95, 1.0)
+	active_gun_model.get_node("FireSound").play()
 	
 	var query = PhysicsRayQueryParameters3D.create(
 		$CameraAnchor.global_position,
@@ -175,8 +188,8 @@ func _shoot():
 	
 	if result:
 		
-		$CameraAnchor/Rifle/BulletTracer.look_at(result.position)
-		$CameraAnchor/Rifle/BulletTracer.scale.z = result.position.distance_to($CameraAnchor/Rifle/BulletTracer.global_position)
+		active_gun_model.get_node("BulletTracer").look_at(result.position)
+		active_gun_model.get_node("BulletTracer").scale.z = result.position.distance_to(active_gun_model.get_node("BulletTracer").global_position)
 		
 		if result.collider is Player:
 			result.collider._damage(self, 10)
@@ -223,6 +236,6 @@ func _change_look(d_yaw: float, d_pitch: float):
 	)
 	
 	# rifle animation
-	$CameraAnchor/Rifle.rotation.x += d_pitch * 0.004
-	$CameraAnchor/Rifle.rotation.y += d_yaw * 0.004
-	$CameraAnchor/Rifle.rotation.z -= d_yaw * 0.005
+	active_gun_model.rotation.x += d_pitch * 0.004
+	active_gun_model.rotation.y += d_yaw * 0.004
+	active_gun_model.rotation.z -= d_yaw * 0.005

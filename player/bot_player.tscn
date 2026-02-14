@@ -239,11 +239,12 @@ _data = {
 &"Walk": SubResource("Animation_fujjk")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("active_gun_model", "left_hand", "right_hand")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_fsqg5")
+active_gun_model = NodePath("CameraAnchor/Rifle")
 left_hand = NodePath("Model/Armature/Skeleton3D/LeftHandIK")
 right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
 
@@ -261,6 +262,7 @@ surface_material_override/1 = SubResource("StandardMaterial3D_5kd2c")
 [node name="FireSound" type="AudioStreamPlayer3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(-1, 0, 1.5099582e-07, 0, 1, 0, -1.5099582e-07, 0, -1, 0.14800006, -1.2663981, -0.38999996)
 stream = ExtResource("3_fsqg5")
+max_polyphony = 4
 
 [node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6391277e-07, 0.06549227, 0.58305323)
