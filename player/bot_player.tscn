@@ -14,22 +14,22 @@ albedo_color = Color(0.39606, 0.41, 0.2706, 1)
 albedo_texture = ExtResource("3_eqafp")
 uv1_scale = Vector3(3, 3, 3)
 
-[sub_resource type="QuadMesh" id="QuadMesh_5kd2c"]
+[sub_resource type="QuadMesh" id="QuadMesh_kobe6"]
 flip_faces = true
 size = Vector2(0.2, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kobe6"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ln577"]
 transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("4_eqafp")
 
-[sub_resource type="QuadMesh" id="QuadMesh_ln577"]
+[sub_resource type="QuadMesh" id="QuadMesh_qiq1u"]
 size = Vector2(0.2, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fsqg5"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnxla"]
 shading_mode = 0
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_sgwcx"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_jik7g"]
 top_radius = 0.01
 bottom_radius = 0.01
 height = 1.0
@@ -253,40 +253,41 @@ right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0.148, -0.23360193, -0.39)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.148, -0.23360193, -0.39)
+visible = false
 mesh = ExtResource("2_tt22f")
 skeleton = NodePath("../..")
 surface_material_override/1 = SubResource("StandardMaterial3D_5kd2c")
 
 [node name="FireSound" type="AudioStreamPlayer3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, 1.5099582e-07, 0, 1, 0, -1.5099582e-07, 0, -1, 0.14800006, -1.2663981, -0.38999996)
+transform = Transform3D(1, 0, -7.1054274e-15, 0, 1, 0, 7.1054274e-15, 0, 1, -0.148, -1.2663981, 0.39)
 stream = ExtResource("3_fsqg5")
 max_polyphony = 4
 
 [node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6391277e-07, 0.06549227, 0.58305323)
-mesh = SubResource("QuadMesh_5kd2c")
-surface_material_override/0 = SubResource("StandardMaterial3D_kobe6")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.065, -0.583)
+mesh = SubResource("QuadMesh_kobe6")
+surface_material_override/0 = SubResource("StandardMaterial3D_ln577")
 
 [node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Rifle/MuzzleFlash"]
-mesh = SubResource("QuadMesh_ln577")
+mesh = SubResource("QuadMesh_qiq1u")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_kobe6")
+surface_material_override/0 = SubResource("StandardMaterial3D_ln577")
 
 [node name="BulletTracer" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.1920929e-07, 0.06549227, 0.5813817)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.065, -0.581)
 
 [node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Rifle/BulletTracer"]
 transform = Transform3D(1, -1.7484562e-07, 7.642745e-15, 0, -4.371139e-08, -1, 1.7484562e-07, 1, -4.371139e-08, 0, 0, -0.5)
-material_override = SubResource("StandardMaterial3D_fsqg5")
-mesh = SubResource("CylinderMesh_sgwcx")
+material_override = SubResource("StandardMaterial3D_rnxla")
+mesh = SubResource("CylinderMesh_jik7g")
 skeleton = NodePath("../..")
 
 [node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.033, -0.093, 0.089)
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.033, -0.093, -0.089)
 
 [node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021, -0.073, -0.068)
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.021, -0.073, 0.068)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)

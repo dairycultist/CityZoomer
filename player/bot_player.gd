@@ -114,6 +114,7 @@ func _physics_process(delta: float) -> void:
 	# get a targeted foe if possible
 	var target_foe = -1
 	
+	# TODO target nearest visible foe
 	if can_see_suspected_foe(0): # suspected, to account for reaction time and prefiring
 		target_foe = 0
 	
