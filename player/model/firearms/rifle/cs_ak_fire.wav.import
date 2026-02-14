@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://flw61tg813jw"
-path="res://.godot/imported/cs_ak_fire.wav-a749cd5f42e42565c2d777f9b030b6dc.sample"
+path="res://.godot/imported/cs_ak_fire.wav-bc6fd18d3ffd284a1be69f11d39641c4.sample"
 
 [deps]
 
-source_file="res://player/cs_ak_fire.wav"
-dest_files=["res://.godot/imported/cs_ak_fire.wav-a749cd5f42e42565c2d777f9b030b6dc.sample"]
+source_file="res://player/model/firearms/rifle/cs_ak_fire.wav"
+dest_files=["res://.godot/imported/cs_ak_fire.wav-bc6fd18d3ffd284a1be69f11d39641c4.sample"]
 
 [params]
 

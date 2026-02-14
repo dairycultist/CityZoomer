@@ -45,8 +45,6 @@ var rifle_ads_pos: Vector3
 @export_group("IK")
 @export var left_hand: Node3D
 @export var right_hand: Node3D
-@export var left_target: Node3D
-@export var right_target: Node3D
 
 func _ready() -> void:
 	
@@ -56,13 +54,12 @@ func _ready() -> void:
 	$Model/AnimationPlayer.current_animation = "Walk"
 	$Model/AnimationPlayer.play()
 	
-	if left_target:
-		left_hand.target_node = left_target.get_path()
-		left_hand.start()
-	
-	if right_target:
-		right_hand.target_node = right_target.get_path()
-		right_hand.start()
+	# set IK targets
+	left_hand.target_node = $CameraAnchor/Rifle/LeftTargetIK.get_path()
+	left_hand.start()
+
+	right_hand.target_node = $CameraAnchor/Rifle/RightTargetIK.get_path()
+	right_hand.start()
 	
 	# duplicate material
 	var material: ShaderMaterial = $Model/Armature/Skeleton3D/Mercenary.get_surface_override_material(0).duplicate()
@@ -159,8 +156,8 @@ func _shoot():
 	$CameraAnchor/Rifle/MuzzleFlash.scale = Vector3.ONE
 	$CameraAnchor/Rifle/MuzzleFlash.rotation.z = randf_range(0.0, PI * 2.0)
 	
-	$FireSound.pitch_scale = randf_range(0.95, 1.0)
-	$FireSound.play()
+	$CameraAnchor/Rifle/FireSound.pitch_scale = randf_range(0.95, 1.0)
+	$CameraAnchor/Rifle/FireSound.play()
 	
 	var query = PhysicsRayQueryParameters3D.create(
 		$CameraAnchor.global_position,

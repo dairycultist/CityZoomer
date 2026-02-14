@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=4 uid="uid://ng6xdry7dssv"]
+[gd_scene load_steps=27 format=4 uid="uid://ng6xdry7dssv"]
 
 [ext_resource type="Script" uid="uid://bkdclfxtxl7uw" path="res://player/local_player.gd" id="1_qjkh3"]
 [ext_resource type="AudioStream" uid="uid://v3dpiw87ok7o" path="res://player/hop.wav" id="3_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://c21bqdq4iq4sx" path="res://player/model/firearms/firearm_accent.png" id="3_qvl2y"]
-[ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/cs_ak_fire.wav" id="4_2kkfv"]
+[ext_resource type="AudioStream" uid="uid://flw61tg813jw" path="res://player/model/firearms/rifle/cs_ak_fire.wav" id="4_2kkfv"]
+[ext_resource type="AudioStream" uid="uid://dtxkpe3uf6qlp" path="res://player/model/firearms/pistol/cs_usp_fire.wav" id="4_fnq51"]
 [ext_resource type="Texture2D" uid="uid://bywh52cmbxe0" path="res://player/model/firearms/muzzle_flash.png" id="4_xhgsi"]
 [ext_resource type="Material" uid="uid://c4du4s1lwy3w" path="res://player/model/player_mat.tres" id="6_2kkfv"]
 [ext_resource type="Texture2D" uid="uid://cvcn5stehsh65" path="res://player/crosshair.png" id="6_rgyib"]
@@ -239,15 +240,14 @@ _data = {
 &"Walk": SubResource("Animation_fujjk")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand", "left_target", "right_target")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_qjkh3")
+semiautomatic_firing = false
 left_hand = NodePath("Model/Armature/Skeleton3D/LeftHandIK")
 right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
-left_target = NodePath("CameraAnchor/Rifle/LeftTargetIK")
-right_target = NodePath("CameraAnchor/Rifle/RightTargetIK")
 
 [node name="CameraAnchor" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -261,6 +261,10 @@ transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0.14
 mesh = ExtResource("9_n7ilk")
 skeleton = NodePath("../..")
 surface_material_override/1 = SubResource("StandardMaterial3D_fnq51")
+
+[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Rifle"]
+stream = ExtResource("4_fnq51")
+max_polyphony = 10
 
 [node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7881393e-07, 0.01908362, 0.11501554)
@@ -294,6 +298,10 @@ mesh = ExtResource("7_hg6s5")
 skeleton = NodePath("../..")
 surface_material_override/1 = SubResource("StandardMaterial3D_xhgsi")
 
+[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Rifle_"]
+stream = ExtResource("4_2kkfv")
+max_polyphony = 10
+
 [node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Rifle_"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4901161e-07, 0.06549227, 0.58305323)
 mesh = SubResource("QuadMesh_qvl2y")
@@ -325,10 +333,6 @@ shape = SubResource("CapsuleShape3D_mlf6e")
 
 [node name="HopSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_g1dw6")
-
-[node name="FireSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_2kkfv")
-max_polyphony = 10
 
 [node name="Crosshair" type="TextureRect" parent="."]
 anchors_preset = 8
