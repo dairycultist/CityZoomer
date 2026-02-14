@@ -44,6 +44,9 @@ navigation_mesh = SubResource("NavigationMesh_vonw3")
 [node name="Node3D" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1666621, 0, 2.2285144)
 
+[node name="Node3D2" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.417147, 9.536743e-07, -1.3801844)
+
 [node name="Node3D3" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.246083, 0, 1.0246682)
 
@@ -76,6 +79,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.012318, 0, 4.1638346)
 
 [node name="Node3D13" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.957509, 0, 4.1638346)
+
+[node name="Node3D14" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.042491, 0, 8.163835)
+
+[node name="Node3D15" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8686743, 3, 8.164)
+
+[node name="Node3D16" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8686743, 3, 6.1495543)
+
+[node name="Node3D17" type="Node3D" parent="NavigationRegion3D/Map/HidingSpots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8686743, 3, 6.1495543)
 
 [node name="Map" type="MeshInstance3D" parent="NavigationRegion3D/Map"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)

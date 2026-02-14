@@ -9,15 +9,11 @@ enum State {
 	Offensive
 }
 
-var players_parent: Node3D
-
 func on_fragged():
 	queue_free()
 
 func _ready() -> void:
 	super._ready()
-	
-	players_parent = get_parent()
 	
 	# TODO the suspected position of each foe is initialized with their spawnpoint
 
@@ -51,7 +47,13 @@ func select_hiding_spot():
 	
 	# sort hiding spots nearest to furthest from bot player
 	hiding_spots.sort_custom(func(a, b):
-		return a.global_position.distance_squared_to(global_position) < b.global_position.distance_squared_to(global_position)
+		
+		$NavigationAgent3D.target_position = a.global_position
+		var a_dist = $NavigationAgent3D.get_path_length()
+		$NavigationAgent3D.target_position = b.global_position
+		var b_dist = $NavigationAgent3D.get_path_length()
+		
+		return a_dist < b_dist
 	)
 	
 	# the currently selected hiding spot has this amount of foes visible at it
@@ -64,8 +66,8 @@ func select_hiding_spot():
 		# they are in the Defense state, ignore this spot (to prevent crowding)
 		var skip_this_spot := false
 		
-		for player in players_parent.get_children():
-			if team != Team.NoTeam and player.team == team and player is BotPlayer and player.state == State.Defensive and player.global_position.distance_squared_to(hiding_spot.global_position) < global_position.distance_squared_to(hiding_spot.global_position):
+		for player in get_parent().get_children():
+			if not is_foe(player) and player is BotPlayer and player.state == State.Defensive and player.global_position.distance_squared_to(hiding_spot.global_position) < global_position.distance_squared_to(hiding_spot.global_position):
 				skip_this_spot = true
 				break
 		
@@ -75,13 +77,16 @@ func select_hiding_spot():
 		# otherwise, count how many foes can be seen from this spot
 		var amt = 0
 		
-		for player in players_parent.get_children():
-			if (team == Team.NoTeam or player.team != team) and point_can_see_suspected_foe(hiding_spot.global_position + $CameraAnchor.position, player):
+		for player in get_parent().get_children():
+			if is_foe(player) and point_can_see_suspected_foe(hiding_spot.global_position + $CameraAnchor.position, player):
 				amt += 1
 		
 		if amt < best_amt:
 			$NavigationAgent3D.target_position = hiding_spot.global_position
 			best_amt = amt
+
+func is_foe(player: Player):
+	return team == Team.NoTeam or player.team != team
 
 func _physics_process(delta: float) -> void:
 	
@@ -89,9 +94,9 @@ func _physics_process(delta: float) -> void:
 	# foe position is/should be used!) based off a sight system that takes
 	# into account seeing stuff in front of the agent, being hit by a
 	# bullet, hearing other players, etc
-	for player in players_parent.get_children():
+	for player in get_parent().get_children():
 		
-		if (team == Team.NoTeam or player.team != team) and can_see_foe(player):
+		if is_foe(player) and can_see_foe(player):
 			
 			# TODO if above zero, decrement reaction timer by delta;
 			#      otherwise, update the suspected foe position
@@ -101,7 +106,7 @@ func _physics_process(delta: float) -> void:
 			
 			# TODO reset reaction timer
 			
-			if (team == Team.NoTeam or player.team != team) and can_see_suspected_foe(player):
+			if is_foe(player) and can_see_suspected_foe(player):
 			
 				# TODO we suspect the foe to be somewhere they aren't,
 				#      toss out belief about where foe is suspected to be
@@ -142,7 +147,7 @@ func _physics_process(delta: float) -> void:
 		# number of foes
 		select_hiding_spot()
 		
-		#if $NavigationAgent3D.distance_to_target() > 10.0:
+		#if $NavigationAgent3D.get_path_length() > 10.0:
 			## can't reach cover fast enough, switch to Offensive
 			#state = State.Offensive
 		
