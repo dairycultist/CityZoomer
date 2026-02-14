@@ -11,21 +11,22 @@
 [ext_resource type="ArrayMesh" uid="uid://dli655ofg14gs" path="res://player/model/firearms/rifle/rifle.obj" id="7_hg6s5"]
 [ext_resource type="ArrayMesh" uid="uid://dkibi50plf350" path="res://player/model/firearms/pistol/pistol.obj" id="9_n7ilk"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fnq51"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhgsi"]
 albedo_color = Color(1, 0.40607405, 0.5454232, 1)
 albedo_texture = ExtResource("3_qvl2y")
+uv1_scale = Vector3(3, 3, 3)
 
-[sub_resource type="QuadMesh" id="QuadMesh_n7ilk"]
+[sub_resource type="QuadMesh" id="QuadMesh_qvl2y"]
 flip_faces = true
-size = Vector2(0.1, 0.1)
+size = Vector2(0.2, 0.2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n7ilk"]
 transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("4_xhgsi")
 
-[sub_resource type="QuadMesh" id="QuadMesh_fnq51"]
-size = Vector2(0.1, 0.1)
+[sub_resource type="QuadMesh" id="QuadMesh_xhgsi"]
+size = Vector2(0.2, 0.2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l815a"]
 shading_mode = 0
@@ -39,17 +40,16 @@ rings = 0
 cap_top = false
 cap_bottom = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhgsi"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fnq51"]
 albedo_color = Color(1, 0.40607405, 0.5454232, 1)
 albedo_texture = ExtResource("3_qvl2y")
-uv1_scale = Vector3(3, 3, 3)
 
-[sub_resource type="QuadMesh" id="QuadMesh_qvl2y"]
+[sub_resource type="QuadMesh" id="QuadMesh_n7ilk"]
 flip_faces = true
-size = Vector2(0.2, 0.2)
+size = Vector2(0.1, 0.1)
 
-[sub_resource type="QuadMesh" id="QuadMesh_xhgsi"]
-size = Vector2(0.2, 0.2)
+[sub_resource type="QuadMesh" id="QuadMesh_fnq51"]
+size = Vector2(0.1, 0.1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mlf6e"]
 radius = 0.3
@@ -240,13 +240,11 @@ _data = {
 &"Walk": SubResource("Animation_fujjk")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("active_gun_model", "left_hand", "right_hand")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("left_hand", "right_hand")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_qjkh3")
-semiautomatic_firing = false
-active_gun_model = NodePath("CameraAnchor/Pistol")
 left_hand = NodePath("Model/Armature/Skeleton3D/LeftHandIK")
 right_hand = NodePath("Model/Armature/Skeleton3D/RightHandIK")
 
@@ -256,41 +254,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="CameraAnchor"]
 cull_mask = 1
 fov = 90.0
-
-[node name="Pistol" type="MeshInstance3D" parent="CameraAnchor"]
-transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0.14831105, -0.22278261, -0.46420878)
-mesh = ExtResource("9_n7ilk")
-skeleton = NodePath("../..")
-surface_material_override/1 = SubResource("StandardMaterial3D_fnq51")
-
-[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Pistol"]
-stream = ExtResource("4_fnq51")
-max_polyphony = 4
-
-[node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Pistol"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7881393e-07, 0.01908362, 0.11501554)
-mesh = SubResource("QuadMesh_n7ilk")
-surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
-
-[node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Pistol/MuzzleFlash"]
-mesh = SubResource("QuadMesh_fnq51")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
-
-[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Pistol"]
-transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.7881393e-07, 0.01908362, 0.113343984)
-
-[node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Pistol/BulletTracer"]
-transform = Transform3D(1, -1.7484562e-07, 7.642745e-15, 0, -4.371139e-08, -1, 1.7484562e-07, 1, -4.371139e-08, 0, 0, -0.5)
-material_override = SubResource("StandardMaterial3D_l815a")
-mesh = SubResource("CylinderMesh_2kkfv")
-skeleton = NodePath("../..")
-
-[node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.018754348, -0.05665946, -0.022694916)
-
-[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
-transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021000028, -0.06949246, -0.054882675)
 
 [node name="Rifle" type="MeshInstance3D" parent="CameraAnchor"]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0.148, -0.23360193, -0.39)
@@ -327,6 +290,42 @@ transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.
 
 [node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Rifle"]
 transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021, -0.073, -0.068)
+
+[node name="Pistol" type="MeshInstance3D" parent="CameraAnchor"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.14831105, -0.22278261, -0.46420878)
+visible = false
+mesh = ExtResource("9_n7ilk")
+skeleton = NodePath("../..")
+surface_material_override/1 = SubResource("StandardMaterial3D_fnq51")
+
+[node name="FireSound" type="AudioStreamPlayer" parent="CameraAnchor/Pistol"]
+stream = ExtResource("4_fnq51")
+max_polyphony = 4
+
+[node name="MuzzleFlash" type="MeshInstance3D" parent="CameraAnchor/Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7881393e-07, 0.01908362, 0.11501554)
+mesh = SubResource("QuadMesh_n7ilk")
+surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
+
+[node name="Backface" type="MeshInstance3D" parent="CameraAnchor/Pistol/MuzzleFlash"]
+mesh = SubResource("QuadMesh_fnq51")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_n7ilk")
+
+[node name="BulletTracer" type="Node3D" parent="CameraAnchor/Pistol"]
+transform = Transform3D(1, 1.5099579e-07, -1.5099582e-07, 1.509958e-07, -1, 8.742278e-08, -1.5099579e-07, -8.74228e-08, -1, -1.7881393e-07, 0.01908362, 0.113343984)
+
+[node name="Mesh" type="MeshInstance3D" parent="CameraAnchor/Pistol/BulletTracer"]
+transform = Transform3D(1, -1.7484562e-07, 7.642745e-15, 0, -4.371139e-08, -1, 1.7484562e-07, 1, -4.371139e-08, 0, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_l815a")
+mesh = SubResource("CylinderMesh_2kkfv")
+skeleton = NodePath("../..")
+
+[node name="LeftTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, 0.018754348, -0.05665946, -0.022694916)
+
+[node name="RightTargetIK" type="Node3D" parent="CameraAnchor/Pistol"]
+transform = Transform3D(-1, 0, -3.019916e-06, 0, 20, 0, 1.509958e-07, 0, -20, -0.021000028, -0.06949246, -0.054882675)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)

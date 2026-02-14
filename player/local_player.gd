@@ -43,3 +43,12 @@ func _input(event):
 	elif event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		
 		_change_look(-event.relative.x * mouse_sensitivity, event.relative.y * mouse_sensitivity)
+	
+	elif event is InputEventKey and event.pressed and not event.echo:
+		
+		if event.keycode == KEY_1:
+			semiautomatic_firing = true
+			set_active_gun_model($CameraAnchor/Rifle)
+		elif event.keycode == KEY_2:
+			semiautomatic_firing = false
+			set_active_gun_model($CameraAnchor/Pistol)

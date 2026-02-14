@@ -52,29 +52,30 @@ func set_active_gun_model(model: Node3D):
 	# reset previous gun model
 	if active_gun_model:
 		active_gun_model.position = active_gun_base_pos
+		active_gun_model.visible = false
 	
 	active_gun_model = model
+	active_gun_model.visible = true
 	
-	active_gun_base_pos = model.position
+	active_gun_base_pos = active_gun_model.position
 	# scuffed
 	active_gun_ads_pos  = Vector3(0.0, active_gun_base_pos.y, active_gun_base_pos.z) / 2.0
+	
+	# set IK targets
+	left_hand.target_node = model.get_node("LeftTargetIK").get_path()
+	left_hand.start()
+
+	right_hand.target_node = model.get_node("RightTargetIK").get_path()
+	right_hand.start()
 
 func _ready() -> void:
 	
-	active_gun_base_pos = active_gun_model.position
-	set_active_gun_model(active_gun_model)
+	set_active_gun_model($CameraAnchor/Rifle)
 	
 	#$Model/AnimationPlayer.current_animation = "Walk"
 	#$Model/AnimationPlayer.play()
 	
-	# set IK targets
-	left_hand.target_node = active_gun_model.get_node("LeftTargetIK").get_path()
-	left_hand.start()
-
-	right_hand.target_node = active_gun_model.get_node("RightTargetIK").get_path()
-	right_hand.start()
-	
-	# duplicate material
+	# duplicate player material
 	var material: ShaderMaterial = $Model/Armature/Skeleton3D/Mercenary.get_surface_override_material(0).duplicate()
 	
 	$Model/Armature/Skeleton3D/Mercenary.set_surface_override_material(0, material)
