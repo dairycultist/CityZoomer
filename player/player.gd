@@ -1,20 +1,18 @@
-@abstract
 class_name Player
 extends CharacterBody3D
 
 var camera_pitch := 0.0
 
-@export_group("Game")
-enum Team {
-	NoTeam, Attacker, Defender
-}
-@export var team: Team
+@export_group("Camera")
+@export var mouse_sensitivity: float = 0.3
 
+@export_group("Game")
 @export var health: int = 100
 
 @export_group("Gunplay")
+var semiautomatic_firing: bool = true
+var active_gun_model: Node3D = null
 
-@export var active_gun_model: Node3D
 var active_gun_base_pos: Vector3
 var active_gun_ads_pos: Vector3
 
@@ -46,10 +44,8 @@ var spray: float = 0.0
 @export var gravity: float    = 20
 
 @export_group("IK")
-@export var left_hand: Node3D
-@export var right_hand: Node3D
-
-@abstract func on_fragged()
+@export var left_hand: SkeletonIK3D
+@export var right_hand: SkeletonIK3D
 
 func set_active_gun_model(model: Node3D):
 	
@@ -77,23 +73,33 @@ func set_active_gun_model(model: Node3D):
 
 func _ready() -> void:
 	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	set_active_gun_model($CameraAnchor/Rifle)
 	
 	#$Model/AnimationPlayer.current_animation = "Walk"
 	#$Model/AnimationPlayer.play()
+
+func _process(delta: float) -> void:
 	
-	# duplicate player material
-	var material: ShaderMaterial = $Model/Armature/Skeleton3D/Mercenary.get_surface_override_material(0).duplicate()
+	# movement
+	var input_dir := Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	$Model/Armature/Skeleton3D/Mercenary.set_surface_override_material(0, material)
+	_process_move(direction, Input.is_action_pressed("jump"), Input.is_action_pressed("ads"), delta)
 	
-	match (team):
-		Team.NoTeam:
-			material.set("shader_parameter/color", Vector3(0.4, 0.4, 0.4));
-		Team.Attacker:
-			material.set("shader_parameter/color", Vector3(1.0, 0.1, 0.0));
-		Team.Defender:
-			material.set("shader_parameter/color", Vector3(0.1, 0.1, 1.0));
+	if semiautomatic_firing:
+		if Input.is_action_pressed("fire"):
+			_shoot()
+	else:
+		if Input.is_action_just_pressed("fire"):
+			_shoot()
+	
+	# rifle walk animation
+	if not Input.is_action_pressed("ads"):
+		active_gun_model.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * (velocity.length() / max_speed)
+		active_gun_model.position += Vector3(input_dir.x, 0.0, input_dir.y) * 0.01
+		active_gun_model.rotation.z += input_dir.x * 0.03
 
 func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	
@@ -208,7 +214,7 @@ func _damage(attacker: Player, amt: int):
 	health -= amt
 	
 	if health <= 0:
-		on_fragged()
+		print("lethal damage taken!!")
 
 func _look_at(other: Player, delta: float):
 	
@@ -252,3 +258,25 @@ func _change_look(d_yaw: float, d_pitch: float):
 	active_gun_model.rotation.x += d_pitch * 0.004
 	active_gun_model.rotation.y += d_yaw * 0.004
 	active_gun_model.rotation.z -= d_yaw * 0.005
+
+func _input(event):
+	
+	if event.is_action_pressed("pause"):
+		
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	elif event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		
+		_change_look(-event.relative.x * mouse_sensitivity, event.relative.y * mouse_sensitivity)
+	
+	elif event is InputEventKey and event.pressed and not event.echo:
+		
+		if event.keycode == KEY_1:
+			semiautomatic_firing = true
+			set_active_gun_model($CameraAnchor/Rifle)
+		elif event.keycode == KEY_2:
+			semiautomatic_firing = false
+			set_active_gun_model($CameraAnchor/Pistol)
