@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://dtfleppjtpcv7"]
+
+[ext_resource type="Texture2D" uid="uid://bpc3ff6kuxm3m" path="res://debug.png" id="1_u2rvl"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_0xr8s"]
+size = Vector2(1, 3)
+center_offset = Vector3(0, 1.5, 0)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywfy7"]
+albedo_texture = ExtResource("1_u2rvl")
+metallic_specular = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_ckofj"]
+size = Vector2(0.2, 3)
+center_offset = Vector3(0, 1.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2rvl"]
+albedo_texture = ExtResource("1_u2rvl")
+metallic_specular = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_wbsio"]
+flip_faces = true
+size = Vector2(0.2, 3)
+center_offset = Vector3(0, 1.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1n2gf"]
+albedo_texture = ExtResource("1_u2rvl")
+metallic_specular = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_a3cq1"]
+size = Vector2(1, 3)
+center_offset = Vector3(0, 1.5, 0)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dfrhd"]
+albedo_texture = ExtResource("1_u2rvl")
+metallic_specular = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_4regb"]
+flip_faces = true
+size = Vector2(1, 3)
+center_offset = Vector3(0, 1.5, 0)
+orientation = 0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wbsio"]
+size = Vector3(0.2, 3, 1)
+
+[node name="Path" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -2)
+mesh = SubResource("QuadMesh_0xr8s")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_ywfy7")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+mesh = SubResource("QuadMesh_ckofj")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_u2rvl")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+mesh = SubResource("QuadMesh_wbsio")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_1n2gf")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 2)
+mesh = SubResource("QuadMesh_a3cq1")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_dfrhd")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, -2)
+mesh = SubResource("QuadMesh_4regb")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_dfrhd")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 2)
+mesh = SubResource("QuadMesh_4regb")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_dfrhd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -2)
+shape = SubResource("BoxShape3D_wbsio")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 2)
+shape = SubResource("BoxShape3D_wbsio")
