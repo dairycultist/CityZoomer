@@ -2,9 +2,13 @@
 
 Simple indie movement shooter demo.
 
+Maybe pixelize shader
+
 roguelike extraction shooter/boomer shooter with a little horror
 
 fun to play (by myself)
+
+descending into levels of a mineshaft, collecting ore or something, evading monsters
 
 at each floor, you start in a rickety elevator with ur fat wife, your goal being
 to scavenge the procedurally generated floor for food to bring back to ur wife.
@@ -22,4 +26,4 @@ as well as a lever. you can pay to pull the lever using the money made from loot
 you can skip whole floors if you have enough money, but it's smarter to try to clear as much of
 each floor as you can.
 
-hot model https://x.com/TBT_Goodra/status/2039175921199194163?s=20
+hot model inspiration https://x.com/DarfVRC/status/2040486481286844629?s=20
