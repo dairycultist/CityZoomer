@@ -6,7 +6,7 @@
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_u52ul"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_oi3di"]
-size = Vector2(10, 10)
+size = Vector2(1000, 1000)
 
 [node name="GameScene" type="Node3D"]
 
@@ -16,6 +16,7 @@ transform = Transform3D(0.8328633, 0.3162902, 0.4542018, -0.5534788, 0.47594687,
 [node name="Player" parent="." instance=ExtResource("2_oi3di")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 0)
 air_accel = 3.0
+drag = 6.5
 
 [node name="Ground" type="StaticBody3D" parent="."]
 

@@ -40,7 +40,7 @@ var spray: float = 0.0
 @export_group("Movement")
 @export var ground_accel: float = 50
 @export var air_accel: float    = 15
-@export var max_speed: float  = 5
+@export var ads_accel: float    = 15
 @export var drag: float       = 8
 @export var jump_speed: float = 7
 @export var gravity: float    = 20
@@ -99,7 +99,7 @@ func _process(delta: float) -> void:
 	
 	# rifle walk animation
 	if not Input.is_action_pressed("ads"):
-		active_gun_model.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * (velocity.length() / max_speed)
+		active_gun_model.position.y += sin(Time.get_ticks_msec() * 0.02) * 0.3 * delta * minf(1.0, velocity.length() / 5.0)
 		active_gun_model.position += Vector3(input_dir.x, 0.0, input_dir.y) * 0.01
 		active_gun_model.rotation.z += input_dir.x * 0.03
 
@@ -110,9 +110,9 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	# gravity
 	velocity.y -= gravity * delta
 	
+	# jumping
 	if grounded and jumping:
 	
-		# jumping
 		velocity.y = jump_speed
 		$HopSound.pitch_scale = randf_range(0.9, 1.1)
 		$HopSound.play()
@@ -124,24 +124,9 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	# moving
 	if direction:
 		
-		if grounded:
-			
-			velocity += direction * ground_accel * delta
-			
-			# limit speed if grounded
-			var vel2d := Vector2(velocity.x, velocity.z)
-
-			if (vel2d.length() > (max_speed / 2 if ads else max_speed)):
-				
-				vel2d = vel2d.normalized() * (max_speed / 2 if ads else max_speed)
-				
-				velocity.x = vel2d.x
-				velocity.z = vel2d.y
-			
-		else:
-			velocity += direction * air_accel * delta
+		velocity += direction * (ads_accel if ads else ground_accel if grounded else air_accel) * delta
 	
-	elif grounded:
+	if grounded:
 		
 		# drag
 		velocity.x = lerp(velocity.x, 0.0, drag * delta)

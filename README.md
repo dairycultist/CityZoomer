@@ -10,6 +10,6 @@ Standard Dynamics (in-universe weapon manufacturer) DD-cup bullet-proof vest
 
 gameplay before art
 
-merc idea https://fixvx.com/NOWAXNX/status/2047436856279675239?s=20
+merc idea https://x.com/NOWAXNX/status/2047436856279675239?s=20
 
 hot model inspiration https://x.com/DarfVRC/status/2040486481286844629?s=20
