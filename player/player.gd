@@ -90,12 +90,8 @@ func _process(delta: float) -> void:
 	
 	_process_move(direction, Input.is_action_pressed("jump"), Input.is_action_pressed("ads"), delta)
 	
-	if semiautomatic_firing:
-		if Input.is_action_pressed("fire"):
-			_shoot()
-	else:
-		if Input.is_action_just_pressed("fire"):
-			_shoot()
+	if Input.is_action_pressed("fire") if semiautomatic_firing else Input.is_action_just_pressed("fire"):
+		_shoot()
 	
 	# rifle walk animation
 	if not Input.is_action_pressed("ads"):
@@ -124,7 +120,7 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	# moving
 	if direction:
 		
-		velocity += direction * (ads_accel if ads else ground_accel if grounded else air_accel) * delta
+		velocity += direction * ((ads_accel if ads else ground_accel) if grounded else air_accel) * delta
 	
 	if grounded:
 		
@@ -183,27 +179,31 @@ func _shoot():
 	active_gun_model.get_node("FireSound").pitch_scale = randf_range(0.95, 1.0)
 	active_gun_model.get_node("FireSound").play()
 	
-	var query = PhysicsRayQueryParameters3D.create(
-		$CameraAnchor.global_position,
-		$CameraAnchor.global_position - $CameraAnchor.global_basis.z * 500.0
-		+ Vector3(
+	var end_point: Vector3 = $CameraAnchor.global_position - $CameraAnchor.global_basis.z * 500.0 + Vector3(
 			randf_range(-spray, spray) * 10,
 			randf_range(0, spray) * 10,
 			randf_range(-spray, spray) * 10
 		)
+	
+	var query = PhysicsRayQueryParameters3D.create(
+		$CameraAnchor.global_position,
+		end_point
 	)
 	
 	query.exclude = [self]
 	
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	var hit_point: Vector3 = end_point
 	
 	if result:
 		
-		active_gun_model.get_node("BulletTracer").look_at(result.position)
-		active_gun_model.get_node("BulletTracer").scale.z = result.position.distance_to(active_gun_model.get_node("BulletTracer").global_position)
+		hit_point = result.position
 		
 		if result.collider is Player:
 			result.collider._damage(self, 10)
+		
+	active_gun_model.get_node("BulletTracer").look_at(hit_point)
+	active_gun_model.get_node("BulletTracer").scale.z = hit_point.distance_to(active_gun_model.get_node("BulletTracer").global_position)
 
 func _damage(attacker: Player, amt: int):
 	print(name, " took ", amt, " damage from ", attacker.name)
