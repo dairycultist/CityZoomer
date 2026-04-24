@@ -1,15 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://bd1sgkptmj0mo"]
+[gd_scene load_steps=5 format=3 uid="uid://bd1sgkptmj0mo"]
 
 [ext_resource type="PackedScene" uid="uid://ng6xdry7dssv" path="res://player/player.tscn" id="2_oi3di"]
-[ext_resource type="Script" uid="uid://bu5pbq80vcpd" path="res://mazegen/path_placer.gd" id="2_vonw3"]
+[ext_resource type="Material" uid="uid://dblx7mwwvqrom" path="res://map/debug.tres" id="2_vonw3"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_u52ul"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_oi3di"]
+size = Vector2(10, 10)
 
 [node name="GameScene" type="Node3D"]
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.8328633, 0.3162902, 0.4542018, -0.5534788, 0.47594687, 0.68347335, 0, -0.8206309, 0.5714586, 0, 0, 0)
 
-[node name="PathPlacer" type="Node3D" parent="."]
-script = ExtResource("2_vonw3")
-
 [node name="Player" parent="." instance=ExtResource("2_oi3di")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 0)
+air_accel = 3.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_u52ul")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+material_override = ExtResource("2_vonw3")
+mesh = SubResource("PlaneMesh_oi3di")

@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody3D
 
+# TODO add jump pads
+
 var camera_pitch := 0.0
 
 @export_group("Camera")
@@ -103,11 +105,64 @@ func _process(delta: float) -> void:
 
 func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 	
+	var grounded = is_on_floor()
+	
+	# gravity
+	velocity.y -= gravity * delta
+	
+	if grounded and jumping:
+	
+		# jumping
+		velocity.y = jump_speed
+		$HopSound.pitch_scale = randf_range(0.9, 1.1)
+		$HopSound.play()
+		
+		# make it so we're never registered as grounded, so holding
+		# space lets you build up speed (by avoiding grounded speed limit)
+		grounded = false
+	
+	# moving
+	if direction:
+		
+		if grounded:
+			
+			velocity += direction * ground_accel * delta
+			
+			# limit speed if grounded
+			var vel2d := Vector2(velocity.x, velocity.z)
+
+			if (vel2d.length() > (max_speed / 2 if ads else max_speed)):
+				
+				vel2d = vel2d.normalized() * (max_speed / 2 if ads else max_speed)
+				
+				velocity.x = vel2d.x
+				velocity.z = vel2d.y
+			
+		else:
+			velocity += direction * air_accel * delta
+	
+	elif grounded:
+		
+		# drag
+		velocity.x = lerp(velocity.x, 0.0, drag * delta)
+		velocity.z = lerp(velocity.z, 0.0, drag * delta)
+	
+	move_and_slide()
+	
+	# gun stuff #####
+	
 	time_since_last_shot += delta
 	
 	# fade tracer
 	active_gun_model.get_node("BulletTracer").scale.x = max(0.0, 1.0 - 140.0 * time_since_last_shot * time_since_last_shot)
 	active_gun_model.get_node("BulletTracer").scale.y = active_gun_model.get_node("BulletTracer").scale.x
+	
+	# lerp rifle back to default pose
+	active_gun_model.position = lerp(active_gun_model.position, active_gun_ads_pos if ads else active_gun_base_pos, 10.0 * delta)
+	active_gun_model.rotation = lerp(active_gun_model.rotation, Vector3.ZERO, (20.0 if ads else 10.0) * delta)
+	
+	# fade muzzle flash
+	active_gun_model.get_node("MuzzleFlash").scale = lerp(active_gun_model.get_node("MuzzleFlash").scale, Vector3.ZERO, 10.0 * delta)
 	
 	# change spray
 	if time_since_last_shot < (1.0 / firerate_per_sec):
@@ -125,49 +180,6 @@ func _process_move(direction, jumping: bool, ads: bool, delta: float) -> void:
 			spray = max(running_spray_min, spray - running_spray_decrease_rate * delta)
 		else:
 			spray = max(standing_spray_min, spray - standing_spray_decrease_rate * delta)
-	
-	# gravity
-	velocity.y -= gravity * delta
-	
-	# moving
-	if direction:
-		
-		if is_on_floor():
-			velocity += direction * ground_accel * delta
-		else:
-			velocity += direction * air_accel * delta
-		
-		# limit speed
-		var vel2d := Vector2(velocity.x, velocity.z)
-
-		if (vel2d.length() > (max_speed / 2 if ads else max_speed)):
-			
-			vel2d = vel2d.normalized() * (max_speed / 2 if ads else max_speed)
-			
-			velocity.x = vel2d.x
-			velocity.z = vel2d.y
-	
-	elif is_on_floor():
-		
-		# drag
-		velocity.x = lerp(velocity.x, 0.0, drag * delta)
-		velocity.z = lerp(velocity.z, 0.0, drag * delta)
-		
-	if is_on_floor() and jumping:
-	
-		# jumping
-		velocity.y = jump_speed
-		$HopSound.pitch_scale = randf_range(0.9, 1.1)
-		$HopSound.play()
-	
-	move_and_slide()
-	
-	# lerp rifle back to default pose
-	active_gun_model.position = lerp(active_gun_model.position, active_gun_ads_pos if ads else active_gun_base_pos, 10.0 * delta)
-	active_gun_model.rotation = lerp(active_gun_model.rotation, Vector3.ZERO, (20.0 if ads else 10.0) * delta)
-	
-	# fade muzzle flash
-	active_gun_model.get_node("MuzzleFlash").scale = lerp(active_gun_model.get_node("MuzzleFlash").scale, Vector3.ZERO, 10.0 * delta)
 
 func _shoot():
 	
@@ -216,30 +228,30 @@ func _damage(attacker: Player, amt: int):
 	if health <= 0:
 		print("lethal damage taken!!")
 
-func _look_at(other: Player, delta: float):
-	
-	_look_towards_transform($CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1.5, 0.)), delta)
-
-func _look_towards_move(delta: float):
-	
-	if velocity.length() < 0.1:
-		return
-	
-	_look_towards_transform(Transform3D().looking_at(velocity), delta)
-
-func _look_towards_transform(t: Transform3D, delta: float):
-	
-	const LERP_SPEED := 10.0
-	
-	global_rotation.y = lerp_angle(global_rotation.y, t.basis.get_rotation_quaternion().get_euler().y, LERP_SPEED * delta)
-	
-	$CameraAnchor.global_rotation.x = lerp_angle($CameraAnchor.global_rotation.x, t.basis.get_rotation_quaternion().get_euler().x, LERP_SPEED * delta)
-	camera_pitch = rad_to_deg($CameraAnchor.global_rotation.x)
-	
-	$Model/Armature/Skeleton3D.set_bone_pose_rotation(
-		$Model/Armature/Skeleton3D.find_bone("Head"),
-		Quaternion.from_euler(Vector3(-deg_to_rad(camera_pitch), 0, 0))
-	)
+#func _look_at(other: Player, delta: float):
+	#
+	#_look_towards_transform($CameraAnchor.global_transform.looking_at(other.global_position + Vector3(0., 1.5, 0.)), delta)
+#
+#func _look_towards_move(delta: float):
+	#
+	#if velocity.length() < 0.1:
+		#return
+	#
+	#_look_towards_transform(Transform3D().looking_at(velocity), delta)
+#
+#func _look_towards_transform(t: Transform3D, delta: float):
+	#
+	#const LERP_SPEED := 10.0
+	#
+	#global_rotation.y = lerp_angle(global_rotation.y, t.basis.get_rotation_quaternion().get_euler().y, LERP_SPEED * delta)
+	#
+	#$CameraAnchor.global_rotation.x = lerp_angle($CameraAnchor.global_rotation.x, t.basis.get_rotation_quaternion().get_euler().x, LERP_SPEED * delta)
+	#camera_pitch = rad_to_deg($CameraAnchor.global_rotation.x)
+	#
+	#$Model/Armature/Skeleton3D.set_bone_pose_rotation(
+		#$Model/Armature/Skeleton3D.find_bone("Head"),
+		#Quaternion.from_euler(Vector3(-deg_to_rad(camera_pitch), 0, 0))
+	#)
 
 func _change_look(d_yaw: float, d_pitch: float):
 	
@@ -258,6 +270,9 @@ func _change_look(d_yaw: float, d_pitch: float):
 	active_gun_model.rotation.x += d_pitch * 0.004
 	active_gun_model.rotation.y += d_yaw * 0.004
 	active_gun_model.rotation.z -= d_yaw * 0.005
+	
+	# when you're in the air, if you turn your camera, your movement turns with it
+	velocity = velocity.rotated(Vector3.UP, deg_to_rad(d_yaw))
 
 func _input(event):
 	
